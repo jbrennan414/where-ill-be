@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -14,8 +13,10 @@ import { save, load } from 'redux-localstorage-simple';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import * as firebase from 'firebase/app'
+
 //Components
 import Header from './components/Header'
+import LandingPage from './components/LandingPage'
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -41,21 +42,15 @@ const store = createStore(
 
 const App = () => (
     <Provider store={store}>
-      <Header />
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <div className="App">
+          <Header />
+          <Switch>
+            <Route exact path="/" component={LandingPage} />
+            {/* <Route / */}
+          </Switch>
+        </div>
+      </Router>
     </Provider>
 )
 

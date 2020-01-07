@@ -70,9 +70,6 @@ class Header extends Component {
           <Toolbar>
             <IconButton edge="start" color="inherit" aria-label="menu">
             </IconButton>
-            <Typography variant="h6">
-                Where I'll Be!
-              </Typography>
               {auth.user !== null ? (
                 <Button onClick={() => this.setState({ isShowingLoginModal: !isShowingLoginModal })} color="inherit">Log Out</Button>
               ) : (
