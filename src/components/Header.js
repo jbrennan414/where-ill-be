@@ -12,8 +12,19 @@ import TextField from '@material-ui/core/TextField';
 import { updateAuth } from '../actions/auth';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
+import { styled } from '@material-ui/core/styles';
 
 import * as firebase from 'firebase'
+
+const MyTouchbar = styled(AppBar)({
+  background: '#77C9D4',
+  alignItems:'center',
+  justifyContent:'space-evenly',
+  boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+  color: 'white',
+  height: 72,
+  display:'flex',
+});
 
 class Header extends Component {
 
@@ -66,7 +77,7 @@ class Header extends Component {
 
     return (
       <div>
-        <AppBar position="static">
+        <MyTouchbar position="static">
           <Toolbar>
             <IconButton edge="start" color="inherit" aria-label="menu">
             </IconButton>
@@ -77,7 +88,7 @@ class Header extends Component {
               )}
               <Button onClick={() => this.setState({ isShowingLoginModal: !isShowingLoginModal })} color="inherit">Sign Up</Button>
             </Toolbar>
-          </AppBar>
+          </MyTouchbar>
           
           {/* Sign Up Modal */}
           <Dialog
