@@ -13,6 +13,9 @@ import { updateAuth, signOut, signIn } from '../actions/auth';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import { styled } from '@material-ui/core/styles';
+import MenuIcon from '@material-ui/icons/Menu';
+import Avatar from '@material-ui/core/Avatar';
+import headshot from '../assets/headshot.jpg';
 
 import * as firebase from 'firebase'
 
@@ -84,18 +87,22 @@ class Header extends Component {
       <div>
         <MyTouchbar position="static">
           <Toolbar>
-            <IconButton edge="start" color="inherit" aria-label="menu">
-            </IconButton>
-              {auth.user !== null ? (
+            {auth.user !== null ? (
+              <div>
+                <Avatar alt="Remy Sharp" src={headshot} />
                 <Button onClick={() => this.props.signOut()} color="inherit">Log Out</Button>
-              ) : (
-                <div>
-                  <Button onClick={() => this.setState({ isShowingLoginModal: !isShowingLoginModal })} color="inherit">Login</Button>
-                  <Button onClick={() => this.setState({ isShowingSignUpModal: !isShowingSignUpModal })} color="inherit">Sign Up</Button>
-                </div>
-              )}
-            </Toolbar>
-          </MyTouchbar>
+                <IconButton edge="start" color="inherit" aria-label="menu">
+                  <MenuIcon />
+                </IconButton>
+              </div>
+            ) : (
+              <div>
+                <Button onClick={() => this.setState({ isShowingLoginModal: !isShowingLoginModal })} color="inherit">Login</Button>
+                <Button onClick={() => this.setState({ isShowingSignUpModal: !isShowingSignUpModal })} color="inherit">Sign Up</Button>
+              </div>
+            )}
+          </Toolbar>
+        </MyTouchbar>
 
           {/* Sign Up Modal */}
           <Dialog

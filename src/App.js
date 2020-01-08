@@ -17,6 +17,7 @@ import * as firebase from 'firebase/app'
 //Components
 import Header from './components/Header'
 import LandingPage from './components/LandingPage'
+import CalendarView from './components/CalendarView'
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -47,6 +48,7 @@ const App = () => (
           <Header />
           <Switch>
             <Route exact path="/" component={LandingPage} />
+            <Route path="/calendar" component={CalendarView} />
             {/* <Route / */}
           </Switch>
         </div>
