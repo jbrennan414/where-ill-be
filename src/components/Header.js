@@ -9,7 +9,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 
-import { updateAuth, signOut } from '../actions/auth';
+import { updateAuth, signOut, signIn } from '../actions/auth';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import { styled } from '@material-ui/core/styles';
@@ -66,6 +66,12 @@ class Header extends Component {
         }
       console.log(error);
     });
+
+  }
+
+  logUserIn(){
+    const { email, password } = this.state;
+    this.props.signIn(email, password);
 
   }
 
@@ -177,9 +183,9 @@ class Header extends Component {
                 this.setState({ 
                   isShowingLoginModal: !isShowingLoginModal 
                 }),
-                this.addNewUser.bind(this)} 
+                this.logUserIn.bind(this)} 
               color="primary" 
-              disabled= {confirmPass !== password || password === '' || confirmPass === '' ? true : false}
+              disabled= {false}
             >
               Log In!
             </Button>
@@ -197,6 +203,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   updateAuth,
   signOut,
+  signIn,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
