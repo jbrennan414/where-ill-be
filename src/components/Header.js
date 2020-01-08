@@ -9,7 +9,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 
-import { updateAuth } from '../actions/auth';
+import { updateAuth, signOut } from '../actions/auth';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import { styled } from '@material-ui/core/styles';
@@ -82,7 +82,7 @@ class Header extends Component {
             <IconButton edge="start" color="inherit" aria-label="menu">
             </IconButton>
               {auth.user !== null ? (
-                <Button onClick={() => this.setState({ isShowingLoginModal: !isShowingLoginModal })} color="inherit">Log Out</Button>
+                <Button onClick={() => this.props.signOut()} color="inherit">Log Out</Button>
               ) : (
                 <Button onClick={() => this.setState({ isShowingLoginModal: !isShowingLoginModal })} color="inherit">Login</Button>
               )}
@@ -155,7 +155,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-  updateAuth
+  updateAuth,
+  signOut,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
