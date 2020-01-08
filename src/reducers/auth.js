@@ -18,6 +18,7 @@ export default function(state = initialState, action){
             return {
                 ...state,
                 user: null,
+                userEmail: null
             }
         default:
             return state;

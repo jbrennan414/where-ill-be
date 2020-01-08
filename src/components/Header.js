@@ -33,6 +33,7 @@ class Header extends Component {
 
     this.state = { 
       isShowingLoginModal: false,
+      isShowingSignUpModal: false,
       password:'',
       confirmPass:'',
     };
@@ -70,10 +71,8 @@ class Header extends Component {
 
   render() {
 
-    const { isShowingLoginModal, password, confirmPass } = this.state;
+    const { isShowingLoginModal, isShowingSignUpModal, password, confirmPass } = this.state;
     const { auth } = this.props;
-
-    console.log("this is our props", auth)
 
     return (
       <div>
@@ -84,21 +83,22 @@ class Header extends Component {
               {auth.user !== null ? (
                 <Button onClick={() => this.props.signOut()} color="inherit">Log Out</Button>
               ) : (
-                <Button onClick={() => this.setState({ isShowingLoginModal: !isShowingLoginModal })} color="inherit">Login</Button>
+                <div>
+                  <Button onClick={() => this.setState({ isShowingLoginModal: !isShowingLoginModal })} color="inherit">Login</Button>
+                  <Button onClick={() => this.setState({ isShowingSignUpModal: !isShowingSignUpModal })} color="inherit">Sign Up</Button>
+                </div>
               )}
-              <Button onClick={() => this.setState({ isShowingLoginModal: !isShowingLoginModal })} color="inherit">Sign Up</Button>
             </Toolbar>
           </MyTouchbar>
-          
+
           {/* Sign Up Modal */}
           <Dialog
-            open={isShowingLoginModal}
+            open={isShowingSignUpModal}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
           <DialogTitle id="alert-dialog-title">{"Join Us!"}</DialogTitle>
           <TextField
-            autoFocus
             margin="dense"
             required
             id="name"
@@ -108,7 +108,6 @@ class Header extends Component {
             onChange={val => this.setState({ email: val.target.value })}
           />
           <TextField
-            autoFocus
             margin="dense"
             required
             id="name"
@@ -118,7 +117,6 @@ class Header extends Component {
             onChange={val => this.setState({ password: val.target.value })}
           />
           <TextField
-            autoFocus
             required
             margin="dense"
             id="name"
@@ -126,6 +124,49 @@ class Header extends Component {
             type="password"
             fullWidth
             onChange={val => this.setState({ confirmPass: val.target.value })}
+          />
+          <DialogActions>
+            <Button onClick={() => this.setState({ isShowingSignUpModal: !isShowingSignUpModal })} color="primary">
+              Cancel
+            </Button>
+            <Button 
+              onClick={() => 
+                this.setState({ 
+                  isShowingSignUpModal: !isShowingSignUpModal 
+                }),
+                this.addNewUser.bind(this)} 
+              color="primary" 
+              disabled= {confirmPass !== password || password === '' || confirmPass === '' ? true : false}
+            >
+              Sign Up!
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        {/* Log In Modal */}
+          <Dialog
+            open={isShowingLoginModal}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+          <DialogTitle id="alert-dialog-title">{"Log In!"}</DialogTitle>
+          <TextField
+            margin="dense"
+            required
+            id="name"
+            label="Email Address"
+            type="email"
+            fullWidth
+            onChange={val => this.setState({ email: val.target.value })}
+          />
+          <TextField
+            margin="dense"
+            required
+            id="name"
+            label="Password"
+            type="password"
+            fullWidth
+            onChange={val => this.setState({ password: val.target.value })}
           />
           <DialogActions>
             <Button onClick={() => this.setState({ isShowingLoginModal: !isShowingLoginModal })} color="primary">
@@ -138,10 +179,9 @@ class Header extends Component {
                 }),
                 this.addNewUser.bind(this)} 
               color="primary" 
-              autoFocus
               disabled= {confirmPass !== password || password === '' || confirmPass === '' ? true : false}
             >
-              Sign Me Up!
+              Log In!
             </Button>
           </DialogActions>
         </Dialog>
