@@ -90,7 +90,6 @@ class Header extends Component {
             {auth.user !== null ? (
               <div>
                 <Avatar alt="Remy Sharp" src={headshot} />
-                {/* Implement a drawer here https://material-ui.com/components/drawers/  */}
                 <Button onClick={() => this.props.signOut()} color="inherit">Log Out</Button>
                 <IconButton edge="start" color="inherit" aria-label="menu">
                   <MenuIcon />
