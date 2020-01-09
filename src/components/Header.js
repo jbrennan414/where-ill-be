@@ -15,6 +15,7 @@ import { bindActionCreators } from 'redux'
 import { styled } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import Avatar from '@material-ui/core/Avatar';
+import TemporaryDrawer from './LeftDrawer';
 import headshot from '../assets/headshot.jpg';
 
 import * as firebase from 'firebase'
@@ -27,6 +28,7 @@ const MyTouchbar = styled(AppBar)({
   color: 'white',
   height: 72,
   display:'flex',
+  
 });
 
 class Header extends Component {
@@ -88,8 +90,8 @@ class Header extends Component {
         <MyTouchbar position="static">
           <Toolbar>
             {auth.user !== null ? (
-              <div>
-                <Avatar alt="Remy Sharp" src={headshot} />
+              <div style={{"display":"flex"}}>
+                <Avatar onClick={() => console.log("THIS IS THE AVATAR")} alt="Remy Sharp" src={headshot} />
                 <Button onClick={() => this.props.signOut()} color="inherit">Log Out</Button>
                 <IconButton edge="start" color="inherit" aria-label="menu">
                   <MenuIcon />
@@ -155,6 +157,7 @@ class Header extends Component {
             </Button>
           </DialogActions>
         </Dialog>
+        <TemporaryDrawer />
 
         {/* Log In Modal */}
           <Dialog
