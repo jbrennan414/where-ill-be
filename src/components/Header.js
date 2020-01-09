@@ -28,7 +28,6 @@ const MyTouchbar = styled(AppBar)({
   color: 'white',
   height: 72,
   display:'flex',
-  
 });
 
 class Header extends Component {

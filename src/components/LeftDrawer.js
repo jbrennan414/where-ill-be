@@ -9,6 +9,9 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import Avatar from '@material-ui/core/Avatar';
+
+import headshot from '../assets/headshot.jpg';
 
 const useStyles = makeStyles({
   list: {
@@ -19,7 +22,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function TemporaryDrawer() {
+export default function TemporaryDrawer(props) {
 
   const classes = useStyles();
   const [state, setState] = React.useState({
@@ -41,22 +44,18 @@ export default function TemporaryDrawer() {
       onClick={toggleDrawer(side, false)}
       onKeyDown={toggleDrawer(side, false)}
     >
-      <List>
-        {['My Profile'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
+        <List>
+            <ListItem button key={"My Profile"}>
+                <ListItemIcon><Avatar src={headshot} /></ListItemIcon>
+                <ListItemText primary={"My Profile"} />
+            </ListItem>
+        </List>
       <Divider />
       <List>
-        {['Sign Out'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
+          <ListItem button key={"Sign Out"}>
+            <ListItemIcon><MailIcon /></ListItemIcon>
+            <ListItemText primary={"Sign Out"} />
           </ListItem>
-        ))}
       </List>
     </div>
   );
