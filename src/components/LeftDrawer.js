@@ -7,9 +7,10 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import TodayIcon from '@material-ui/icons/Today';
 import Avatar from '@material-ui/core/Avatar';
+import { Link } from 'react-router-dom';
 
 import headshot from '../assets/headshot.jpg';
 
@@ -45,10 +46,21 @@ export default function TemporaryDrawer(props) {
       onKeyDown={toggleDrawer(side, false)}
     >
         <List>
+          <Link to={`/profile`}>
             <ListItem button key={"My Profile"}>
                 <ListItemIcon><Avatar src={headshot} /></ListItemIcon>
                 <ListItemText primary={"My Profile"} />
             </ListItem>
+          </Link>
+        </List>
+      <Divider />
+      <List>
+          <Link to={`/calendar`}>
+            <ListItem button key={"Calendar"}>
+                <ListItemIcon><TodayIcon /></ListItemIcon>
+                <ListItemText primary={"Calendar"} />
+            </ListItem>
+          </Link>
         </List>
       <Divider />
       <List>
