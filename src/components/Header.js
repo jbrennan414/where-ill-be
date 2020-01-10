@@ -32,7 +32,6 @@ const MyTouchbar = styled(AppBar)({
 });
 
 const StyledButton = styled(Button)({
-  border: '1px solid black',
   fontSize: '36px',
 
 });
