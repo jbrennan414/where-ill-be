@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { headshot } from '../assets/headshot.jpg'
 
 export default class Profile extends Component {
     render() {

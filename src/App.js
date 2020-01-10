@@ -9,6 +9,7 @@ import {
 import rootReducer from './rootReducer';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { save, load } from 'redux-localstorage-simple';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -42,7 +43,18 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(...middleware, save()))
 )
 
+const THEME = createMuiTheme({
+  typography: {
+   "fontFamily": "\"Do Hyeon\", sans-serif",
+   "fontSize": 36,
+   "fontWeightLight": 300,
+   "fontWeightRegular": 400,
+   "fontWeightMedium": 500
+  }
+});
+
 const App = () => (
+  <MuiThemeProvider theme={THEME}>
     <Provider store={store}>
       <Router>
         <div className="App">
@@ -56,6 +68,7 @@ const App = () => (
         </div>
       </Router>
     </Provider>
+  </MuiThemeProvider>
 )
 
 export default App;

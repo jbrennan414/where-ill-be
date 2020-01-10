@@ -26,8 +26,15 @@ const MyTouchbar = styled(AppBar)({
   justifyContent:'space-evenly',
   boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
   color: 'white',
+  fontSize: '53px',
   height: 72,
   display:'flex',
+});
+
+const StyledButton = styled(Button)({
+  border: '1px solid black',
+  fontSize: '36px',
+
 });
 
 class Header extends Component {
@@ -91,15 +98,15 @@ class Header extends Component {
             {auth.user !== null ? (
               <div style={{"display":"flex"}}>
                 <Avatar onClick={() => console.log("THIS IS THE AVATAR")} alt="Remy Sharp" src={headshot} />
-                <Button onClick={() => this.props.signOut()} color="inherit">Log Out</Button>
+                <StyledButton onClick={() => this.props.signOut()} color="inherit">Log Out</StyledButton>
                 <IconButton edge="start" color="inherit" aria-label="menu">
                   <MenuIcon />
                 </IconButton>
               </div>
             ) : (
               <div>
-                <Button onClick={() => this.setState({ isShowingLoginModal: !isShowingLoginModal })} color="inherit">Login</Button>
-                <Button onClick={() => this.setState({ isShowingSignUpModal: !isShowingSignUpModal })} color="inherit">Sign Up</Button>
+                <StyledButton onClick={() => this.setState({ isShowingLoginModal: !isShowingLoginModal })} color="inherit">Login</StyledButton>
+                <StyledButton onClick={() => this.setState({ isShowingSignUpModal: !isShowingSignUpModal })} color="inherit">Sign Up</StyledButton>
               </div>
             )}
           </Toolbar>
@@ -184,13 +191,13 @@ class Header extends Component {
             onChange={val => this.setState({ password: val.target.value })}
           />
           <DialogActions>
-            <Button onClick={() => this.setState({ isShowingLoginModal: !isShowingLoginModal })} color="primary">
+            <Button onClick={() => this.setState({ isShowingLoginModal: false })} color="primary">
               Cancel
             </Button>
             <Button 
               onClick={() => 
                 this.setState({ 
-                  isShowingLoginModal: !isShowingLoginModal 
+                  isShowingLoginModal: false 
                 }),
                 this.logUserIn.bind(this)} 
               color="primary" 
