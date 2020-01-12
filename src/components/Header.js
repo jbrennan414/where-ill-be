@@ -46,6 +46,7 @@ class Header extends Component {
       isShowingSignUpModal: false,
       password:'',
       confirmPass:'',
+      isShowingLeftDrawer: false,
     };
   }
 
@@ -87,17 +88,16 @@ class Header extends Component {
 
   render() {
 
-    const { isShowingLoginModal, isShowingSignUpModal, password, confirmPass } = this.state;
+    const { isShowingLoginModal, isShowingSignUpModal, isShowingLeftDrawer, password, confirmPass } = this.state;
     const { auth } = this.props;
 
     return (
       <div>
         <MyTouchbar position="static">
           <Toolbar>
-            {auth.user !== null ? (
+            {auth.uid != null ? (
               <div style={{"display":"flex"}}>
-                <Avatar onClick={() => console.log("THIS IS THE AVATAR")} alt="Remy Sharp" src={headshot} />
-                <StyledButton onClick={() => this.props.signOut()} color="inherit">Log Out</StyledButton>
+                <Avatar onClick={() => this.setState({ isShowingLeftDrawer: true })} alt="Remy Sharp" src={headshot} />
                 <IconButton edge="start" color="inherit" aria-label="menu">
                   <MenuIcon />
                 </IconButton>
@@ -162,7 +162,9 @@ class Header extends Component {
             </Button>
           </DialogActions>
         </Dialog>
-        <TemporaryDrawer />
+        <TemporaryDrawer
+          show={isShowingLeftDrawer}
+        />
 
         {/* Log In Modal */}
           <Dialog

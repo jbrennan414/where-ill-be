@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import logo from '../../src/logo.svg'
 import { styled } from '@material-ui/core/styles';
 
-const LandingText = styled("h2")({
+const LandingText = styled("div")({
     fontSize: '24px',
     display:'flex',
     flexWrap:'wrap',
