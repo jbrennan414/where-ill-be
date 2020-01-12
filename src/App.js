@@ -20,6 +20,7 @@ import Header from './components/Header'
 import LandingPage from './components/LandingPage'
 import Profile from './components/Profile'
 import CalendarView from './components/CalendarView'
+import FindFriends from './components/FindFriends'
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -63,7 +64,7 @@ const App = () => (
             <Route exact path="/" component={LandingPage} />
             <Route path="/calendar" component={CalendarView} />
             <Route path="/profile" component={Profile} />
-            {/* <Route / */}
+            <Route path="/friends" component={FindFriends} />
           </Switch>
         </div>
       </Router>

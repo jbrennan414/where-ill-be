@@ -94,21 +94,19 @@ class Header extends Component {
     return (
       <div>
         <MyTouchbar position="static">
-          <Toolbar>
-            {auth.uid != null ? (
-              <div style={{"display":"flex"}}>
-                <Avatar onClick={() => this.setState({ isShowingLeftDrawer: true })} alt="Remy Sharp" src={headshot} />
-                <IconButton edge="start" color="inherit" aria-label="menu">
-                  <MenuIcon />
-                </IconButton>
-              </div>
-            ) : (
-              <div>
-                <StyledButton onClick={() => this.setState({ isShowingLoginModal: !isShowingLoginModal })} color="inherit">Login</StyledButton>
-                <StyledButton onClick={() => this.setState({ isShowingSignUpModal: !isShowingSignUpModal })} color="inherit">Sign Up</StyledButton>
-              </div>
-            )}
-          </Toolbar>
+          {auth.uid != null ? (
+            <div style={{"display":"flex", "width":"100%", "justifyContent":"space-between", "alignItems":"center"}}>
+              <Avatar style={{"marginLeft":"20px"}} onClick={() => this.setState({ isShowingLeftDrawer: true })} alt="user avatar" src={headshot} />
+              <IconButton edge="start" color="inherit" aria-label="menu">
+                <MenuIcon />
+              </IconButton>
+            </div>
+          ) : (
+            <div>
+              <StyledButton onClick={() => this.setState({ isShowingLoginModal: !isShowingLoginModal })} color="inherit">Login</StyledButton>
+              <StyledButton onClick={() => this.setState({ isShowingSignUpModal: !isShowingSignUpModal })} color="inherit">Sign Up</StyledButton>
+            </div>
+          )}
         </MyTouchbar>
 
           {/* Sign Up Modal */}

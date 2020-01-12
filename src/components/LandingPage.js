@@ -15,11 +15,11 @@ export default class LandingPage extends Component {
     render() {
         return (
             <div className="App">
-                <LandingText><h1>WHERE I'LL BE</h1></LandingText>
+                <LandingText><p style={{"fontSize":"36px"}}>WHERE I'LL BE</p></LandingText>
                 <img src={logo} className="App-logo" alt="logo" />
                 <LandingText>
-                    <h2>1) TELL YOUR FRIENDS WHERE YOU'RE GONNA SKI</h2>
-                    <h2>2) SKI WITH THEM. IF YOU WANT</h2>
+                    <p>1) TELL YOUR FRIENDS WHERE YOU'RE GONNA SKI</p>
+                    <p>2) SKI WITH THEM. IF YOU WANT</p>
                 </LandingText>
             </div>
 
