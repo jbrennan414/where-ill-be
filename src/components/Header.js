@@ -32,7 +32,7 @@ const MyTouchbar = styled(AppBar)({
 });
 
 const StyledButton = styled(Button)({
-  fontSize: '36px',
+  // fontSize: '36px',
 
 });
 
