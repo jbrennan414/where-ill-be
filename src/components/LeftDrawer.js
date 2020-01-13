@@ -12,7 +12,7 @@ import { signOut } from '../actions/auth';
 import { connect } from 'react-redux';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import GroupIcon from '@material-ui/icons/Group';
-import { bindActionCreators } from 'redux'
+import { bindActionCreators } from 'redux';
 
 import headshot from '../assets/headshot.jpg';
 
