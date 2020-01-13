@@ -10,11 +10,29 @@ import { Link } from 'react-router-dom';
 import React, { Component } from 'react';
 import { signOut } from '../actions/auth';
 import { connect } from 'react-redux';
+import { styled } from '@material-ui/core/styles';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import GroupIcon from '@material-ui/icons/Group';
 import { bindActionCreators } from 'redux';
 
 import headshot from '../assets/headshot.jpg';
+
+const StyledListItem = styled(ListItem)({
+  backgroundColor: '#77C9D4',
+  margin: '0px',
+  padding:'0px'
+});
+
+const StyledText = styled(ListItemText)({
+  padding:'0px',
+  fontSize:'14px',
+  color:"white"
+});
+
+const StyledLink = styled(Link)({
+  textDecoration:'none',
+});
+
 
 class LeftDrawer extends Component {
 
@@ -43,40 +61,40 @@ class LeftDrawer extends Component {
           onClick={this.toggleDrawer('left', false)}
           onKeyDown={this.toggleDrawer('left', false)}
         >
-          <List>
-            <Link to={`/profile`}>
-              <ListItem button key={"My Profile"}>
+          <List style={{"padding":"0px"}}>
+            <StyledLink to={`/profile`}>
+              <StyledListItem button key={"My Profile"}>
                 <ListItemIcon><Avatar src={headshot} /></ListItemIcon>
-                <ListItemText primary={"My Profile"} />
-              </ListItem>
-            </Link>
+                <StyledText primary={"My Profile"} />
+              </StyledListItem>
+            </StyledLink>
           </List>
           <Divider />
-          <List>
-            <Link to={`/calendar`}>
-              <ListItem button key={"Calendar"}>
+          <List style={{"padding":"0px"}}>
+            <StyledLink to={`/calendar`}>
+              <StyledListItem button key={"Calendar"}>
                 <ListItemIcon><TodayIcon /></ListItemIcon>
-                <ListItemText primary={"Calendar"} />
-              </ListItem>
-            </Link>
+                <StyledText primary={"Calendar"} />
+              </StyledListItem>
+            </StyledLink>
           </List>
           <Divider />
-          <List>
-            <Link to={`/friends`}>
-              <ListItem button key={"Find Friends"}>
+          <List style={{"padding":"0px"}}>
+            <StyledLink to={`/friends`}>
+              <StyledListItem button key={"Find Friends"}>
                 <ListItemIcon><GroupIcon /></ListItemIcon>
-                <ListItemText primary={"Find Friends"} />
-              </ListItem>
-            </Link>
+                <StyledText primary={"Find Friends"} />
+              </StyledListItem>
+            </StyledLink>
           </List>
           <Divider />
-          <List>
-            <Link to={`/`}>
-              <ListItem onClick={()=> this.props.signOut()} button key={"Sign Out"}>
+          <List style={{"padding":"0px"}}>
+            <StyledLink to={`/`}>
+              <StyledListItem onClick={()=> this.props.signOut()} button key={"Sign Out"}>
                 <ListItemIcon><ExitToAppIcon /></ListItemIcon>
-                <ListItemText primary={"Sign Out"} />
-              </ListItem>
-            </Link>
+                <StyledText primary={"Sign Out"} />
+              </StyledListItem>
+            </StyledLink>
           </List>
         </div>
       </Drawer>
