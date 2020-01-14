@@ -3,6 +3,7 @@ import * as firebase from 'firebase'
 export const UPDATE_AUTH = "UPDATE_AUTH";
 export const SIGN_OUT = "SIGN_OUT";
 export const UPDATE_PROFILE = "UPDATE_PROFILE";
+export const CREATE_USER = "CREATE_USER";
 
 export function updateAuth(){
     return async function(dispatch){
@@ -13,6 +14,28 @@ export function updateAuth(){
                 data: user
             })
         })
+    }
+}
+
+export function createUser(email, password){
+    return async function (dispatch){
+        await firebase.auth().createUserWithEmailAndPassword(email, password).then(function(user) {
+            return dispatch({
+                type: CREATE_USER,
+                data: user,
+            })
+        })
+        .catch(function(error) {
+        // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          if (errorCode == 'auth/weak-password') {
+            alert('The password is too weak.');
+          } else {
+            alert(errorMessage);
+          }
+        console.log(error);
+      });
     }
 }
 

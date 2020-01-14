@@ -7,7 +7,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 
-import { updateAuth, signOut, signIn } from '../actions/auth';
+import { updateAuth, signOut, signIn, createUser } from '../actions/auth';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import { styled } from '@material-ui/core/styles';
@@ -63,18 +63,7 @@ class Header extends Component {
       return console.log("Uh oh, looks like your passwords don't match. ");
     }
 
-    firebase.auth().createUserWithEmailAndPassword(email, password)
-      .catch(function(error) {
-      // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        if (errorCode == 'auth/weak-password') {
-          alert('The password is too weak.');
-        } else {
-          alert(errorMessage);
-        }
-      console.log(error);
-    });
+    this.props.createUser(email, password);
 
   }
 
@@ -217,6 +206,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   updateAuth,
   signOut,
   signIn,
+  createUser,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

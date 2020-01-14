@@ -1,4 +1,4 @@
-import { UPDATE_AUTH, SIGN_OUT, UPDATE_PROFILE } from '../actions/auth';
+import { UPDATE_AUTH, SIGN_OUT, UPDATE_PROFILE, CREATE_USER } from '../actions/auth';
 
 const initialState = {
     user: null,
@@ -19,12 +19,20 @@ export default function(state = initialState, action){
                 ...state,
                 email: null,
                 user: null,
+                displayName: null,
             }
         case UPDATE_PROFILE:
             return {
                 ...state,
                 displayName: data ? data.displayName : null,
                 email: data ? data.email : null,
+            }
+        case CREATE_USER:
+            return {
+                ...state,
+                displayName: data ? data.user.displayName : null,
+                uid: data ? data.user.uid : null,
+                email: data ? data.user.email : null,
             }
 
         default:
