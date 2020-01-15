@@ -1,9 +1,31 @@
 import React, { Component } from 'react';
 
 export default class CalendarView extends Component {
+
+
+    getDaysInMonth(month, year){
+           return new Date(year, month, 0).getDate();
+    };
+
+    renderDays(daysThisMonth){
+        let days = [];
+
+        for(let i=1; i < daysThisMonth + 1; i++){
+            days.push(<div key={i}>{i}</div>)
+        }
+
+        return days;
+
+    }
+    
+
     render() {
 
         const d = new Date();
+        const currentMonth = d.getMonth() + 1;
+        const currentYear = d.getFullYear();
+        const daysThisMonth = this.getDaysInMonth(currentMonth, currentYear)
+
         const month = new Array();
         month[0] = "January";
         month[1] = "February";
@@ -22,6 +44,7 @@ export default class CalendarView extends Component {
         return (
             <div>
                 <h1>{`<< ${n} >>`}</h1>
+                {this.renderDays(daysThisMonth)}
             </div>
         )
     }

@@ -29,7 +29,7 @@ class FindFriends extends Component {
 
     render() {
 
-        const friends = this.getFriends(this.props.auth.uid) || [];
+        const friends = this.getFriends(this.props.auth.uid) || ["Louis", "Michael", "John", "Kyle"];
 
         return (
             <div>
