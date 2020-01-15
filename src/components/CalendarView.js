@@ -39,11 +39,20 @@ export default class CalendarView extends Component {
         month[9] = "October";
         month[10] = "November";
         month[11] = "December";
-        var n = month[d.getMonth()].toUpperCase();
+        const thisMonth = month[d.getMonth()].toUpperCase();
      
         return (
             <div>
-                <h1>{`<< ${n} >>`}</h1>
+                <h1>{`<< ${thisMonth} >>`}</h1>
+                <div>
+                    <h5>S</h5>
+                    <h5>M</h5>
+                    <h5>T</h5>
+                    <h5>W</h5>
+                    <h5>T</h5>
+                    <h5>F</h5>
+                    <h5>S</h5>
+                </div>
                 {this.renderDays(daysThisMonth)}
             </div>
         )
