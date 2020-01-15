@@ -3,7 +3,7 @@ import Avatar from '@material-ui/core/Avatar';
 import { styled } from '@material-ui/core/styles';
 import headshot from '../assets/headshot.jpg';
 
-const SingleRow = styled("p")({
+const SingleRow = styled("div")({
     display:'flex',
     border: '1px solid gray',
     color:'#015249',

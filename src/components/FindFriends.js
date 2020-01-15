@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import { styled } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import FriendItem from './FriendItem';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux'
+import * as firebase from 'firebase'
 
 const HeaderText = styled("p")({
     fontSize: '36px',
@@ -12,10 +15,21 @@ const HeaderText = styled("p")({
     justifyContent:'center'
 });
 
-export default class FindFriends extends Component {
+class FindFriends extends Component {
+
+    getFriends(userId){
+        let friends = [];
+        let ref = firebase.database().ref("users");
+        ref.orderByChild("email").on("child_added", function(snapshot) {
+
+            const individualEmail = snapshot.val().email;
+
+        });
+    }
+
     render() {
 
-        const friends = ["Cody Wise", "Russell Wilson", "Russell Crowe", "Ari Shaffir", "Troy Aikman", "Carolyn Pokorney"]
+        const friends = this.getFriends(this.props.auth.uid) || [];
 
         return (
             <div>
@@ -35,3 +49,12 @@ export default class FindFriends extends Component {
         )
     }
 }
+
+const mapStateToProps = (state) => ({
+    auth: state.auth
+})
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(FindFriends);
