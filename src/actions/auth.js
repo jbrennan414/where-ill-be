@@ -17,9 +17,20 @@ export function updateAuth(){
     }
 }
 
+//add the user to our users table
+function writeUserData(userId, email) {
+    firebase.database().ref('users/' + userId).set({
+      email: email,
+    });
+}
+
+
 export function createUser(email, password){
     return async function (dispatch){
         await firebase.auth().createUserWithEmailAndPassword(email, password).then(function(user) {
+
+            writeUserData(user.user.uid, user.user.email)
+    
             return dispatch({
                 type: CREATE_USER,
                 data: user,
