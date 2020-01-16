@@ -42,15 +42,21 @@ const Calendar = styled("div")({
 
 export default class CalendarView extends Component {
 
-    getDaysInMonth(month, year){
-           return new Date(year, month, 0).getDate();
-    };
+    getDaysInMonth(month, year) {
+        var date = new Date(year, month, 1);
+        var days = [];
+        while (date.getMonth() === month) {
+          days.push(new Date(date));
+          date.setDate(date.getDate() + 1);
+        }
+        return days;
+      }
 
     renderDays(daysThisMonth){
         let days = [];
 
-        for(let i=1; i < daysThisMonth + 1; i++){
-            days.push(<Day key={i}>{i}</Day>)
+        for(let i=1; i < daysThisMonth.length + 1; i++){
+            days.push(<Day key={i} id={daysThisMonth[i]}>{i}</Day>)
         }
 
         return days;
@@ -63,7 +69,7 @@ export default class CalendarView extends Component {
         const d = new Date();
         const currentMonth = d.getMonth() + 1;
         const currentYear = d.getFullYear();
-        const daysThisMonth = this.getDaysInMonth(currentMonth, currentYear)
+        const daysThisMonth = this.getDaysInMonth(currentMonth - 1, currentYear)
 
         const month = new Array();
         month[0] = "January";
