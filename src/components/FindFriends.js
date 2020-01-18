@@ -5,6 +5,7 @@ import FriendItem from './FriendItem';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import * as firebase from 'firebase'
+import { getUsers } from '../actions/friends';
 
 const HeaderText = styled("p")({
     fontSize: '36px',
@@ -17,19 +18,8 @@ const HeaderText = styled("p")({
 
 class FindFriends extends Component {
 
-    getFriends(userId){
-        let friends = [];
-        let ref = firebase.database().ref("users");
-        ref.orderByChild("email").on("child_added", function(snapshot) {
-
-            const individualEmail = snapshot.val().email;
-
-        });
-    }
-
     render() {
-
-        const friends = this.getFriends(this.props.auth.uid) || ["Louis", "Michael", "John", "Kyle"];
+        const allUsers = this.props.friends.allUsers;
 
         return (
             <div>
@@ -41,7 +31,7 @@ class FindFriends extends Component {
                     type="text"
                     // onChange={val => this.setState({ confirmPass: val.target.value })}
                 />
-                {friends.map(friend => {
+                {allUsers.map(friend => {
                     console.log("this is friend", friend)
                     return <FriendItem key={friend} friend={friend} />
                 })}
@@ -51,10 +41,12 @@ class FindFriends extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    auth: state.auth
+    auth: state.auth,
+    friends: state.friends,
 })
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
+    getUsers
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(FindFriends);
