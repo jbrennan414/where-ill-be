@@ -1,7 +1,7 @@
 import { GET_ALL_USERS } from '../actions/friends';
 
 const initialState = {
-    allUsers: null,
+    allUsers: [],
 }
 
 export default function(state = initialState, action){

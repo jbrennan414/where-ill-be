@@ -24,12 +24,23 @@ function writeUserData(userId, email) {
     });
 }
 
+// function createDates(date){
+//     firebase.database().ref('dates/' + date).set({
+//         skiers:"none",
+//     })
+// }
 
 export function createUser(email, password){
     return async function (dispatch){
         await firebase.auth().createUserWithEmailAndPassword(email, password).then(function(user) {
 
             writeUserData(user.user.uid, user.user.email)
+
+            // for(let i = 1; i < 32; i++){
+            //     let date = ("0"+i).slice(-2)
+            //     createDates(`05${date}2020`);
+            // }
+
     
             return dispatch({
                 type: CREATE_USER,
