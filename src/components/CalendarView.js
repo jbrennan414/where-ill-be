@@ -65,8 +65,8 @@ class CalendarView extends Component {
     renderDays(daysThisMonth){
         let days = [];
 
-        for(let i=1; i < daysThisMonth.length + 1; i++){
-            days.push(<Day onClick={() => console.log(i)} key={i} id={daysThisMonth[i]}>{i}</Day>)
+        for(let i=0; i < daysThisMonth.length; i++){
+            days.push(<Day onClick={() => console.log(daysThisMonth[i])} key={i} id={daysThisMonth[i]}>{parseInt(i)+1}</Day>)
         }
 
         return days;
@@ -77,9 +77,7 @@ class CalendarView extends Component {
     render() {
 
         const d = new Date();
-        const currentMonth = d.getMonth() + 1;
-        const currentYear = d.getFullYear();
-        const daysThisMonth = this.getDaysInMonth(currentMonth - 1, currentYear)
+        const daysThisMonth = this.props.thisMonth;
 
         const month = new Array();
         month[0] = "January";
