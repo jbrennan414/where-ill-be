@@ -6,6 +6,16 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Button from '@material-ui/core/Button';
 import { updateProfile } from '../actions/auth';
+import { styled } from '@material-ui/core/styles';
+
+const TitleText = styled("div")({
+    fontSize: '24px',
+    display:'flex',
+    flexWrap:'wrap',
+    color:'#015249',
+    fontFamily: "\"Do Hyeon\", sans-serif",
+    justifyContent:'center'
+  });
 
 class Profile extends Component {
 
@@ -24,6 +34,7 @@ class Profile extends Component {
 
         return (
             <div>
+                <TitleText><p style={{"fontSize":"36px"}}>MY PROFILE</p></TitleText>
                 <Avatar alt="user_image" src={headshot} />
                 <form noValidate autoComplete="off">
                     <TextField required id="standard-required" defaultValue={`${displayName}`} onChange={val => this.setState({ displayName: val.target.value })} />

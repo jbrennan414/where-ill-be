@@ -18,6 +18,10 @@ const HeaderText = styled("p")({
 
 class FindFriends extends Component {
 
+
+    componentDidMount(){
+        this.props.getUsers();
+    }
     render() {
         const allUsers = this.props.friends.allUsers;
 
