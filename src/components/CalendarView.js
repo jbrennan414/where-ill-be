@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { styled } from '@material-ui/core/styles';
+import { getThisMonthDates } from '../actions/dates';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux'
 
 const Month = styled("div")({
     display:'flex',
@@ -40,7 +43,14 @@ const Calendar = styled("div")({
     padding: '0px 16px'
 });
 
-export default class CalendarView extends Component {
+class CalendarView extends Component {
+
+    componentDidMount(){
+        const today = new Date();
+        const month = String(today.getMonth() + 1).padStart(2, '0'); //January is 01
+
+        this.props.getThisMonthDates(month);
+    }
 
     getDaysInMonth(month, year) {
         var date = new Date(year, month, 1);
@@ -56,7 +66,7 @@ export default class CalendarView extends Component {
         let days = [];
 
         for(let i=1; i < daysThisMonth.length + 1; i++){
-            days.push(<Day key={i} id={daysThisMonth[i]}>{i}</Day>)
+            days.push(<Day onClick={() => console.log(i)} key={i} id={daysThisMonth[i]}>{i}</Day>)
         }
 
         return days;
@@ -105,3 +115,13 @@ export default class CalendarView extends Component {
         )
     }
 }
+
+const mapStateToProps = (state) => ({
+    thisMonth: state.dates.thisMonth,
+})
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+    getThisMonthDates
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(CalendarView);
