@@ -56,7 +56,7 @@ export function requestFriend(requester, requestee){
         firebase.database().ref('users/' + requester + "/friends/" + requesteeUID).set("pending_approval");
 
         //add a row on requestee's object that says "requested"
-        firebase.database().ref('users/' + requesteeUID + "/friends/" + requester).set("requested");
+        firebase.database().ref('users/' + requesteeUID + "/friends/" + requester).set("requested_you");
 
         return;
 

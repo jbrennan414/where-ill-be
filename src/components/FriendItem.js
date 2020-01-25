@@ -25,17 +25,64 @@ const AddButton = styled("button")({
     fontFamily: "\"Do Hyeon\", sans-serif",
 });
 
+const DenyButton = styled("button")({
+    color:'white',
+    backgroundColor:'red',
+    fontFamily: "\"Do Hyeon\", sans-serif",
+    marginRight: '3px',
+});
+
 class FriendItem extends Component {
+
+    buttonTypeHelper(friend){
+        let buttonType;
+        const allFriendEmails = this.props.myFriends.map(friend => friend.email);
+        const friendIndex = allFriendEmails.findIndex(email => email === friend);
+
+        if (friendIndex === -1){
+            return <AddButton onClick={() => this.props.requestFriend(this.props.auth.uid, friend)} id={friend}>ADD</AddButton>
+        } else {
+            const status = this.props.myFriends[friendIndex].status;
+
+            switch (status) {
+                case "pending_approval":
+                    buttonType = "pending";
+                    break;
+
+                case "requested_you":
+                    buttonType = "requested_you";
+                    return (
+                        <div>
+                            <DenyButton onClick={() => this.props.requestFriend(this.props.auth.uid, friend)} id={friend}>DENY</DenyButton>
+                            <AddButton onClick={() => this.props.requestFriend(this.props.auth.uid, friend)} id={friend}>APPROVE</AddButton>
+                        </div>
+                    )
+
+                    break;
+
+                //We will eventually need cases here 
+                //for true and false
+
+            }
+
+        }
+
+        return buttonType;
+
+    }
+
 
     render() {
 
-        const { friend } = this.props
+        const { friend } = this.props;
+
+        const buttonText = this.buttonTypeHelper(friend)
 
         return (
             <SingleRow>
                 <Avatar alt="user avatar" src={headshot} />
                 <p>{friend}</p>
-                <AddButton onClick={() => this.props.requestFriend(this.props.auth.uid, friend)} id={friend}>ADD</AddButton>
+                {this.buttonTypeHelper(friend)}
             </SingleRow>
         )
     }
