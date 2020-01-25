@@ -20,7 +20,7 @@ class FindFriends extends Component {
 
 
     componentDidMount(){
-        this.props.getUsers();
+        this.props.getUsers(this.props.auth.uid);
     }
     render() {
         const allUsers = this.props.friends.allUsers;
@@ -35,9 +35,8 @@ class FindFriends extends Component {
                     type="text"
                     // onChange={val => this.setState({ confirmPass: val.target.value })}
                 />
-                {allUsers.map(friend => {
-                    console.log("this is friend", friend)
-                    return <FriendItem key={friend} friend={friend} />
+                {allUsers.map((friend, i) => {
+                    return <FriendItem key={i} friend={friend} />
                 })}
             </div>
         )
@@ -50,7 +49,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-    getUsers
+    getUsers,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(FindFriends);

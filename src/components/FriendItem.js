@@ -44,7 +44,8 @@ class FriendItem extends Component {
 
 
 const mapStateToProps = (state) => ({
-    auth: state.auth
+    auth: state.auth,
+    myFriends: state.friends.myFriends
 })
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
