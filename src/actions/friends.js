@@ -23,19 +23,23 @@ export function getUsers(){
 
 export function requestFriend(requester, requestee){
     return async function (dispatch){
-        
-        //THIS IS BROKEN RIGHT NOW BUT WHATEVER, IT'S CLOSE
+        let requesteeUID = null;
+        //get requestee's UID
+        await firebase.database().ref('users').on("value", function(snapshot){
+            const allUsersKeys = Object.values(snapshot.val());
+            const allUserKeys = Object.keys(snapshot.val());
+
+            const requesteeKey = allUsersKeys.findIndex(user => user.email === requestee);
+            requesteeUID = allUserKeys[requesteeKey];
+        })
+
         //add a row on requester's friends object
-        let friends  = {}
-        friends[requester] = "pending_approval";
+        firebase.database().ref('users/' + requester + "/friends/" + requesteeUID).set("pending_approval");
 
-        let friends2 = {};
-        friends2["/users/" + requester + "/friends/"] = friends;
+        //add a row on requestee's object that says "requested"
+        firebase.database().ref('users/' + requesteeUID + "/friends/" + requester).set("requested");
 
-        return firebase.database().ref().update(friends2);
-
-        //add a row on requestee's object
-
+        return;
 
     }
 
