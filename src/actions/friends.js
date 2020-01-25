@@ -21,7 +21,7 @@ export function getUsers(myUID){
                 const myFriendsUIDs = Object.keys(myUsersData["friends"]);
                 const myFriends = [];
                 myFriendsUIDs.forEach(uid => {
-                    const useremail = getUserEmail(uid, snapshot.val())
+                    const useremail = getUserEmail(myUID, uid, snapshot.val())
                     myFriends.push(useremail);
                 })
 
@@ -76,15 +76,20 @@ export function approveFriend(myUID, targetUser){
 // we don't want to show the user's UID 
 // in the front end, so use this translation function
 
-function getUserEmail(uid, snapshot){
+function getUserEmail(myUID, uid, snapshot){
     const snapshotKeys = Object.keys(snapshot);
-    const uidIndex = snapshotKeys.findIndex(item => item === uid);
-    const status = Object.values(snapshot)[uidIndex].friends[uid];
+    const snapshotValues = Object.values(snapshot);
+    const userIndex = snapshotKeys.findIndex(key => key === uid);
+    const email = snapshotValues[userIndex].email;
+
+    //Get our status for this user
+    const myFriends = snapshot[myUID].friends
+    const userStatus = myFriends[uid];
 
 
-    const user =  {
-        email: Object.values(snapshot)[uidIndex].email,
-        status: status,
+    const user = {
+        email: email,
+        status: userStatus,
     }
 
     return user;
