@@ -11,22 +11,27 @@ export function getUsers(myUID){
             const userEmails = Object.values(snapshot.val());
             //get my users' index
             const dbKeys = Object.keys(snapshot.val());
-            
+
             // We need a bit of work here to show my friends, etc
             const myUsersDBIndex = dbKeys.findIndex(key => key === myUID);
             const myUsersData = Object.values(snapshot.val())[myUsersDBIndex];
-            const myFriendsUIDs = Object.keys(myUsersData["friends"]);
-            const myFriends = [];
-            myFriendsUIDs.forEach(uid => {
-                const useremail = getUserEmail(uid, snapshot.val())
-                myFriends.push(useremail);
-            })
+           
+            //If we have friends, let's do it
+            if (myUsersData["friends"]){
+                const myFriendsUIDs = Object.keys(myUsersData["friends"]);
+                const myFriends = [];
+                myFriendsUIDs.forEach(uid => {
+                    const useremail = getUserEmail(uid, snapshot.val())
+                    myFriends.push(useremail);
+                })
 
-            dispatch({
-                type: GET_MY_FRIENDS,
-                data: myFriends,
-            })
+                dispatch({
+                    type: GET_MY_FRIENDS,
+                    data: myFriends,
+                })
 
+            }
+            
             const justEmails = [];
             userEmails.forEach(email => {
                 justEmails.push(email.email)
@@ -62,6 +67,10 @@ export function requestFriend(requester, requestee){
 
     }
 
+}
+
+export function approveFriend(myUID, targetUser){
+    
 }
 
 // we don't want to show the user's UID 

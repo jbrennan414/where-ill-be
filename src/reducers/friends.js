@@ -5,6 +5,7 @@ import {
 
 const initialState = {
     allUsers: [],
+    myFriends: [],
 }
 
 export default function(state = initialState, action){

@@ -4,7 +4,7 @@ import { styled } from '@material-ui/core/styles';
 import headshot from '../assets/headshot.jpg';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
-import { requestFriend } from '../actions/friends';
+import { requestFriend, approveFriend } from '../actions/friends';
 
 
 const SingleRow = styled("div")({
@@ -54,7 +54,7 @@ class FriendItem extends Component {
                     return (
                         <div>
                             <DenyButton onClick={() => this.props.requestFriend(this.props.auth.uid, friend)} id={friend}>DENY</DenyButton>
-                            <AddButton onClick={() => this.props.requestFriend(this.props.auth.uid, friend)} id={friend}>APPROVE</AddButton>
+                            <AddButton onClick={() => this.props.approveFriend(this.props.auth.uid, friend)} id={friend}>APPROVE</AddButton>
                         </div>
                     )
 
@@ -97,6 +97,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     requestFriend,
+    approveFriend
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(FriendItem);
