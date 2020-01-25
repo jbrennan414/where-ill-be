@@ -48,7 +48,6 @@ class CalendarView extends Component {
     componentDidMount(){
         const today = new Date();
         const month = String(today.getMonth() + 1).padStart(2, '0'); //January is 01
-
         this.props.getThisMonthDates(month);
     }
 
@@ -64,7 +63,9 @@ class CalendarView extends Component {
 
     renderDays(daysThisMonth){
         let days = [];
-
+        if(!daysThisMonth){
+            return;
+        }
         for(let i=0; i < daysThisMonth.length; i++){
             days.push(<Day onClick={() => console.log(daysThisMonth[i])} key={i} id={daysThisMonth[i]}>{parseInt(i)+1}</Day>)
         }
