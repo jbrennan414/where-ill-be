@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import { styled } from '@material-ui/core/styles';
 import headshot from '../assets/headshot.jpg';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux'
+import { requestFriend } from '../actions/friends';
+
 
 const SingleRow = styled("div")({
     display:'flex',
@@ -21,7 +25,8 @@ const AddButton = styled("button")({
     fontFamily: "\"Do Hyeon\", sans-serif",
 });
 
-export default class FriendItem extends Component {
+class FriendItem extends Component {
+
     render() {
 
         const { friend } = this.props
@@ -30,8 +35,20 @@ export default class FriendItem extends Component {
             <SingleRow>
                 <Avatar alt="user avatar" src={headshot} />
                 <p>{friend}</p>
-                <AddButton>ADD</AddButton>
+                <AddButton onClick={() => this.props.requestFriend(this.props.auth.uid, friend)} id={friend}>ADD</AddButton>
             </SingleRow>
         )
     }
 }
+
+
+
+const mapStateToProps = (state) => ({
+    auth: state.auth
+})
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+    requestFriend,
+}, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(FriendItem);
