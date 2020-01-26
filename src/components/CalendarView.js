@@ -40,6 +40,17 @@ const Day = styled("div")({
     margin: '4px',
 });
 
+const SkiDay = styled("div")({
+    fontFamily: "\"Do Hyeon\", sans-serif",
+    fontSize: '12px',
+    display:'flex',
+    backgroundColor: '#57BC90',
+    height: '40px',
+    width: '40px',
+    color: 'white',
+    margin: '4px',
+});
+
 const Calendar = styled("div")({
     display:'flex',
     flexWrap: 'wrap',
@@ -93,14 +104,30 @@ class CalendarView extends Component {
         if(!daysThisMonth){
             return;
         }
+
+        const thisMonth = Object.values(this.props.thisMonth);
+        const uid = this.props.auth.uid;
+
         for(let i=0; i < daysThisMonth.length; i++){
-            days.push(
-                <Day 
-                    onClick={() => this.setState({ isShowingAddDayModal: true, selectedDate: daysThisMonth[i] })} 
-                    key={i} 
-                    id={daysThisMonth[i]}>{parseInt(i)+1}
-                </Day>
-            )
+            const thisDaysSkiiers = Object.keys(thisMonth[i]);
+
+            if (thisDaysSkiiers.includes(uid)){
+                days.push(
+                    <SkiDay 
+                        onClick={() => this.setState({ isShowingAddDayModal: true, selectedDate: daysThisMonth[i] })} 
+                        key={i} 
+                        id={daysThisMonth[i]}>{parseInt(i)+1}
+                    </SkiDay>
+                )
+            } else {
+                days.push(
+                    <Day 
+                        onClick={() => this.setState({ isShowingAddDayModal: true, selectedDate: daysThisMonth[i] })} 
+                        key={i} 
+                        id={daysThisMonth[i]}>{parseInt(i)+1}
+                    </Day>
+                )
+            }
         }
 
         return days;
@@ -122,9 +149,9 @@ class CalendarView extends Component {
 
     render() {
         const d = new Date();
-        const daysThisMonth = this.props.thisMonth;
+        const daysThisMonth = Object.keys(this.props.thisMonth);
 
-        const { isShowingAddDayModal, selectedDate, selectedResort } = this.state;
+        const { isShowingAddDayModal, selectedDate } = this.state;
 
         const month = new Array();
         month[0] = "January";
