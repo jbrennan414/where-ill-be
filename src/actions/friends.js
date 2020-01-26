@@ -70,25 +70,27 @@ export function requestFriend(requester, requestee){
 }
 
 export function approveFriend(myUID, targetUser){
-    const targetUserID = getUserID(targetUser);
+    return async function () {
 
-    //update both ways, myUID FIRST
-    firebase.database().ref('users/' + myUID + "/friends/" + targetUserID).set("true");
-    firebase.database().ref('users/' + targetUserID + "/friends/" + myUID).set("true");
+        const targetUserID = getUserID(targetUser);
 
-    return;
+        //update both user records
+        await firebase.database().ref('users/' + myUID + "/friends/" + targetUserID).set("true");
+        await firebase.database().ref('users/' + targetUserID + "/friends/" + myUID).set("true");
+    }
 
 }
 
 export function denyFriend(myUID, targetUser){
-    const targetUserID = getUserID(targetUser);
+    return async function () {
 
-    //update both ways, myUID FIRST
-    firebase.database().ref('users/' + myUID + "/friends/" + targetUserID).set("false");
-    firebase.database().ref('users/' + targetUserID + "/friends/" + myUID).set("false");
+        const targetUserID = getUserID(targetUser);
 
-    return;
-
+        //update both user records
+        await firebase.database().ref('users/' + myUID + "/friends/" + targetUserID).set("false");
+        await firebase.database().ref('users/' + targetUserID + "/friends/" + myUID).set("false");
+    }
+    
 }
 
 // we don't want to show the user's UID 
