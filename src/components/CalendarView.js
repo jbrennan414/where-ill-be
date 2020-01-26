@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { styled } from '@material-ui/core/styles';
-import { getThisMonthDates } from '../actions/dates';
+import { getThisMonthDates, addSkiDay } from '../actions/dates';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 
@@ -67,6 +67,7 @@ class CalendarView extends Component {
     
         this.state = { 
             isShowingAddDayModal: false,
+            selectedResort:'',
         };
 
     }
@@ -95,7 +96,7 @@ class CalendarView extends Component {
         for(let i=0; i < daysThisMonth.length; i++){
             days.push(
                 <Day 
-                    onClick={() => this.setState({ isShowingAddDayModal: true, selectedDate: i+1 })} 
+                    onClick={() => this.setState({ isShowingAddDayModal: true, selectedDate: daysThisMonth[i] })} 
                     key={i} 
                     id={daysThisMonth[i]}>{parseInt(i)+1}
                 </Day>
@@ -105,13 +106,25 @@ class CalendarView extends Component {
         return days;
 
     }
+
+    handleChange = event => {
+        this.setState({ selectedResort: event.target.value});
+    };
+
+    submitSkiDay(){
+        const { selectedDate, selectedResort } = this.state
+        const uid = this.props.auth.uid;
+
+        this.props.addSkiDay(uid, selectedDate, selectedResort);
+        this.setState({ isShowingAddDayModal: false });
+    }
     
 
     render() {
         const d = new Date();
         const daysThisMonth = this.props.thisMonth;
 
-        const { isShowingAddDayModal, selectedDate } = this.state;
+        const { isShowingAddDayModal, selectedDate, selectedResort } = this.state;
 
         const month = new Array();
         month[0] = "January";
@@ -150,20 +163,20 @@ class CalendarView extends Component {
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
                 >
-                    <ModalHeader id="alert-dialog-title">{thisMonth} {selectedDate}</ModalHeader>
+                    <ModalHeader id="alert-dialog-title">{thisMonth} {selectedDate ? selectedDate.slice(2,4):""}</ModalHeader>
                     <Select
                         id= "ski-resort-dropdown"
-                        value="resort"
+                        onChange={this.handleChange}
                     >
                         {resortList.map(resort => {
-                            return <MenuItem id={resort}>{resort}</MenuItem>
+                            return <MenuItem value={resort} id={resort}>{resort}</MenuItem>
                         })}
                     </Select>
                     <DialogActions>
-                        <Button color="primary">
+                        <Button onClick={() => this.setState({ isShowingAddDayModal: false })} color="primary">
                             Cancel
                         </Button>
-                        <Button color="primary">
+                        <Button onClick={() => this.submitSkiDay()} color="primary">
                             Submit
                         </Button>
                     </DialogActions>
@@ -174,10 +187,12 @@ class CalendarView extends Component {
 }
 
 const mapStateToProps = (state) => ({
+    auth: state.auth,
     thisMonth: state.dates.thisMonth,
 })
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
+    addSkiDay,
     getThisMonthDates
 }, dispatch);
 

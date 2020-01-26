@@ -22,3 +22,12 @@ export function getThisMonthDates(month){
         })
     }
 }
+
+export function addSkiDay(uid, date, resort){
+    return async function(dispatch){
+
+        await firebase.database().ref('dates/' + date + "/" + uid).set(resort);
+
+    }
+
+}
