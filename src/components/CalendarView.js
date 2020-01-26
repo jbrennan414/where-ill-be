@@ -3,6 +3,7 @@ import { styled } from '@material-ui/core/styles';
 import { getThisMonthDates, addSkiDay } from '../actions/dates';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
+import * as firebase from 'firebase'
 
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -97,7 +98,20 @@ class CalendarView extends Component {
           date.setDate(date.getDate() + 1);
         }
         return days;
-      }
+    }
+
+    getUserID(email){
+        let uid;
+        firebase.database().ref('users').orderByChild("email").on("value", function(snapshot){
+            const snapshotCopy = snapshot.val();
+            const snapshotKeys = Object.keys(snapshotCopy);
+            const snapshotValues = Object.values(snapshotCopy);
+            const emailIndex = snapshotValues.findIndex(value => value.email === email)
+            uid = snapshotKeys[emailIndex];
+        })
+
+        return uid;
+    }
 
     renderDays(daysThisMonth){
         let days = [];
@@ -108,15 +122,32 @@ class CalendarView extends Component {
         const thisMonth = Object.values(this.props.thisMonth);
         const uid = this.props.auth.uid;
 
-        for(let i=0; i < daysThisMonth.length; i++){
-            const thisDaysSkiiers = Object.keys(thisMonth[i]);
+        const myVerifiedFriends = this.props.myFriends.filter(friend => friend.status === "true");
+        let myVerifiedUIDs = [];
+        
+        myVerifiedFriends.forEach(friend => {
+            const userID = this.getUserID(friend.email);
+            myVerifiedUIDs.push(userID);
+        });
 
-            if (thisDaysSkiiers.includes(uid)){
+        for(let i=0; i < daysThisMonth.length; i++){
+            const thisDaysSkiers = Object.keys(thisMonth[i]);
+            //check thisDaysSkiers against myVerifiedUids
+            //I'm very tired and there is definitely a better way to do this
+            let myFriendsAreSkiing = [];
+            thisDaysSkiers.forEach(skier => {
+                if (myVerifiedUIDs.includes(skier)){
+                    myFriendsAreSkiing.push(skier[0]);
+                }
+            })
+
+            if (thisDaysSkiers.includes(uid)){
                 days.push(
                     <SkiDay 
                         onClick={() => this.setState({ isShowingAddDayModal: true, selectedDate: daysThisMonth[i] })} 
                         key={i} 
                         id={daysThisMonth[i]}>{parseInt(i)+1}
+                        <p>{myFriendsAreSkiing}</p>
                     </SkiDay>
                 )
             } else {
@@ -125,6 +156,7 @@ class CalendarView extends Component {
                         onClick={() => this.setState({ isShowingAddDayModal: true, selectedDate: daysThisMonth[i] })} 
                         key={i} 
                         id={daysThisMonth[i]}>{parseInt(i)+1}
+                        <p>{myFriendsAreSkiing}</p>
                     </Day>
                 )
             }
@@ -149,6 +181,11 @@ class CalendarView extends Component {
 
     render() {
         const d = new Date();
+
+        if (!this.props || !this.props.thisMonth){
+            return <h1>Loading</h1>
+        }
+
         const daysThisMonth = Object.keys(this.props.thisMonth);
 
         const { isShowingAddDayModal, selectedDate } = this.state;
@@ -216,11 +253,12 @@ class CalendarView extends Component {
 const mapStateToProps = (state) => ({
     auth: state.auth,
     thisMonth: state.dates.thisMonth,
+    myFriends: state.friends.myFriends
 })
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     addSkiDay,
-    getThisMonthDates
+    getThisMonthDates,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(CalendarView);
