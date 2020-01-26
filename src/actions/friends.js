@@ -70,7 +70,25 @@ export function requestFriend(requester, requestee){
 }
 
 export function approveFriend(myUID, targetUser){
-    
+    const targetUserID = getUserID(targetUser);
+
+    //update both ways, myUID FIRST
+    firebase.database().ref('users/' + myUID + "/friends/" + targetUserID).set("true");
+    firebase.database().ref('users/' + targetUserID + "/friends/" + myUID).set("true");
+
+    return;
+
+}
+
+export function denyFriend(myUID, targetUser){
+    const targetUserID = getUserID(targetUser);
+
+    //update both ways, myUID FIRST
+    firebase.database().ref('users/' + myUID + "/friends/" + targetUserID).set("false");
+    firebase.database().ref('users/' + targetUserID + "/friends/" + myUID).set("false");
+
+    return;
+
 }
 
 // we don't want to show the user's UID 
@@ -94,4 +112,18 @@ function getUserEmail(myUID, uid, snapshot){
 
     return user;
 
+}
+
+function getUserID(email){
+    let uid;
+
+    firebase.database().ref('users').orderByChild("email").on("value", function(snapshot){
+        const snapshotCopy = snapshot.val();
+        const snapshotKeys = Object.keys(snapshotCopy);
+        const snapshotValues = Object.values(snapshotCopy);
+        const emailIndex = snapshotValues.findIndex(value => value.email === email)
+        uid = snapshotKeys[emailIndex];
+    })        
+
+    return uid;
 }

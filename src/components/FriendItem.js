@@ -4,7 +4,7 @@ import { styled } from '@material-ui/core/styles';
 import headshot from '../assets/headshot.jpg';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
-import { requestFriend, approveFriend } from '../actions/friends';
+import { requestFriend, approveFriend, denyFriend } from '../actions/friends';
 
 
 const SingleRow = styled("div")({
@@ -53,16 +53,26 @@ class FriendItem extends Component {
                     buttonType = "requested_you";
                     return (
                         <div>
-                            <DenyButton onClick={() => this.props.requestFriend(this.props.auth.uid, friend)} id={friend}>DENY</DenyButton>
+                            <DenyButton onClick={() => this.props.denyFriend(this.props.auth.uid, friend)} id={friend}>DENY</DenyButton>
                             <AddButton onClick={() => this.props.approveFriend(this.props.auth.uid, friend)} id={friend}>APPROVE</AddButton>
                         </div>
-                    )
+                    );
 
                     break;
-
-                //We will eventually need cases here 
-                //for true and false
-
+                
+                case "true":
+                    buttonType = "true";
+                    return (
+                        <p id={friend}>FRIENDS!</p>
+                    );
+                    break;
+                
+                case "false":
+                    buttonType = "false";
+                    return (
+                        <p id={friend}>Blocked</p>
+                    );
+                    break;
             }
 
         }
@@ -97,7 +107,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     requestFriend,
-    approveFriend
+    approveFriend,
+    denyFriend,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(FriendItem);
