@@ -4,6 +4,13 @@ import { getThisMonthDates } from '../actions/dates';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import { resortList } from '../assets/resortList';
+
 const Month = styled("div")({
     display:'flex',
     color:'#015249',
@@ -43,7 +50,26 @@ const Calendar = styled("div")({
     padding: '0px 16px'
 });
 
+const ModalHeader = styled("div")({
+    fontFamily: "\"Do Hyeon\", sans-serif",
+    fontSize: '14px',
+    margin: '10px 0px',
+    display:'flex',
+    backgroundColor: 'white',
+    color: '#015249',
+    justifyContent:'center',
+});
+
 class CalendarView extends Component {
+
+    constructor(props) {
+        super(props);
+    
+        this.state = { 
+            isShowingAddDayModal: false,
+        };
+
+    }
 
     componentDidMount(){
         const today = new Date();
@@ -67,7 +93,13 @@ class CalendarView extends Component {
             return;
         }
         for(let i=0; i < daysThisMonth.length; i++){
-            days.push(<Day onClick={() => console.log(daysThisMonth[i])} key={i} id={daysThisMonth[i]}>{parseInt(i)+1}</Day>)
+            days.push(
+                <Day 
+                    onClick={() => this.setState({ isShowingAddDayModal: true, selectedDate: i+1 })} 
+                    key={i} 
+                    id={daysThisMonth[i]}>{parseInt(i)+1}
+                </Day>
+            )
         }
 
         return days;
@@ -76,9 +108,10 @@ class CalendarView extends Component {
     
 
     render() {
-
         const d = new Date();
         const daysThisMonth = this.props.thisMonth;
+
+        const { isShowingAddDayModal, selectedDate } = this.state;
 
         const month = new Array();
         month[0] = "January";
@@ -110,6 +143,31 @@ class CalendarView extends Component {
                 <Calendar>
                     {this.renderDays(daysThisMonth)}
                 </Calendar>
+
+                {/* Add Ski Day Modal */}
+                <Dialog
+                    open={isShowingAddDayModal}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <ModalHeader id="alert-dialog-title">{thisMonth} {selectedDate}</ModalHeader>
+                    <Select
+                        id= "ski-resort-dropdown"
+                        value="resort"
+                    >
+                        {resortList.map(resort => {
+                            return <MenuItem id={resort}>{resort}</MenuItem>
+                        })}
+                    </Select>
+                    <DialogActions>
+                        <Button color="primary">
+                            Cancel
+                        </Button>
+                        <Button color="primary">
+                            Submit
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </div>
         )
     }
