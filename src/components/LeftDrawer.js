@@ -20,7 +20,8 @@ import headshot from '../assets/headshot.jpg';
 const StyledListItem = styled(ListItem)({
   backgroundColor: '#77C9D4',
   margin: '0px',
-  padding:'0px'
+  padding:'0px',
+  fontSize: '24px'
 });
 
 const StyledText = styled(ListItemText)({
@@ -60,6 +61,7 @@ class LeftDrawer extends Component {
           role="presentation"
           onClick={this.toggleDrawer('left', false)}
           onKeyDown={this.toggleDrawer('left', false)}
+          style={{"background-color":"#77C9D4", 'height':"100%"}}
         >
           <List style={{"padding":"0px"}}>
             <StyledLink to={`/profile`}>
