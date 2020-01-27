@@ -26,6 +26,19 @@ const MyAvatar = styled(Avatar)({
     border: '7px solid white',
 });
 
+const UserProfileText = styled("p")({
+    display:'flex',
+    fontFamily: "\"Do Hyeon\", sans-serif",
+    flexWrap:'wrap',
+    justifyContent:'center',
+    fontSize:'24px',
+});
+
+const UserProfileContainer = styled("div")({
+    display:"flex",
+    flexDirection:"column",
+})
+
 class Profile extends Component {
 
     constructor(props) {
@@ -39,7 +52,7 @@ class Profile extends Component {
       }
 
     render() {
-        const { displayName, email, phoneNumber } = this.state;
+        const { displayName, email } = this.state;
 
         return (
             <div>
@@ -47,14 +60,19 @@ class Profile extends Component {
                 <div style={{"display":"flex", "justifyContent":"center"}}>
                     <MyAvatar alt="user_image" src={headshot} />
                 </div>
-                <form noValidate autoComplete="off">
+                {/* <form noValidate autoComplete="off">
                     <TextField required id="standard-required" defaultValue={`${displayName}`} onChange={val => this.setState({ displayName: val.target.value })} />
                     <TextField id="standard-required" defaultValue={`${email}`} onChange={val => this.setState({ email: val.target.value })} />
                     <TextField id="standard-required" defaultValue={`${phoneNumber}`} onChange={val => this.setState({ phoneNumber: val.target.value })} />
-                </form>
-                <Button onClick={()=> this.props.updateProfile(this.state)}>
+                </form> */}
+                <UserProfileContainer>
+                    <UserProfileText>name: {displayName}</UserProfileText>
+                    <UserProfileText>username: jpb66227</UserProfileText>
+                    <UserProfileText>email: {email}</UserProfileText>
+                </UserProfileContainer>
+                {/* <Button onClick={()=> this.props.updateProfile(this.state)}>
                     Submit
-                </Button>
+                </Button> */}
             </div>
         )
     }
