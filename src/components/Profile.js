@@ -15,7 +15,16 @@ const TitleText = styled("div")({
     color:'#015249',
     fontFamily: "\"Do Hyeon\", sans-serif",
     justifyContent:'center'
-  });
+});
+
+const MyAvatar = styled(Avatar)({
+    display:'flex',
+    flexWrap:'wrap',
+    justifyContent:'center',
+    height:'150px',
+    width:'150px',
+    border: '7px solid white',
+});
 
 class Profile extends Component {
 
@@ -35,7 +44,9 @@ class Profile extends Component {
         return (
             <div>
                 <TitleText><p style={{"fontSize":"36px"}}>MY PROFILE</p></TitleText>
-                <Avatar alt="user_image" src={headshot} />
+                <div style={{"display":"flex", "justifyContent":"center"}}>
+                    <MyAvatar alt="user_image" src={headshot} />
+                </div>
                 <form noValidate autoComplete="off">
                     <TextField required id="standard-required" defaultValue={`${displayName}`} onChange={val => this.setState({ displayName: val.target.value })} />
                     <TextField id="standard-required" defaultValue={`${email}`} onChange={val => this.setState({ email: val.target.value })} />

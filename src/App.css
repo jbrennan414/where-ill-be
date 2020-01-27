@@ -4,6 +4,10 @@
   color:white;
 }
 
+body > #root > div {
+  height: 100vh;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
