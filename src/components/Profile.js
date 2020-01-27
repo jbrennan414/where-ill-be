@@ -4,7 +4,7 @@ import Avatar from '@material-ui/core/Avatar';
 import TextField from '@material-ui/core/TextField';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Button from '@material-ui/core/Button';
+import EditIcon from '@material-ui/icons/Edit';
 import { updateProfile } from '../actions/auth';
 import { styled } from '@material-ui/core/styles';
 
@@ -30,13 +30,15 @@ const UserProfileText = styled("p")({
     display:'flex',
     fontFamily: "\"Do Hyeon\", sans-serif",
     flexWrap:'wrap',
-    justifyContent:'center',
+    justifyContent:'flex-start',
     fontSize:'24px',
 });
 
 const UserProfileContainer = styled("div")({
     display:"flex",
+    margin: "0px 20px",
     flexDirection:"column",
+    justifyContent:"flex-start",
 })
 
 class Profile extends Component {
@@ -66,9 +68,9 @@ class Profile extends Component {
                     <TextField id="standard-required" defaultValue={`${phoneNumber}`} onChange={val => this.setState({ phoneNumber: val.target.value })} />
                 </form> */}
                 <UserProfileContainer>
-                    <UserProfileText>name: {displayName}</UserProfileText>
-                    <UserProfileText>username: jpb66227</UserProfileText>
-                    <UserProfileText>email: {email}</UserProfileText>
+                    <UserProfileText>name: {displayName}<EditIcon style={{"height":"30px"}} /></UserProfileText>
+                    <UserProfileText>username: jpb66227<EditIcon style={{"height":"30px"}} /></UserProfileText>
+                    <UserProfileText>email: {email} <EditIcon style={{"height":"30px"}} /></UserProfileText>
                 </UserProfileContainer>
                 {/* <Button onClick={()=> this.props.updateProfile(this.state)}>
                     Submit
