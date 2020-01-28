@@ -4,6 +4,8 @@ import { getThisMonthDates, addSkiDay } from '../actions/dates';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import * as firebase from 'firebase'
+import { getUsers } from '../actions/friends';
+
 
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -87,6 +89,7 @@ class CalendarView extends Component {
     componentDidMount(){
         const today = new Date();
         const month = String(today.getMonth() + 1).padStart(2, '0'); //January is 01
+        this.props.getUsers(this.props.auth.uid);
         this.props.getThisMonthDates(month);
     }
 
@@ -259,6 +262,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     addSkiDay,
     getThisMonthDates,
+    getUsers,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(CalendarView);
