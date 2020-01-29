@@ -8,6 +8,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 
 import { updateAuth, signOut, signIn, createUser } from '../actions/auth';
+import { getUsers } from '../actions/friends';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import { styled } from '@material-ui/core/styles';
@@ -32,6 +33,18 @@ const StyledButton = styled(Button)({
 
 });
 
+const style = {
+  notification : {
+    backgroundColor:'red',
+    height:'.25em',
+    width: '.25em',
+    borderRadius:'10px',
+    position:'absolute',
+    marginLeft: '1em',
+    marginTop: '-.2em'
+  }
+}
+
 class Header extends Component {
 
   constructor(props) {
@@ -47,7 +60,8 @@ class Header extends Component {
   }
 
   componentDidMount(){
-      this.props.updateAuth();
+    this.props.updateAuth();
+    this.props.getUsers(this.props.auth.uid);
   }  
 
   addNewUser(){
@@ -74,7 +88,9 @@ class Header extends Component {
   render() {
 
     const { isShowingLoginModal, isShowingSignUpModal, isShowingLeftDrawer, password, confirmPass } = this.state;
-    const { auth } = this.props;
+    const { auth, myFriends } = this.props;
+
+    const peopleWhoHaveRequestedMe = myFriends.filter(friend => friend.status === "requested_you");
 
     return (
       <div>
@@ -82,6 +98,7 @@ class Header extends Component {
           {auth.uid != null ? (
             <div style={{"display":"flex", "width":"100%", "justifyContent":"space-between", "alignItems":"center"}}>
               <Avatar style={{"marginLeft":"20px"}} onClick={() => this.setState({ isShowingLeftDrawer: !isShowingLeftDrawer })} alt="user avatar" src={headshot} />
+              {peopleWhoHaveRequestedMe.length > 0 && <div style={style.notification}></div>}
               <IconButton edge="start" color="inherit" aria-label="menu">
                 <MenuIcon />
               </IconButton>
@@ -143,7 +160,7 @@ class Header extends Component {
         </Dialog>
         <TemporaryDrawer
           show={isShowingLeftDrawer}
-          requestedFriends={2}
+          requestedFriends={peopleWhoHaveRequestedMe.length}
           closeDrawer={() => this.setState({ isShowingLeftDrawer: !isShowingLeftDrawer })}
         />
 
@@ -191,7 +208,8 @@ class Header extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  auth: state.auth
+  auth: state.auth,
+  myFriends: state.friends.myFriends,
 })
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
@@ -199,6 +217,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   signOut,
   signIn,
   createUser,
+  getUsers,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

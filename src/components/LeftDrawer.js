@@ -36,7 +36,6 @@ const StyledLink = styled(Link)({
 
 const style = {
   listItem: {
-    border:"1px solid black",
     backgroundColor: 'red',
     borderRadius: '40px'
   }
@@ -60,7 +59,14 @@ class LeftDrawer extends Component {
     this.setState({ [side]:open })
 
   };
-  
+
+  renderNotifications(){
+    if (this.props.requestedFriends){
+      return <StyledText style={{"backgroundColor":"red" }} primary={`${this.props.requestedFriends}`} /> 
+    }
+
+  }
+
   render() {
     return (
       <Drawer open={this.props.show} >
@@ -94,7 +100,7 @@ class LeftDrawer extends Component {
                 <ListItemIcon><GroupIcon /></ListItemIcon>
                 <StyledText  primary={"Find Friends"} />
                 <div style={style.listItem}>
-                  <StyledText style={{"backgroundColor":"red" }} primary={this.props.requestedFriends} />
+                  {this.renderNotifications()}
                 </div>
               </StyledListItem>
             </StyledLink>
