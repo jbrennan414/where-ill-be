@@ -4,6 +4,7 @@ import Avatar from '@material-ui/core/Avatar';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import EditIcon from '@material-ui/icons/Edit';
+import Button from '@material-ui/core/Button';
 import { updateProfile } from '../actions/auth';
 import { styled } from '@material-ui/core/styles';
 
@@ -58,9 +59,19 @@ class Profile extends Component {
         return (
             <div>
                 <TitleText><p style={{"fontSize":"36px"}}>MY PROFILE</p></TitleText>
-                <div style={{"display":"flex", "justifyContent":"center"}}>
-                    <MyAvatar alt="user_image" src={headshot} />
-                </div>
+                <input
+                    accept="image/*"
+                    //   className={classes.input}
+                    style={{ display: 'none' }}
+                    id="raised-button-file"
+                    multiple
+                    type="file"
+                />
+                <label htmlFor="raised-button-file">
+                    <Button variant="raised" component="span">
+                        <MyAvatar alt="user_image" src={headshot} />
+                    </Button>
+                </label> 
                 {/* <form noValidate autoComplete="off">
                     <TextField required id="standard-required" defaultValue={`${displayName}`} onChange={val => this.setState({ displayName: val.target.value })} />
                     <TextField id="standard-required" defaultValue={`${email}`} onChange={val => this.setState({ email: val.target.value })} />

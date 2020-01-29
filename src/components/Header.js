@@ -61,8 +61,15 @@ class Header extends Component {
 
   componentDidMount(){
     this.props.updateAuth();
-    this.props.getUsers(this.props.auth.uid);
+    
   }  
+
+  componentDidUpdate(){
+    //we need a better way to solve this problem. we have a bug on first sign in
+    if (this.props && this.props.auth && this.props.auth.uid && this.props.myFriends.length === 0){
+      this.props.getUsers(this.props.auth.uid);
+    }
+  }
 
   addNewUser(){
     const { confirmPass, password, email} = this.state;
@@ -100,7 +107,8 @@ class Header extends Component {
               <Avatar style={{"marginLeft":"20px"}} onClick={() => this.setState({ isShowingLeftDrawer: !isShowingLeftDrawer })} alt="user avatar" src={headshot} />
               {peopleWhoHaveRequestedMe.length > 0 && <div style={style.notification}></div>}
               <IconButton edge="start" color="inherit" aria-label="menu">
-                <MenuIcon />
+                {/* Maybe we'll need this someday? */}
+                {/* <MenuIcon /> */}
               </IconButton>
             </div>
           ) : (
