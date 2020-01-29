@@ -47,8 +47,7 @@ class FriendItem extends Component {
             switch (status) {
                 case "pending_approval":
                     buttonType = "pending";
-                    break;
-
+                break;
                 case "requested_you":
                     buttonType = "requested_you";
                     return (
@@ -58,21 +57,20 @@ class FriendItem extends Component {
                         </div>
                     );
 
-                    break;
-                
                 case "true":
                     buttonType = "true";
                     return (
                         <p id={friend}>FRIENDS!</p>
                     );
-                    break;
                 
                 case "false":
                     buttonType = "false";
                     return (
                         <p id={friend}>Blocked</p>
                     );
-                    break;
+
+                default: 
+                    return;
             }
 
         }
@@ -85,8 +83,6 @@ class FriendItem extends Component {
     render() {
 
         const { friend } = this.props;
-
-        const buttonText = this.buttonTypeHelper(friend)
 
         return (
             <SingleRow>

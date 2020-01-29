@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { headshot } from '../assets/headshot.jpg'
 import Avatar from '@material-ui/core/Avatar';
-import TextField from '@material-ui/core/TextField';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import EditIcon from '@material-ui/icons/Edit';

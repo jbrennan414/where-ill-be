@@ -16,8 +16,6 @@ import Avatar from '@material-ui/core/Avatar';
 import TemporaryDrawer from './LeftDrawer';
 import headshot from '../assets/headshot.jpg';
 
-import * as firebase from 'firebase'
-
 const MyTouchbar = styled(AppBar)({
   background: '#77C9D4',
   alignItems:'center',
@@ -55,7 +53,7 @@ class Header extends Component {
   addNewUser(){
     const { confirmPass, password, email} = this.state;
 
-    if (confirmPass === '' || password == '' || email === ''){
+    if (confirmPass === '' || password === '' || email === ''){
       return console.log("Uh oh, looks like you missed a required field");
     }
 
@@ -135,11 +133,7 @@ class Header extends Component {
               Cancel
             </Button>
             <Button 
-              onClick={() => 
-                this.setState({ 
-                  isShowingSignUpModal: !isShowingSignUpModal 
-                }),
-                this.addNewUser.bind(this)} 
+              onClick={() =>this.setState({ isShowingSignUpModal: !isShowingSignUpModal }, () => this.addNewUser())}
               color="primary" 
               disabled= {confirmPass !== password || password === '' || confirmPass === '' ? true : false}
             >
@@ -181,11 +175,7 @@ class Header extends Component {
               Cancel
             </Button>
             <Button 
-              onClick={() => 
-                this.setState({ 
-                  isShowingLoginModal: false 
-                }),
-                this.logUserIn.bind(this)} 
+              onClick={() =>this.setState({ isShowingLoginModal: !isShowingLoginModal }, () => this.logUserIn())}
               color="primary" 
               disabled= {false}
             >

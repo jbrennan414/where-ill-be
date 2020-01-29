@@ -4,7 +4,6 @@ import TextField from '@material-ui/core/TextField';
 import FriendItem from './FriendItem';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
-import * as firebase from 'firebase'
 import { getUsers } from '../actions/friends';
 
 const HeaderText = styled("p")({

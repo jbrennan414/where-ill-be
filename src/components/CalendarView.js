@@ -57,7 +57,6 @@ const SkiDay = styled("div")({
 const Calendar = styled("div")({
     display:'flex',
     flexWrap: 'wrap',
-    backgroundColor: 'white',
     color: 'black',
     justifyContent:'flex-start',
     backgroundColor: '#77C9D4',
@@ -193,7 +192,7 @@ class CalendarView extends Component {
 
         const { isShowingAddDayModal, selectedDate } = this.state;
 
-        const month = new Array();
+        const month = []
         month[0] = "January";
         month[1] = "February";
         month[2] = "March";

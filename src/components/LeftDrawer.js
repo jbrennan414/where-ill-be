@@ -61,7 +61,7 @@ class LeftDrawer extends Component {
           role="presentation"
           onClick={this.toggleDrawer('left', false)}
           onKeyDown={this.toggleDrawer('left', false)}
-          style={{"background-color":"#77C9D4", 'height':"100%"}}
+          style={{"backgroundColor":"#77C9D4", 'height':"100%"}}
         >
           <List style={{"padding":"0px"}}>
             <StyledLink to={`/profile`}>

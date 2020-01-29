@@ -51,7 +51,7 @@ export function createUser(email, password){
         // Handle Errors here.
           var errorCode = error.code;
           var errorMessage = error.message;
-          if (errorCode == 'auth/weak-password') {
+          if (errorCode === 'auth/weak-password') {
             alert('The password is too weak.');
           } else {
             alert(errorMessage);
@@ -79,7 +79,6 @@ export function signIn(email, password){
     return async function (){
        await firebase.auth().signInWithEmailAndPassword(email, password).then(function(error) {
         // Handle Errors here.
-        var errorCode = error.code;
         var errorMessage = error.message;
 
         console.log(errorMessage)
