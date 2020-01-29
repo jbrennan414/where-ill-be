@@ -81,7 +81,7 @@ class Header extends Component {
         <MyTouchbar position="static">
           {auth.uid != null ? (
             <div style={{"display":"flex", "width":"100%", "justifyContent":"space-between", "alignItems":"center"}}>
-              <Avatar style={{"marginLeft":"20px"}} onClick={() => this.setState({ isShowingLeftDrawer: true })} alt="user avatar" src={headshot} />
+              <Avatar style={{"marginLeft":"20px"}} onClick={() => this.setState({ isShowingLeftDrawer: !isShowingLeftDrawer })} alt="user avatar" src={headshot} />
               <IconButton edge="start" color="inherit" aria-label="menu">
                 <MenuIcon />
               </IconButton>
@@ -143,6 +143,8 @@ class Header extends Component {
         </Dialog>
         <TemporaryDrawer
           show={isShowingLeftDrawer}
+          requestedFriends={2}
+          closeDrawer={() => this.setState({ isShowingLeftDrawer: !isShowingLeftDrawer })}
         />
 
         {/* Log In Modal */}

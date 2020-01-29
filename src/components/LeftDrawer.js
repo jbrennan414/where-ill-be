@@ -34,6 +34,13 @@ const StyledLink = styled(Link)({
   textDecoration:'none',
 });
 
+const style = {
+  listItem: {
+    border:"1px solid black",
+    backgroundColor: 'red',
+    borderRadius: '40px'
+  }
+}
 
 class LeftDrawer extends Component {
 
@@ -59,7 +66,7 @@ class LeftDrawer extends Component {
       <Drawer open={this.props.show} >
         <div
           role="presentation"
-          onClick={this.toggleDrawer('left', false)}
+          onClick={() => this.props.closeDrawer()}
           onKeyDown={this.toggleDrawer('left', false)}
           style={{"backgroundColor":"#77C9D4", 'height':"100%"}}
         >
@@ -85,7 +92,10 @@ class LeftDrawer extends Component {
             <StyledLink to={`/friends`}>
               <StyledListItem button key={"Find Friends"}>
                 <ListItemIcon><GroupIcon /></ListItemIcon>
-                <StyledText primary={"Find Friends"} />
+                <StyledText  primary={"Find Friends"} />
+                <div style={style.listItem}>
+                  <StyledText style={{"backgroundColor":"red" }} primary={this.props.requestedFriends} />
+                </div>
               </StyledListItem>
             </StyledLink>
           </List>
