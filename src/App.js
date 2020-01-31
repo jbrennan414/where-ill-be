@@ -46,7 +46,7 @@ const store = createStore(
 const THEME = createMuiTheme({
   typography: {
    "fontFamily": "\"Do Hyeon\", sans-serif",
-   "fontSize": 36,
+   "fontSize": 24,
    "fontWeightLight": 300,
    "fontWeightRegular": 400,
    "fontWeightMedium": 500

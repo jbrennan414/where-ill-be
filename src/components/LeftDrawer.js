@@ -21,13 +21,14 @@ const StyledListItem = styled(ListItem)({
   backgroundColor: '#77C9D4',
   margin: '0px',
   padding:'0px',
-  fontSize: '24px'
+  fontSize: '4'
 });
 
 const StyledText = styled(ListItemText)({
   padding:'0px',
-  fontSize:'14px',
-  color:"white"
+  fontSize:'14',
+  color:"white",
+  margin:'0px 10px'
 });
 
 const StyledLink = styled(Link)({
@@ -37,7 +38,8 @@ const StyledLink = styled(Link)({
 const style = {
   listItem: {
     backgroundColor: 'red',
-    borderRadius: '40px'
+    borderRadius: '40px',
+    margin:'3px'
   }
 }
 
@@ -89,7 +91,7 @@ class LeftDrawer extends Component {
             <StyledLink to={`/calendar`}>
               <StyledListItem button key={"Calendar"}>
                 <ListItemIcon><TodayIcon /></ListItemIcon>
-                <StyledText primary={"Calendar"} />
+                <StyledText style={{"fontSize":"13px"}} primary={"Calendar"} />
               </StyledListItem>
             </StyledLink>
           </List>

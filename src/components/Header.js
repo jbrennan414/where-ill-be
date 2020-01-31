@@ -42,7 +42,7 @@ const style = {
     position:'absolute',
     marginLeft: '1em',
     marginTop: '-.2em'
-  }
+  },
 }
 
 class Header extends Component {
@@ -154,13 +154,14 @@ class Header extends Component {
             onChange={val => this.setState({ confirmPass: val.target.value })}
           />
           <DialogActions>
-            <Button onClick={() => this.setState({ isShowingSignUpModal: !isShowingSignUpModal })} color="primary">
+            <Button style={style.headerText} onClick={() => this.setState({ isShowingSignUpModal: !isShowingSignUpModal })} color="primary">
               Cancel
             </Button>
             <Button 
               onClick={() =>this.setState({ isShowingSignUpModal: !isShowingSignUpModal }, () => this.addNewUser())}
               color="primary" 
               disabled= {confirmPass !== password || password === '' || confirmPass === '' ? true : false}
+              style={style.headerText}
             >
               Sign Up!
             </Button>
