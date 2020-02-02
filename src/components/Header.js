@@ -16,6 +16,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Avatar from '@material-ui/core/Avatar';
 import TemporaryDrawer from './LeftDrawer';
 import headshot from '../assets/headshot.jpg';
+import * as firebase from 'firebase/app'
 
 const MyTouchbar = styled(AppBar)({
   background: '#77C9D4',
@@ -56,6 +57,7 @@ class Header extends Component {
       password:'',
       confirmPass:'',
       isShowingLeftDrawer: false,
+      isShowingForgotPasswordModal: false,
     };
   }
 
@@ -70,6 +72,20 @@ class Header extends Component {
       this.props.getUsers(this.props.auth.uid);
     }
   }
+
+  forgotPassword(){
+    let auth = firebase.auth();
+    const emailAddress = this.state.forgottenEmail;
+
+    auth.sendPasswordResetEmail(emailAddress).then(function() {
+      console.log("EMAIL SENT SUCCESSFULLY")
+      // Email sent.
+    }).catch(function(error) {
+      console.log("EMAIL NOT SENT", error)
+      // An error happened.
+    });
+  }
+
 
   addNewUser(){
     const { confirmPass, password, email} = this.state;
@@ -94,7 +110,14 @@ class Header extends Component {
 
   render() {
 
-    const { isShowingLoginModal, isShowingSignUpModal, isShowingLeftDrawer, password, confirmPass } = this.state;
+    const { 
+      isShowingLoginModal, 
+      isShowingSignUpModal, 
+      isShowingLeftDrawer, 
+      password, 
+      confirmPass,
+      isShowingForgotPasswordModal,
+    } = this.state;
     const { auth, myFriends } = this.props;
 
     const peopleWhoHaveRequestedMe = myFriends.filter(friend => friend.status === "requested_you");
@@ -208,6 +231,37 @@ class Header extends Component {
               disabled= {false}
             >
               Log In!
+            </Button>
+          </DialogActions>
+          <a onClick={()=> this.setState({ isShowingForgotPasswordModal: !isShowingForgotPasswordModal, isShowingLoginModal: !isShowingLoginModal })}>Forgot password?</a>
+        </Dialog>
+
+         {/* Forgot Password Modal */}
+         <Dialog
+            open={isShowingForgotPasswordModal}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+          <DialogTitle id="alert-dialog-title">{"Reset Your Password"}</DialogTitle>
+          <TextField
+            margin="dense"
+            required
+            id="name"
+            label="Email"
+            type="email"
+            fullWidth
+            onChange={val => this.setState({ forgottenEmail: val.target.value })}
+          />
+          <DialogActions>
+            <Button onClick={() => this.setState({ isShowingForgotPasswordModal: false })} color="primary">
+              Cancel
+            </Button>
+            <Button 
+              onClick={() =>this.setState({ isShowingForgotPasswordModal: !isShowingForgotPasswordModal }, () => this.forgotPassword())}
+              color="primary" 
+              disabled= {false}
+            >
+              Submit
             </Button>
           </DialogActions>
         </Dialog>
