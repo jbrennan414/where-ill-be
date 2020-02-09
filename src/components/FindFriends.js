@@ -15,25 +15,60 @@ const HeaderText = styled("p")({
     justifyContent:'center'
 });
 
+const style = {
+    searchBox: {
+        backgroundColor: 'white',
+        fontSize: '14px',
+        borderRadius:'30px',
+        height: '4em',
+        marginBottom: '10px',
+    }
+}
+
 class FindFriends extends Component {
 
+    constructor(props) {
+        super(props);
+    
+        this.state = { 
+            searchedText: '',
+        };
+
+    }
 
     componentDidMount(){
         this.props.getUsers(this.props.auth.uid);
     }
+    
     render() {
+
         const allUsers = this.props.friends.allUsers.sort();
+        const myFriends = this.props.friends.myFriends.sort();
+        const myUser = this.props.auth.email;
         let sortedUsers = [];
+
+        let myFilteredUsers = allUsers.filter(users => users.includes(this.state.searchedText));
+        let myFilteredFriends = myFriends.filter(user => user.email.includes(this.state.searchedText));
         
         //add my friends to a list
         if (this.props && this.props.friends && this.props.friends.myFriends){
-            this.props.friends.myFriends.forEach(friend => {
+            myFilteredFriends.forEach(friend => {
+                
+                //don't show me in this list
+                if (friend.email === myUser){
+                    return;
+                }
                 sortedUsers.push(friend.email);
             })
         }
 
         //add others to the list
-        allUsers.forEach(friend => {
+        myFilteredUsers.forEach(friend => {
+            //don't show me in this list, either
+            if (friend === myUser){
+                return;
+            }
+
             if (!sortedUsers.includes(friend)){
                 sortedUsers.push(friend)
             }
@@ -44,11 +79,11 @@ class FindFriends extends Component {
             <div>
                 <HeaderText>FIND FRIENDS</HeaderText>
                 <TextField
-                    style={{"width":"85%", "backgroundColor":"white", "fontSize":"14px"}}
+                    style={style.searchBox}
                     id="search"
-                    label="Search"
+                    label="SEARCH"
                     type="text"
-                    // onChange={val => this.setState({ confirmPass: val.target.value })}
+                    onChange={val => this.setState({ searchedText: val.target.value })}
                 />
                 {sortedUsers.map((friend, i) => {
                     return <FriendItem key={i} friend={friend} />
