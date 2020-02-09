@@ -22,7 +22,23 @@ class FindFriends extends Component {
         this.props.getUsers(this.props.auth.uid);
     }
     render() {
-        const allUsers = this.props.friends.allUsers;
+        const allUsers = this.props.friends.allUsers.sort();
+        let sortedUsers = [];
+        
+        //add my friends to a list
+        if (this.props && this.props.friends && this.props.friends.myFriends){
+            this.props.friends.myFriends.forEach(friend => {
+                sortedUsers.push(friend.email);
+            })
+        }
+
+        //add others to the list
+        allUsers.forEach(friend => {
+            if (!sortedUsers.includes(friend)){
+                sortedUsers.push(friend)
+            }
+        })
+
 
         return (
             <div>
@@ -34,7 +50,7 @@ class FindFriends extends Component {
                     type="text"
                     // onChange={val => this.setState({ confirmPass: val.target.value })}
                 />
-                {allUsers.map((friend, i) => {
+                {sortedUsers.map((friend, i) => {
                     return <FriendItem key={i} friend={friend} />
                 })}
             </div>

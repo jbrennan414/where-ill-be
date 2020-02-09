@@ -1,11 +1,24 @@
 import React, { Component } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import { styled } from '@material-ui/core/styles';
-import headshot from '../assets/headshot.jpg';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import { requestFriend, approveFriend, denyFriend } from '../actions/friends';
 
+const style = {
+    friends: {
+        color:'white',
+        backgroundColor:'#57BC90',
+    },
+    pending: {
+        color:'white',
+        backgroundColor:'#77C9D4',
+    },
+    requested_you:{
+        color:'white',
+        backgroundColor: '#015249'
+    }
+}
 
 const SingleRow = styled("div")({
     display:'flex',
@@ -40,38 +53,58 @@ class FriendItem extends Component {
         const friendIndex = allFriendEmails.findIndex(email => email === friend);
 
         if (friendIndex === -1){
-            return <AddButton onClick={() => this.props.requestFriend(this.props.auth.uid, friend)} id={friend}>ADD</AddButton>
+            return (
+                <SingleRow>
+                    <Avatar alt="user avatar">{friend.charAt(0).toUpperCase()}</Avatar>
+                    <p>{friend}</p>
+                    <AddButton onClick={() => this.props.requestFriend(this.props.auth.uid, friend)} id={friend}>ADD</AddButton>
+                </SingleRow>
+            );
+            
         } else {
             const status = this.props.myFriends[friendIndex].status;
 
             switch (status) {
                 case "pending_approval":
                     buttonType = "pending";
-                break;
+                    return (
+                        <SingleRow style={style.pending}>
+                            <Avatar alt="user avatar">{friend.charAt(0).toUpperCase()}</Avatar>
+                            <p>{friend}</p>
+                            <p>requested</p>
+                        </SingleRow>
+                    );
                 case "requested_you":
                     buttonType = "requested_you";
                     return (
-                        <div>
+                        <SingleRow style={style.requested_you}>
+                            <Avatar alt="user avatar">{friend.charAt(0).toUpperCase()}</Avatar>
+                            <p>{friend}</p>
                             <DenyButton onClick={() => this.props.denyFriend(this.props.auth.uid, friend)} id={friend}>DENY</DenyButton>
                             <AddButton onClick={() => this.props.approveFriend(this.props.auth.uid, friend)} id={friend}>APPROVE</AddButton>
-                        </div>
+                        </SingleRow>
                     );
 
                 case "true":
-                    buttonType = "true";
                     return (
-                        <p id={friend}>FRIENDS!</p>
+                        <SingleRow style={style.friends}>
+                            <Avatar alt="user avatar">{friend.charAt(0).toUpperCase()}</Avatar>
+                            <p>{friend}</p>
+                            <p>friends!</p>
+                        </SingleRow>
                     );
-                
                 case "false":
-                    buttonType = "false";
-                    return (
-                        <p id={friend}>Blocked</p>
-                    );
-
+                    //in this case, they're blocked, let's not render
+                    // the name on either
+                    return(<div></div>)
                 default: 
-                    return;
-            }
+                return (
+                    <SingleRow>
+                        <Avatar alt="user avatar">{friend.charAt(0).toUpperCase()}</Avatar>
+                        <p>{friend}</p>
+                        <p>FRIENDS!</p>
+                    </SingleRow>
+                );            }
 
         }
 
@@ -85,11 +118,7 @@ class FriendItem extends Component {
         const { friend } = this.props;
 
         return (
-            <SingleRow>
-                <Avatar alt="user avatar" src={headshot} />
-                <p>{friend}</p>
-                {this.buttonTypeHelper(friend)}
-            </SingleRow>
+            this.buttonTypeHelper(friend)
         )
     }
 }
