@@ -7,6 +7,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import Button from '@material-ui/core/Button';
 import { updateProfile } from '../actions/auth';
 import { styled } from '@material-ui/core/styles';
+import * as firebase from 'firebase/app'
 
 const TitleText = styled("div")({
     fontSize: '24px',
@@ -51,8 +52,17 @@ class Profile extends Component {
             email: this.props.auth.email || "None",
             phoneNumber: this.props.auth.phoneNumber || "None"
         };
-      }
+    }
 
+    uploadPhoto(){
+        const uid = this.props.auth.uid;
+        const storageRef = firebase.storage().ref(uid + "_headshot");
+        const file_data = document.getElementById('raised-button-file').files[0];
+
+        storageRef.put(file_data);
+    }
+
+      
     render() {
         const { displayName, email } = this.state;
 
@@ -66,6 +76,7 @@ class Profile extends Component {
                     id="raised-button-file"
                     multiple
                     type="file"
+                    onChange={()=>this.uploadPhoto()}
                 />
                 <label htmlFor="raised-button-file">
                     <Button variant="raised" component="span">
