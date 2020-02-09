@@ -12,11 +12,11 @@ import { getUsers } from '../actions/friends';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import { styled } from '@material-ui/core/styles';
-import MenuIcon from '@material-ui/icons/Menu';
 import Avatar from '@material-ui/core/Avatar';
 import TemporaryDrawer from './LeftDrawer';
 import headshot from '../assets/headshot.jpg';
-import * as firebase from 'firebase/app'
+import * as firebase from 'firebase/app';
+import logo from '../assets/logo/v2/jb-v2-white.png';
 
 const MyTouchbar = styled(AppBar)({
   background: '#77C9D4',
@@ -44,6 +44,11 @@ const style = {
     marginLeft: '1em',
     marginTop: '-.2em'
   },
+  logo: {
+    height: '1em',
+    width: '1em',
+    justifyContent:'center'
+  }
 }
 
 class Header extends Component {
@@ -129,10 +134,8 @@ class Header extends Component {
             <div style={{"display":"flex", "width":"100%", "justifyContent":"space-between", "alignItems":"center"}}>
               <Avatar style={{"marginLeft":"20px"}} onClick={() => this.setState({ isShowingLeftDrawer: !isShowingLeftDrawer })} alt="user avatar" src={headshot} />
               {peopleWhoHaveRequestedMe.length > 0 && <div style={style.notification}></div>}
-              <IconButton edge="start" color="inherit" aria-label="menu">
-                {/* Maybe we'll need this someday? */}
-                {/* <MenuIcon /> */}
-              </IconButton>
+              <img style={style.logo} src={logo} />
+              <div></div>
             </div>
           ) : (
             <div>

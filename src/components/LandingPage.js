@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import logo from '../../src/logo.svg'
+import logo from '../../src/assets/logo/v2/jb-v2-white.png'
 import { styled } from '@material-ui/core/styles';
 
 const LandingText = styled("div")({
