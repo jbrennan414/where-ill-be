@@ -66,6 +66,8 @@ class Profile extends Component {
     render() {
         const { displayName, email } = this.state;
 
+        const headshot =`https://firebasestorage.googleapis.com/v0/b/where-ill-be.appspot.com/o/headshots%2F${this.props.auth.uid}_headshot?alt=media&token=AEu4IL3pYYyMNCXTq3C5IC_H6uHOoQ86dqDn4uSyDBLaYYL9D6Rt_O70qmHOVal`;
+
         return (
             <div>
                 <TitleText><p style={{"fontSize":"36px"}}>MY PROFILE</p></TitleText>

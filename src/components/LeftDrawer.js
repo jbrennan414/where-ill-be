@@ -15,8 +15,6 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import GroupIcon from '@material-ui/icons/Group';
 import { bindActionCreators } from 'redux';
 
-import headshot from '../assets/headshot.jpg';
-
 const StyledListItem = styled(ListItem)({
   backgroundColor: '#77C9D4',
   margin: '0px',
@@ -70,6 +68,8 @@ class LeftDrawer extends Component {
   }
 
   render() {
+    const headshot =`https://firebasestorage.googleapis.com/v0/b/where-ill-be.appspot.com/o/headshots%2F${this.props.auth.uid}_headshot?alt=media&token=AEu4IL3pYYyMNCXTq3C5IC_H6uHOoQ86dqDn4uSyDBLaYYL9D6Rt_O70qmHOVal`;
+
     return (
       <Drawer open={this.props.show} >
         <div
