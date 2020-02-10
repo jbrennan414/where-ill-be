@@ -21,7 +21,9 @@ export function getUsers(myUID){
                 const myFriendsUIDs = Object.keys(myUsersData["friends"]);
                 const myFriends = [];
                 myFriendsUIDs.forEach(uid => {
-                    const useremail = getUserEmail(myUID, uid, snapshot.val())
+                    const useremail = getUserEmail(myUID, uid, snapshot.val());
+                    useremail["avatar"] =`https://firebasestorage.googleapis.com/v0/b/where-ill-be.appspot.com/o/headshots%2F${uid}_headshot?alt=media&token=5d2fe37f-6af6-4f37-8d3b-65acfba1e1bb`;
+                    useremail["uid"] = uid;
                     myFriends.push(useremail);
                 })
 
@@ -31,15 +33,17 @@ export function getUsers(myUID){
                 })
 
             }
-            
-            const justEmails = [];
-            userEmails.forEach(email => {
-                justEmails.push(email.email)
+    
+            const allUsers = [];
+            userEmails.forEach(user => {
+                user["avatar"] =`https://firebasestorage.googleapis.com/v0/b/where-ill-be.appspot.com/o/headshots%2F${getUserID(user.email)}_headshot?alt=media&token=5d2fe37f-6af6-4f37-8d3b-65acfba1e1bb`;
+                user["uid"] = getUserID(user.email);
+                allUsers.push(user);
             })
 
                 return dispatch({
                     type: GET_ALL_USERS,
-                    data: justEmails
+                    data: allUsers
                 })
         })
     }
@@ -106,10 +110,10 @@ function getUserEmail(myUID, uid, snapshot){
     const myFriends = snapshot[myUID].friends
     const userStatus = myFriends[uid];
 
-
     const user = {
         email: email,
         status: userStatus,
+        avatar: `https://firebasestorage.googleapis.com/v0/b/where-ill-be.appspot.com/o/headshots%${uid}_headshot?alt=media&token=5d2fe37f-6af6-4f37-8d3b-65acfba1e1bb`,
     }
 
     return user;

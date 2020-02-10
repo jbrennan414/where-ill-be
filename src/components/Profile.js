@@ -56,7 +56,7 @@ class Profile extends Component {
 
     uploadPhoto(){
         const uid = this.props.auth.uid;
-        const storageRef = firebase.storage().ref(uid + "_headshot");
+        const storageRef = firebase.storage().ref('headshots/'+ uid + "_headshot");
         const file_data = document.getElementById('raised-button-file').files[0];
 
         storageRef.put(file_data);

@@ -14,7 +14,6 @@ import { bindActionCreators } from 'redux'
 import { styled } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import TemporaryDrawer from './LeftDrawer';
-import headshot from '../assets/headshot.jpg';
 import * as firebase from 'firebase/app';
 import logo from '../assets/logo/v2/jb-v2-white.png';
 
@@ -126,6 +125,8 @@ class Header extends Component {
     const { auth, myFriends } = this.props;
 
     const peopleWhoHaveRequestedMe = myFriends.filter(friend => friend.status === "requested_you");
+
+    const headshot =`https://firebasestorage.googleapis.com/v0/b/where-ill-be.appspot.com/o/headshots%2F${this.props.auth.uid}_headshot?alt=media&token=5d2fe37f-6af6-4f37-8d3b-65acfba1e1bb`;
 
     return (
       <div>

@@ -47,18 +47,17 @@ class FindFriends extends Component {
         const myUser = this.props.auth.email;
         let sortedUsers = [];
 
-        let myFilteredUsers = allUsers.filter(users => users.includes(this.state.searchedText));
+        let myFilteredUsers = allUsers.filter(users => users.email.includes(this.state.searchedText));
         let myFilteredFriends = myFriends.filter(user => user.email.includes(this.state.searchedText));
         
         //add my friends to a list
         if (this.props && this.props.friends && this.props.friends.myFriends){
             myFilteredFriends.forEach(friend => {
-                
                 //don't show me in this list
                 if (friend.email === myUser){
                     return;
                 }
-                sortedUsers.push(friend.email);
+                sortedUsers.push(friend);
             })
         }
 
@@ -74,7 +73,6 @@ class FindFriends extends Component {
             }
         })
 
-
         return (
             <div>
                 <HeaderText>FIND FRIENDS</HeaderText>
@@ -86,7 +84,7 @@ class FindFriends extends Component {
                     onChange={val => this.setState({ searchedText: val.target.value })}
                 />
                 {sortedUsers.map((friend, i) => {
-                    return <FriendItem key={i} friend={friend} />
+                    return <FriendItem key={i} friend={friend.email} avatar={friend.avatar} />
                 })}
             </div>
         )
