@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import * as firebase from 'firebase'
 import { getUsers } from '../actions/friends';
+import Avatar from '@material-ui/core/Avatar';
 
 
 import Button from '@material-ui/core/Button';
@@ -73,6 +74,27 @@ const ModalHeader = styled("div")({
     justifyContent:'center',
 });
 
+const SingleRow = styled("div")({
+    display:'flex',
+    border: '1px solid gray',
+    color:'#015249',
+    backgroundColor:'white',
+    fontFamily: "\"Do Hyeon\", sans-serif",
+    justifyContent:'space-between',
+    padding: '0px 20px',
+    alignItems:'center',
+    margin: '0',
+});
+
+const style = {
+    avatar: {
+        width:"10px",
+        height: "10px",
+        display:"flex",
+        alignSelf:"flex-end"
+    }
+}
+
 class CalendarView extends Component {
 
     constructor(props) {
@@ -115,6 +137,32 @@ class CalendarView extends Component {
         return uid;
     }
 
+    renderMyFriendsList(){
+        const thisMonthKeys = Object.keys(this.props.thisMonth);
+        const selectedIndex = thisMonthKeys.findIndex(date => date === this.state.selectedDate);
+        const allSkiers = Object.values(this.props.thisMonth)[selectedIndex];
+        const myFriends = this.props.myFriends.filter(friend => friend.status === "true");
+        let checkArray = [];
+
+        myFriends.forEach(friend => {
+            checkArray.push(friend.uid);
+        })
+
+        if (!allSkiers){return};
+
+        let allRows = [];
+        Object.keys(allSkiers).forEach((skier, i) => {
+            if (checkArray.includes(skier)){
+                const thisFriendIndex = myFriends.findIndex(item => item.uid === skier);
+                const currentFriend = myFriends[thisFriendIndex];
+                allRows.push(<SingleRow><Avatar src={currentFriend.avatar} /> {currentFriend.email} {Object.values(allSkiers)[i]}</SingleRow>);
+            }
+        })
+
+        return allRows;
+
+    }
+
     renderDays(daysThisMonth){
         let days = [];
         if(!daysThisMonth){
@@ -138,8 +186,10 @@ class CalendarView extends Component {
             //I'm very tired and there is definitely a better way to do this
             let myFriendsAreSkiing = [];
             thisDaysSkiers.forEach(skier => {
+                const headshot =`https://firebasestorage.googleapis.com/v0/b/where-ill-be.appspot.com/o/headshots%2F${skier}_headshot?alt=media&token=5d2fe37f-6af6-4f37-8d3b-65acfba1e1bb`;
+
                 if (myVerifiedUIDs.includes(skier)){
-                    myFriendsAreSkiing.push(skier[0]);
+                    myFriendsAreSkiing.push(<Avatar style={style.avatar} alt="user" src={headshot} />)
                 }
             })
 
@@ -155,7 +205,7 @@ class CalendarView extends Component {
             } else {
                 days.push(
                     <Day 
-                        onClick={() => this.setState({ isShowingAddDayModal: true, selectedDate: daysThisMonth[i] })} 
+                        onClick={() => {this.setState({ isShowingAddDayModal: true, selectedDate: daysThisMonth[i] })}}
                         key={i} 
                         id={daysThisMonth[i]}>{parseInt(i)+1}
                         <p>{myFriendsAreSkiing}</p>
@@ -230,6 +280,7 @@ class CalendarView extends Component {
                     aria-describedby="alert-dialog-description"
                 >
                     <ModalHeader id="alert-dialog-title">{thisMonth} {selectedDate ? selectedDate.slice(2,4):""}</ModalHeader>
+                    {this.renderMyFriendsList()}
                     <Select
                         id= "ski-resort-dropdown"
                         onChange={this.handleChange}
