@@ -17,7 +17,7 @@ export function getUsers(myUID){
             const myUsersData = Object.values(snapshot.val())[myUsersDBIndex];
            
             //If we have friends, let's do it
-            if (myUsersData["friends"]){
+            if (myUsersData && myUsersData["friends"]){
                 const myFriendsUIDs = Object.keys(myUsersData["friends"]);
                 const myFriends = [];
                 myFriendsUIDs.forEach(uid => {
