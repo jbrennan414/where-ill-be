@@ -59,7 +59,14 @@ class Profile extends Component {
         const storageRef = firebase.storage().ref('headshots/'+ uid + "_headshot");
         const file_data = document.getElementById('raised-button-file').files[0];
 
-        storageRef.put(file_data);
+        storageRef.put(file_data).then(response => {
+            //This is the worst. I'm sorry...
+            // TODO fix this
+            if (response.state === "success"){
+                window.location.reload();
+            }
+        })
+
     }
 
       
