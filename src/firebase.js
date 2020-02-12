@@ -1,5 +1,5 @@
 // Your web app's Firebase configuration
-const firebaseConfig = {
+export const firebaseConfig = {
     apiKey: process.env.REACT_APP_API_KEY,
     authDomain: "where-ill-be.firebaseapp.com",
     databaseURL: "https://where-ill-be.firebaseio.com",
@@ -8,5 +8,3 @@ const firebaseConfig = {
     messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
     appId: process.env.REACT_APP_APP_ID,
 };
-
-export default firebaseConfig;

@@ -13,7 +13,7 @@ import { save, load } from 'redux-localstorage-simple';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import * as firebase from 'firebase/app';
-import firebaseConfig from './firebase';
+import { firebaseConfig } from './firebase';
 
 //Components
 import Header from './components/Header'
