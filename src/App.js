@@ -12,7 +12,8 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { save, load } from 'redux-localstorage-simple';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import * as firebase from 'firebase/app'
+import * as firebase from 'firebase/app';
+import firebaseConfig from './firebase';
 
 //Components
 import Header from './components/Header'
@@ -20,17 +21,6 @@ import LandingPage from './components/LandingPage'
 import Profile from './components/Profile'
 import CalendarView from './components/CalendarView'
 import FindFriends from './components/FindFriends'
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: process.env.REACT_APP_API_KEY,
-  authDomain: "where-ill-be.firebaseapp.com",
-  databaseURL: "https://where-ill-be.firebaseio.com",
-  projectId: "where-ill-be",
-  storageBucket: "where-ill-be.appspot.com",
-  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_APP_ID,
-};
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
