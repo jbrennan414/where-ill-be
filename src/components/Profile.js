@@ -69,7 +69,7 @@ class Profile extends Component {
         const file_data = document.getElementById('raised-button-file').files[0];
 
         storageRef.put(file_data).then(response => {
-            this.setState({ saved: true });
+            alert("Please Reload. I know, this sucks - John");
         })
 
     }
