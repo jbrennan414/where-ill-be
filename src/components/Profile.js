@@ -4,10 +4,12 @@ import Avatar from '@material-ui/core/Avatar';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import EditIcon from '@material-ui/icons/Edit';
-import Button from '@material-ui/core/Button';
 import { updateProfile } from '../actions/auth';
 import { styled } from '@material-ui/core/styles';
 import * as firebase from 'firebase/app'
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 const TitleText = styled("div")({
     fontSize: '24px',
@@ -42,6 +44,14 @@ const UserProfileContainer = styled("div")({
     justifyContent:"flex-start",
 })
 
+const style = {
+    helperText: {
+        fontSize: "14px",
+        display: "flex",
+        justifyContent:"center"
+    }
+}
+
 class Profile extends Component {
 
     constructor(props) {
@@ -67,7 +77,8 @@ class Profile extends Component {
 
       
     render() {
-        const { displayName, email } = this.state;
+
+        const { displayName, email } = this.props.auth;
 
         const headshot =`https://firebasestorage.googleapis.com/v0/b/where-ill-be.appspot.com/o/headshots%2F${this.props.auth.uid}_headshot?alt=media&token=AEu4IL3pYYyMNCXTq3C5IC_H6uHOoQ86dqDn4uSyDBLaYYL9D6Rt_O70qmHOVal`;
 
@@ -84,23 +95,18 @@ class Profile extends Component {
                     onChange={()=>this.uploadPhoto()}
                 />
                 <label htmlFor="raised-button-file">
-                    <Button variant="raised" component="span">
+                    <Button component="span">
                         <MyAvatar alt="user_image" src={headshot} />
                     </Button>
                 </label> 
-                {/* <form noValidate autoComplete="off">
-                    <TextField required id="standard-required" defaultValue={`${displayName}`} onChange={val => this.setState({ displayName: val.target.value })} />
-                    <TextField id="standard-required" defaultValue={`${email}`} onChange={val => this.setState({ email: val.target.value })} />
-                    <TextField id="standard-required" defaultValue={`${phoneNumber}`} onChange={val => this.setState({ phoneNumber: val.target.value })} />
-                </form> */}
-                <UserProfileContainer>
-                    <UserProfileText>name: {displayName}<EditIcon style={{"height":"30px"}} /></UserProfileText>
-                    <UserProfileText>username: jpb66227<EditIcon style={{"height":"30px"}} /></UserProfileText>
-                    <UserProfileText>email: {email} <EditIcon style={{"height":"30px"}} /></UserProfileText>
-                </UserProfileContainer>
-                {/* <Button onClick={()=> this.props.updateProfile(this.state)}>
+                <form noValidate autoComplete="off">
+                    <TextField required id="standard-required" defaultValue={`${displayName}`} placeholder="username" onChange={val => this.setState({ displayName: val.target.value })} />
+                    <FormHelperText style={style.helperText} id="component-helper-text">Make this cool. This is how your friends will find you!</FormHelperText>
+                    <TextField id="standard-required" defaultValue={`${email}`} placeholder="email" onChange={val => this.setState({ email: val.target.value })} />
+                </form>
+                <Button onClick={()=> this.props.updateProfile(this.state)}>
                     Submit
-                </Button> */}
+                </Button>
             </div>
         )
     }

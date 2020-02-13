@@ -12,7 +12,8 @@ export default function(state = initialState, action){
             return {
                 ...state,
                 email: data ? data.email : null,
-                uid: data ? data.uid : null
+                uid: data ? data.uid : null,
+                displayName: data ? data.displayName : null,
             }
         case SIGN_OUT:
             return {
