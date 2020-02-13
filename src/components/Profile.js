@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
-import { headshot } from '../assets/headshot.jpg'
 import Avatar from '@material-ui/core/Avatar';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import EditIcon from '@material-ui/icons/Edit';
 import { updateProfile } from '../actions/auth';
 import { styled } from '@material-ui/core/styles';
 import * as firebase from 'firebase/app'
@@ -60,7 +58,8 @@ class Profile extends Component {
         this.state = { 
             displayName: this.props.auth.displayName || "None",
             email: this.props.auth.email || "None",
-            phoneNumber: this.props.auth.phoneNumber || "None"
+            phoneNumber: this.props.auth.phoneNumber || "None",
+            uid: this.props.auth.uid || "None"
         };
     }
 
@@ -103,6 +102,7 @@ class Profile extends Component {
                     <TextField required id="standard-required" defaultValue={`${displayName}`} placeholder="username" onChange={val => this.setState({ displayName: val.target.value })} />
                     <FormHelperText style={style.helperText} id="component-helper-text">Make this cool. This is how your friends will find you!</FormHelperText>
                     <TextField id="standard-required" defaultValue={`${email}`} placeholder="email" onChange={val => this.setState({ email: val.target.value })} />
+                    <FormHelperText style={style.helperText} id="component-helper-text">This isn't always cool, we get it.</FormHelperText>
                 </form>
                 <Button onClick={()=> this.props.updateProfile(this.state)}>
                     Submit

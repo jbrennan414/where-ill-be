@@ -21,6 +21,7 @@ export function updateAuth(){
 function writeUserData(userId, email) {
     firebase.database().ref('users/' + userId).set({
       email: email,
+      displayName: email,
     });
 }
 
@@ -89,7 +90,12 @@ export function signIn(email, password){
 
 export function updateProfile(data){
 
-    const { displayName, email, phoneNumber } = data;
+    const { displayName, email, phoneNumber, uid } = data;
+
+    firebase.database().ref('users/' + uid).set({
+        email: email,
+        displayName: displayName,
+      });
 
     return async function (dispatch){
         await firebase.auth().currentUser.updateProfile({

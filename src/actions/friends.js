@@ -20,7 +20,7 @@ export function getUsers(myUID){
             if (myUsersData && myUsersData["friends"]){
                 const myFriendsUIDs = Object.keys(myUsersData["friends"]);
                 const myFriends = [];
-                myFriendsUIDs.forEach(uid => {
+                myFriendsUIDs.forEach((uid, i) => {
                     const useremail = getUserEmail(myUID, uid, snapshot.val());
                     useremail["avatar"] =`https://firebasestorage.googleapis.com/v0/b/where-ill-be.appspot.com/o/headshots%2F${uid}_headshot?alt=media&token=5d2fe37f-6af6-4f37-8d3b-65acfba1e1bb`;
                     useremail["uid"] = uid;
@@ -38,6 +38,9 @@ export function getUsers(myUID){
             userEmails.forEach(user => {
                 user["avatar"] =`https://firebasestorage.googleapis.com/v0/b/where-ill-be.appspot.com/o/headshots%2F${getUserID(user.email)}_headshot?alt=media&token=5d2fe37f-6af6-4f37-8d3b-65acfba1e1bb`;
                 user["uid"] = getUserID(user.email);
+                if (user["displayName"]){ 
+                    user["displayName"] = user["displayName"]
+                };
                 allUsers.push(user);
             })
 
