@@ -90,18 +90,20 @@ export function signIn(email, password){
 
 export function updateProfile(data){
 
-    const { displayName, email, phoneNumber, uid } = data;
-
+    const { displayName, email, phoneNumber, uid, photoURL } = data;
+    // update users table
     firebase.database().ref('users/' + uid).set({
         email: email,
         displayName: displayName,
-      });
+    });
 
+    // update auth object
     return async function (dispatch){
         await firebase.auth().currentUser.updateProfile({
             displayName: displayName,
             email: email,
             phoneNumber: phoneNumber,
+            photoURL: photoURL
         }).then(function() {
             return dispatch({
                 type: UPDATE_PROFILE,

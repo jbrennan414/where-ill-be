@@ -14,6 +14,7 @@ export default function(state = initialState, action){
                 email: data ? data.email : null,
                 uid: data ? data.uid : null,
                 displayName: data ? data.displayName : null,
+                photoURL: data ? data.photoURL : null,
             }
         case SIGN_OUT:
             return {
@@ -27,6 +28,7 @@ export default function(state = initialState, action){
                 ...state,
                 displayName: data ? data.displayName : null,
                 email: data ? data.email : null,
+                photoURL: data ? data.photoURL : null,
             }
         case CREATE_USER:
             return {

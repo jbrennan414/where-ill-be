@@ -38,9 +38,6 @@ export function getUsers(myUID){
             userEmails.forEach(user => {
                 user["avatar"] =`https://firebasestorage.googleapis.com/v0/b/where-ill-be.appspot.com/o/headshots%2F${getUserID(user.email)}_headshot?alt=media&token=5d2fe37f-6af6-4f37-8d3b-65acfba1e1bb`;
                 user["uid"] = getUserID(user.email);
-                if (user["displayName"]){ 
-                    user["displayName"] = user["displayName"]
-                };
                 allUsers.push(user);
             })
 

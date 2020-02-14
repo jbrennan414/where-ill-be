@@ -27,21 +27,6 @@ const MyAvatar = styled(Avatar)({
     border: '7px solid white',
 });
 
-const UserProfileText = styled("p")({
-    display:'flex',
-    fontFamily: "\"Do Hyeon\", sans-serif",
-    flexWrap:'wrap',
-    justifyContent:'flex-start',
-    fontSize:'24px',
-});
-
-const UserProfileContainer = styled("div")({
-    display:"flex",
-    margin: "0px 20px",
-    flexDirection:"column",
-    justifyContent:"flex-start",
-})
-
 const style = {
     helperText: {
         fontSize: "14px",
@@ -63,13 +48,19 @@ class Profile extends Component {
         };
     }
 
+    componentDidMount(){
+        this.setState({ photoURL: this.props.auth.photoURL });
+    }
+
     uploadPhoto(){
         const uid = this.props.auth.uid;
         const storageRef = firebase.storage().ref('headshots/'+ uid + "_headshot");
         const file_data = document.getElementById('raised-button-file').files[0];
+        let stateCopy = {...this.state};
+        stateCopy["photoURL"] = `https://firebasestorage.googleapis.com/v0/b/where-ill-be.appspot.com/o/headshots%2F${this.props.auth.uid}_headshot?alt=media&token=AEu4IL3pYYyMNCXTq3C5IC_H6uHOoQ86dqDn4uSyDBLaYYL9D6Rt_O70qmHOVal`;
 
         storageRef.put(file_data).then(response => {
-            alert("Please Reload. I know, this sucks - John");
+            this.props.updateProfile(stateCopy)
         })
 
     }
@@ -78,8 +69,7 @@ class Profile extends Component {
     render() {
 
         const { displayName, email } = this.props.auth;
-
-        const headshot =`https://firebasestorage.googleapis.com/v0/b/where-ill-be.appspot.com/o/headshots%2F${this.props.auth.uid}_headshot?alt=media&token=AEu4IL3pYYyMNCXTq3C5IC_H6uHOoQ86dqDn4uSyDBLaYYL9D6Rt_O70qmHOVal`;
+        const { photoURL } = this.state;
 
         return (
             <div>
@@ -95,7 +85,7 @@ class Profile extends Component {
                 />
                 <label htmlFor="raised-button-file">
                     <Button component="span">
-                        <MyAvatar alt="user_image" src={headshot} />
+                        <MyAvatar alt="user_image" src={photoURL} />
                     </Button>
                 </label> 
                 <form noValidate autoComplete="off">
