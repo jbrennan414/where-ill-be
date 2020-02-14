@@ -19,7 +19,7 @@ export default class LandingPage extends Component {
                 <img src={logo} className="App-logo" alt="logo" />
                 <LandingText>
                     <p>1) TELL YOUR FRIENDS WHERE YOU'RE GONNA SKI</p>
-                    <p>2) SKI WITH THEM. IF YOU WANT</p>
+                    <p>2) SKI WITH THEM. IF YOU WANT.</p>
                 </LandingText>
             </div>
 

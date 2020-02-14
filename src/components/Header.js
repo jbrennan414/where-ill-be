@@ -5,6 +5,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
+import blackLogo from '../assets/logo/v2/jb-v2-black.png';
 
 import { updateAuth, signOut, signIn, createUser } from '../actions/auth';
 import { getUsers } from '../actions/friends';
@@ -46,6 +47,23 @@ const style = {
     height: '1em',
     width: '1em',
     justifyContent:'center'
+  },
+  textBox:{
+    border: '1px solid lightgray',
+    fontSize:'14px'
+  },
+  button:{
+    color:'white',
+    backgroundColor:'#015249'
+  },
+  modalImage:{
+    height: '12em',
+    width:'14em'
+  },
+  modal:{
+    display:'flex',
+    justifyContent:'center',
+    border: '1px solid black'
   }
 }
 
@@ -151,12 +169,12 @@ class Header extends Component {
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
-          <DialogTitle id="alert-dialog-title">{"Join Us!"}</DialogTitle>
+          <DialogTitle id="alert-dialog-title">{"JOIN US!"}</DialogTitle>
           <TextField
             margin="dense"
             required
             id="name"
-            label="Email Address"
+            label="email"
             type="email"
             fullWidth
             onChange={val => this.setState({ email: val.target.value })}
@@ -165,7 +183,7 @@ class Header extends Component {
             margin="dense"
             required
             id="name"
-            label="Password"
+            label="password"
             type="password"
             fullWidth
             onChange={val => this.setState({ password: val.target.value })}
@@ -204,34 +222,34 @@ class Header extends Component {
             open={isShowingLoginModal}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
+            style={style.modal}
           >
-          <DialogTitle id="alert-dialog-title">{"Log In!"}</DialogTitle>
+          <DialogTitle style={{"color":"#015249"}} id="alert-dialog-title">{"WHERE I'LL BE"}</DialogTitle>
+          <img style={style.modalImage}src={blackLogo} />
           <TextField
+            style={style.textBox}
             margin="dense"
-            required
-            id="name"
-            label="Email Address"
+            id="email"
+            label="email"
             type="email"
             fullWidth
             onChange={val => this.setState({ email: val.target.value })}
           />
           <TextField
+            style={style.textBox}
             margin="dense"
-            required
-            id="name"
-            label="Password"
+            id="pword"
+            label="password"
             type="password"
             fullWidth
             onChange={val => this.setState({ password: val.target.value })}
           />
           <DialogActions>
-            <Button onClick={() => this.setState({ isShowingLoginModal: false })} color="primary">
-              Cancel
-            </Button>
             <Button 
               onClick={() =>this.setState({ isShowingLoginModal: !isShowingLoginModal }, () => this.logUserIn())}
               color="primary" 
               disabled= {false}
+              style={style.button}
             >
               Log In!
             </Button>
