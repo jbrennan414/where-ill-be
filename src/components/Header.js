@@ -19,8 +19,8 @@ import logo from '../assets/logo/v2/jb-v2-white.png';
 
 const MyTouchbar = styled(AppBar)({
   background: '#77C9D4',
-  alignItems:'center',
   justifyContent:'space-evenly',
+  alignItems:'center',
   boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
   color: 'white',
   fontSize: '53px',
@@ -50,20 +50,28 @@ const style = {
   },
   textBox:{
     border: '1px solid lightgray',
-    fontSize:'14px'
+    fontSize:'14px',
+    width:'80%'
+  },
+  actionButtons:{
+    display:'flex',
+    justifyContent:'center',
+    marginBottom:'20px'
   },
   button:{
     color:'white',
     backgroundColor:'#015249'
+  },
+  cancelButton:{
+    color:'#015249',
+    border:'1px solid #015249'
   },
   modalImage:{
     height: '12em',
     width:'14em'
   },
   modal:{
-    display:'flex',
-    justifyContent:'center',
-    border: '1px solid black'
+    textAlign:'center'
   }
 }
 
@@ -168,20 +176,22 @@ class Header extends Component {
             open={isShowingSignUpModal}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
+            style={style.modal}
           >
-          <DialogTitle id="alert-dialog-title">{"JOIN US!"}</DialogTitle>
+          <DialogTitle style={{"color":"#015249"}} id="alert-dialog-title">{"JOIN US!"}</DialogTitle>
+          <div style={style.modal}>
+            <TextField
+              style={style.textBox}
+              margin="dense"
+              id="name"
+              label="email"
+              type="email"
+              fullWidth
+              onChange={val => this.setState({ email: val.target.value })}
+            />
           <TextField
+            style={style.textBox}
             margin="dense"
-            required
-            id="name"
-            label="email"
-            type="email"
-            fullWidth
-            onChange={val => this.setState({ email: val.target.value })}
-          />
-          <TextField
-            margin="dense"
-            required
             id="name"
             label="password"
             type="password"
@@ -189,27 +199,29 @@ class Header extends Component {
             onChange={val => this.setState({ password: val.target.value })}
           />
           <TextField
-            required
+            style={style.textBox}
             margin="dense"
             id="name"
-            label="Confirm Password"
+            label="confirm password"
             type="password"
             fullWidth
             onChange={val => this.setState({ confirmPass: val.target.value })}
           />
-          <DialogActions>
-            <Button style={style.headerText} onClick={() => this.setState({ isShowingSignUpModal: !isShowingSignUpModal })} color="primary">
-              Cancel
-            </Button>
-            <Button 
+              <DialogActions style={style.actionButtons}>
+            <Button style={style.cancelButton} onClick={() => this.setState({ isShowingSignUpModal: !isShowingSignUpModal })} color="primary">
+                Cancel
+              </Button>
+              <Button 
               onClick={() =>this.setState({ isShowingSignUpModal: !isShowingSignUpModal }, () => this.addNewUser())}
               color="primary" 
-              disabled= {confirmPass !== password || password === '' || confirmPass === '' ? true : false}
-              style={style.headerText}
-            >
-              Sign Up!
-            </Button>
-          </DialogActions>
+                disabled= {confirmPass !== password || password === '' || confirmPass === '' ? true : false}
+                style={style.button}
+              >
+                Sign Up
+              </Button>
+            </DialogActions>
+            <h1></h1>
+          </div>
         </Dialog>
         <TemporaryDrawer
           show={isShowingLeftDrawer}
@@ -224,37 +236,42 @@ class Header extends Component {
             aria-describedby="alert-dialog-description"
             style={style.modal}
           >
-          <DialogTitle style={{"color":"#015249"}} id="alert-dialog-title">{"WHERE I'LL BE"}</DialogTitle>
-          <img style={style.modalImage}src={blackLogo} />
-          <TextField
-            style={style.textBox}
-            margin="dense"
-            id="email"
-            label="email"
-            type="email"
-            fullWidth
-            onChange={val => this.setState({ email: val.target.value })}
-          />
-          <TextField
-            style={style.textBox}
-            margin="dense"
-            id="pword"
-            label="password"
-            type="password"
-            fullWidth
-            onChange={val => this.setState({ password: val.target.value })}
-          />
-          <DialogActions>
-            <Button 
-              onClick={() =>this.setState({ isShowingLoginModal: !isShowingLoginModal }, () => this.logUserIn())}
-              color="primary" 
-              disabled= {false}
-              style={style.button}
-            >
-              Log In!
-            </Button>
-          </DialogActions>
-          <a onClick={()=> this.setState({ isShowingForgotPasswordModal: !isShowingForgotPasswordModal, isShowingLoginModal: !isShowingLoginModal })}>Forgot password?</a>
+          <DialogTitle style={{"color":"#015249"}} id="alert-dialog-title">{"LOG IN"}</DialogTitle>
+          <div style={style.modal}>
+            <TextField
+              style={style.textBox}
+              margin="dense"
+              id="email"
+              label="email"
+              type="email"
+              fullWidth
+              onChange={val => this.setState({ email: val.target.value })}
+            />
+            <TextField
+              style={style.textBox}
+              margin="dense"
+              id="pword"
+              label="password"
+              type="password"
+              fullWidth
+              onChange={val => this.setState({ password: val.target.value })}
+            />
+            <DialogActions style={style.actionButtons}>
+            <Button style={style.cancelButton} onClick={() => this.setState({ isShowingLoginModal: !isShowingLoginModal })} color="primary">
+                Cancel
+              </Button>
+              <Button
+                onClick={() =>this.setState({ isShowingLoginModal: !isShowingLoginModal }, () => this.logUserIn())}
+                color="primary" 
+                disabled= {false}
+                style={style.button}
+              >
+                Log In
+              </Button>
+            </DialogActions>
+            <a style={style.forgotPasswprd} onClick={()=> this.setState({ isShowingForgotPasswordModal: !isShowingForgotPasswordModal, isShowingLoginModal: !isShowingLoginModal })}>Forgot password?</a>
+            <h1></h1>
+          </div>
         </Dialog>
 
          {/* Forgot Password Modal */}
