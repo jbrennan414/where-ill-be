@@ -53,11 +53,13 @@ class Profile extends Component {
     }
 
     uploadPhoto(){
+        const d =  Date.now();
         const uid = this.props.auth.uid;
-        const storageRef = firebase.storage().ref('headshots/'+ uid + "_headshot");
+        const storageRef = firebase.storage().ref('headshots/'+ uid + "_headshot" + "_" + d);
         const file_data = document.getElementById('raised-button-file').files[0];
         let stateCopy = {...this.state};
-        stateCopy["photoURL"] = `https://firebasestorage.googleapis.com/v0/b/where-ill-be.appspot.com/o/headshots%2F${this.props.auth.uid}_headshot?alt=media&token=AEu4IL3pYYyMNCXTq3C5IC_H6uHOoQ86dqDn4uSyDBLaYYL9D6Rt_O70qmHOVal`;
+
+        stateCopy["photoURL"] = `https://firebasestorage.googleapis.com/v0/b/where-ill-be.appspot.com/o/headshots%2F${this.props.auth.uid}_headshot_${d}?alt=media&token=AEu4IL3pYYyMNCXTq3C5IC_H6uHOoQ86dqDn4uSyDBLaYYL9D6Rt_O70qmHOVal`;
 
         storageRef.put(file_data).then(response => {
             this.props.updateProfile(stateCopy)
@@ -68,8 +70,7 @@ class Profile extends Component {
       
     render() {
 
-        const { displayName, email } = this.props.auth;
-        const { photoURL } = this.state;
+        const { displayName, email, photoURL } = this.props.auth;
 
         return (
             <div>

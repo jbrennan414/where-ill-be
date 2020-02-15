@@ -68,7 +68,7 @@ class LeftDrawer extends Component {
   }
 
   render() {
-    const headshot =`https://firebasestorage.googleapis.com/v0/b/where-ill-be.appspot.com/o/headshots%2F${this.props.auth.uid}_headshot?alt=media&token=AEu4IL3pYYyMNCXTq3C5IC_H6uHOoQ86dqDn4uSyDBLaYYL9D6Rt_O70qmHOVal`;
+    const { photoURL } = this.props.auth;
 
     return (
       <Drawer open={this.props.show} >
@@ -81,7 +81,7 @@ class LeftDrawer extends Component {
           <List style={{"padding":"0px"}}>
             <StyledLink to={`/profile`}>
               <StyledListItem button key={"My Profile"}>
-                <ListItemIcon><Avatar src={headshot} /></ListItemIcon>
+                <ListItemIcon><Avatar src={photoURL} /></ListItemIcon>
                 <StyledText primary={"My Profile"} />
               </StyledListItem>
             </StyledLink>

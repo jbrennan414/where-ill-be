@@ -113,6 +113,7 @@ export function updateProfile(data){
     firebase.database().ref('users/' + uid).set({
         email: email,
         displayName: displayName,
+        photoURL: photoURL
     });
 
     // update auth object
