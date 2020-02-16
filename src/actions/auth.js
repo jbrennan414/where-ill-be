@@ -17,34 +17,35 @@ export function updateAuth(){
     }
 }
 
-    export function createUser(data){
+export function createUser(data){
 
-    const { email, password, displayName } = data; 
-    let user = null;
+    let { email, password } = data; 
 
     return async function (dispatch){
-        await firebase.auth().createUserWithEmailAndPassword(email, password).then(function () {
-            user = firebase.auth().currentUser;
-            }).then(function () {
-                user.updateProfile({
-                    displayName: displayName
-                });
+        await firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then(function(result) {
+            console.log("this is our daaaata", data)
+            console.log("this is our results", result)
 
-                firebase.database().ref('users/' + user.uid).set({
-                    name: data.name,                   
-                    displayName: data.displayName,
-                    photoURL: "",
-                });
+            let newUser = {};
+            newUser["email"] = data.email;
+            newUser["displayName"] = "swag";
+            newUser["uid"] = result.user.uid;
 
-              }).catch(function(error) {
-                console.log(error.message);
-              });
-
-
-              return dispatch({
-                type: CREATE_USER,
-                data: user,
+            result.user.updateProfile({
+                displayName: data.displayName
             })
+
+            return dispatch({
+                type: CREATE_USER,
+                data: newUser,
+            })
+
+            
+        }).catch(function(error) {
+          console.log(error);
+        });
+
     }
 }
 

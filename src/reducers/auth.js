@@ -33,7 +33,6 @@ export default function(state = initialState, action){
         case CREATE_USER:
             return {
                 ...state,
-                displayName: data ? data.displayName : null,
                 uid: data ? data.uid : null,
                 email: data ? data.email : null,
             }
