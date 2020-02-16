@@ -37,12 +37,21 @@ class CalendarView extends Component {
     }
 
     componentDidMount(){
+        console.log("how often do we hit this?")
 
         const today = new Date;
         const month = today.getMonth() >= 10 ? today.getMonth().toString() : "0" + today.getMonth().toString();
 
         this.setState({ selectedDate:today, currentMonth: month });
         this.props.getUsers(this.props.auth.uid);
+    }
+    
+    componentDidUpdate(prevProps, prevState){
+        // compare our current months, if they're different
+        // please go get our ski days
+        if (prevState.currentMonth !== this.state.currentMonth){
+            this.props.getThisMonthsSkiDays(this.props.auth.uid, this.state.currentMonth)
+        }
     }
 
     handleChange = event => {
@@ -63,7 +72,6 @@ class CalendarView extends Component {
         this.props.addSkiDay(uid, parsedDate, selectedResort);
         this.setState({ isShowingAddDayModal: false });
     }
-    
 
     render() {
 
@@ -78,7 +86,10 @@ class CalendarView extends Component {
                     variant="static"
                     openTo="date"
                     value={selectedDate}
-                    onMonthChange={(val) => this.setState({ currentMonth: val._d.getMonth()})}
+                    onMonthChange={(val) => {
+                        const month = val._d.getMonth() >= 10 ? val._d.getMonth().toString() : "0" + val._d.getMonth().toString();
+                        this.setState({ currentMonth: month })}
+                    }
                     onChange={(val) => this.setState({ selectedDate: val._d, isShowingAddDayModal: !isShowingAddDayModal })}
                 />
 

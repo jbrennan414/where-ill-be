@@ -10,7 +10,7 @@ export function addSkiDay(uid, date, resort){
 
 }
 
-export function getThisMonthsSkiDays(month){
+export function getThisMonthsSkiDays(uid, month){
     return async function(dispatch){
         await firebase.database().ref('dates').on("value", function(snapshot){
 
