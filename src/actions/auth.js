@@ -80,10 +80,9 @@ export function signIn(email, password){
 
 export function updateMyProfile(data){
 
-    const { displayName, name, uid, photoURL } = data;
+    const { displayName, uid, photoURL } = data;
     // update users table
     firebase.database().ref('users/' + uid).set({
-        name:name,
         displayName: displayName,
         photoURL: photoURL
     });
