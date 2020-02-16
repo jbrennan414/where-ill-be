@@ -21,10 +21,10 @@ export function getUsers(myUID){
                 const myFriendsUIDs = Object.keys(myUsersData["friends"]);
                 const myFriends = [];
                 myFriendsUIDs.forEach((uid, i) => {
-                    const useremail = getUserEmail(myUID, uid, snapshot.val());
-                    useremail["avatar"] =`https://firebasestorage.googleapis.com/v0/b/where-ill-be.appspot.com/o/headshots%2F${uid}_headshot?alt=media&token=5d2fe37f-6af6-4f37-8d3b-65acfba1e1bb`;
-                    useremail["uid"] = uid;
-                    myFriends.push(useremail);
+                    const userDisplayName = getUserDisplayName(myUID, uid, snapshot.val());
+                    userDisplayName["avatar"] =`https://firebasestorage.googleapis.com/v0/b/where-ill-be.appspot.com/o/headshots%2F${uid}_headshot?alt=media&token=5d2fe37f-6af6-4f37-8d3b-65acfba1e1bb`;
+                    userDisplayName["uid"] = uid;
+                    myFriends.push(userDisplayName);
                 })
 
                 dispatch({
@@ -54,10 +54,11 @@ export function requestFriend(requester, requestee){
         let requesteeUID = null;
         //get requestee's UID
         await firebase.database().ref('users').on("value", function(snapshot){
-            const allUsersKeys = Object.values(snapshot.val());
+
+            const allUsersValues = Object.values(snapshot.val());
             const allUserKeys = Object.keys(snapshot.val());
 
-            const requesteeKey = allUsersKeys.findIndex(user => user.email === requestee);
+            const requesteeKey = allUsersValues.findIndex(user => user.displayName === requestee);
             requesteeUID = allUserKeys[requesteeKey];
         })
 
@@ -100,20 +101,21 @@ export function denyFriend(myUID, targetUser){
 // we don't want to show the user's UID 
 // in the front end, so use this translation function
 
-function getUserEmail(myUID, uid, snapshot){
+function getUserDisplayName(myUID, uid, snapshot){
     const snapshotKeys = Object.keys(snapshot);
     const snapshotValues = Object.values(snapshot);
     const userIndex = snapshotKeys.findIndex(key => key === uid);
-    const email = snapshotValues[userIndex].email;
+    const displayName = snapshotValues[userIndex].displayName;
+    const photoURL = snapshotValues[userIndex].photoURL
 
     //Get our status for this user
-    const myFriends = snapshot[myUID].friends
+    const myFriends = snapshot[myUID].friends;
     const userStatus = myFriends[uid];
 
     const user = {
-        email: email,
+        displayName: displayName,
         status: userStatus,
-        avatar: `https://firebasestorage.googleapis.com/v0/b/where-ill-be.appspot.com/o/headshots%${uid}_headshot?alt=media&token=5d2fe37f-6af6-4f37-8d3b-65acfba1e1bb`,
+        avatar: {photoURL}
     }
 
     return user;

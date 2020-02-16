@@ -49,8 +49,8 @@ class FriendItem extends Component {
 
     buttonTypeHelper(friend){
         let buttonType;
-        const allFriendEmails = this.props.myFriends.map(friend => friend.email);
-        const friendIndex = allFriendEmails.findIndex(email => email === friend);
+        const allFriendDisplayNames = this.props.myFriends.map(friend => friend.displayName);
+        const friendIndex = allFriendDisplayNames.findIndex(displayName => displayName === friend);
 
         const { avatar } = this.props;
 
@@ -58,7 +58,7 @@ class FriendItem extends Component {
             return (
                 <SingleRow>
                     <Avatar src={avatar} alt="user avatar" />
-                    <p>{friend}</p>
+                    <p>{`@${friend}`}</p>
                     <AddButton onClick={() => this.props.requestFriend(this.props.auth.uid, friend)} id={friend}>ADD</AddButton>
                 </SingleRow>
             );
@@ -71,8 +71,8 @@ class FriendItem extends Component {
                     buttonType = "pending";
                     return (
                         <SingleRow style={style.pending}>
-                            <Avatar src={avatar} alt="user avatar" />
-                            <p>{friend}</p>
+                            <Avatar alt="user avatar" />
+                            <p>{`@${friend}`}</p>
                             <p>requested</p>
                         </SingleRow>
                     );
@@ -80,8 +80,8 @@ class FriendItem extends Component {
                     buttonType = "requested_you";
                     return (
                         <SingleRow style={style.requested_you}>
-                            <Avatar src={avatar} alt="user avatar" />
-                            <p>{friend}</p>
+                            <Avatar alt="user avatar" />
+                            <p>{`@${friend}`}</p>
                             <DenyButton onClick={() => this.props.denyFriend(this.props.auth.uid, friend)} id={friend}>DENY</DenyButton>
                             <AddButton onClick={() => this.props.approveFriend(this.props.auth.uid, friend)} id={friend}>APPROVE</AddButton>
                         </SingleRow>
@@ -90,8 +90,8 @@ class FriendItem extends Component {
                 case "true":
                     return (
                         <SingleRow style={style.friends}>
-                            <Avatar src={avatar} alt="user avatar" />
-                            <p>{friend}</p>
+                            <Avatar alt="user avatar" />
+                            <p>{`@${friend}`}</p>
                             <p>friends!</p>
                         </SingleRow>
                     );
@@ -103,7 +103,7 @@ class FriendItem extends Component {
                 return (
                     <SingleRow>
                         <Avatar src={avatar} alt="user avatar" />
-                        <p>{friend}</p>
+                        <p>{`@${friend}`}</p>
                         <p>FRIENDS!</p>
                     </SingleRow>
                 );            }

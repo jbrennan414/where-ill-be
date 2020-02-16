@@ -55,7 +55,7 @@ class FindFriends extends Component {
 
         let newSortedUsers = sortedUsers.concat(requestedMe, myRequests, myRealFriends);
         newSortedUsers.forEach(user => {
-            checkArray.push(user.email);
+            checkArray.push(user.displayName);
         });
 
         // if I friended myself somehow, remove it
@@ -66,7 +66,7 @@ class FindFriends extends Component {
 
         //add all others, that are not blocked
         allUsers.forEach(user => {
-            if (!checkArray.includes(user.email) && user.email !== myUser){
+            if (!checkArray.includes(user.displayName) && user.displayName !== myUser){
                 newSortedUsers.push(user);
             }
         })
@@ -74,15 +74,15 @@ class FindFriends extends Component {
         return (
             <div>
                 <HeaderText>FIND FRIENDS</HeaderText>
-                <TextField
+                {/* <TextField
                     style={style.searchBox}
                     id="search"
                     label="SEARCH"
                     type="text"
                     onChange={val => this.setState({ searchedText: val.target.value })}
-                />
+                /> */}
                 {newSortedUsers.map((friend, i) => {
-                    return <FriendItem key={i} friend={friend.displayName ? friend.displayName : friend.email} avatar={friend.avatar} />
+                    return <FriendItem key={i} friend={friend.displayName} avatar={friend.avatar} />
                 })}
             </div>
         )
