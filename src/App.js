@@ -14,6 +14,8 @@ import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import * as firebase from 'firebase/app';
 import { firebaseConfig } from './firebase';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
 
 //Components
 import Header from './components/Header'
@@ -44,21 +46,23 @@ const THEME = createMuiTheme({
 });
 
 const App = () => (
-  <MuiThemeProvider theme={THEME}>
-    <Provider store={store}>
-      <Router>
-        <div className="App">
-          <Header />
-          <Switch>
-            <Route exact path="/" component={LandingPage} />
-            <Route path="/calendar" component={CalendarView} />
-            <Route path="/profile" component={Profile} />
-            <Route path="/friends" component={FindFriends} />
-          </Switch>
-        </div>
-      </Router>
-    </Provider>
-  </MuiThemeProvider>
+  <MuiPickersUtilsProvider utils={MomentUtils}>
+    <MuiThemeProvider theme={THEME}>
+      <Provider store={store}>
+        <Router>
+          <div className="App">
+            <Header />
+            <Switch>
+              <Route exact path="/" component={LandingPage} />
+              <Route path="/calendar" component={CalendarView} />
+              <Route path="/profile" component={Profile} />
+              <Route path="/friends" component={FindFriends} />
+            </Switch>
+          </div>
+        </Router>
+      </Provider>
+    </MuiThemeProvider>
+  </MuiPickersUtilsProvider>
 )
 
 export default App;
