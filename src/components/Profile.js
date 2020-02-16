@@ -43,8 +43,8 @@ class Profile extends Component {
         this.state = { 
             displayName: this.props.auth.displayName || "None",
             email: this.props.auth.email || "None",
-            phoneNumber: this.props.auth.phoneNumber || "None",
-            uid: this.props.auth.uid || "None"
+            uid: this.props.auth.uid || "None",
+            name: this.props.auth.name || "None",
         };
     }
 
