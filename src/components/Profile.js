@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Avatar from '@material-ui/core/Avatar';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { updateProfile } from '../actions/auth';
+import { updateMyProfile } from '../actions/auth';
 import { styled } from '@material-ui/core/styles';
 import * as firebase from 'firebase/app'
 import TextField from '@material-ui/core/TextField';
@@ -41,10 +41,8 @@ class Profile extends Component {
         super(props);
     
         this.state = { 
-            displayName: this.props.auth.displayName || "None",
             email: this.props.auth.email || "None",
             uid: this.props.auth.uid || "None",
-            name: this.props.auth.name || "None",
         };
     }
 
@@ -62,15 +60,17 @@ class Profile extends Component {
         stateCopy["photoURL"] = `https://firebasestorage.googleapis.com/v0/b/where-ill-be.appspot.com/o/headshots%2F${this.props.auth.uid}_headshot_${d}?alt=media&token=AEu4IL3pYYyMNCXTq3C5IC_H6uHOoQ86dqDn4uSyDBLaYYL9D6Rt_O70qmHOVal`;
 
         storageRef.put(file_data).then(response => {
-            this.props.updateProfile(stateCopy)
+            this.props.updateMyProfile(stateCopy)
         })
-
     }
 
       
     render() {
 
-        const { displayName, email, photoURL } = this.props.auth;
+        let { displayName, email, photoURL } = this.props.auth;
+
+        // TODO on first load, we have a bug that name, nor displayName get set right away.
+        //  We'll need to fix that sooner or later
 
         return (
             <div>
@@ -95,7 +95,7 @@ class Profile extends Component {
                     <TextField id="standard-required" defaultValue={`${email}`} placeholder="email" onChange={val => this.setState({ email: val.target.value })} />
                     <FormHelperText style={style.helperText} id="component-helper-text">This isn't always cool, we get it.</FormHelperText>
                 </form>
-                <Button onClick={()=> this.props.updateProfile(this.state)}>
+                <Button onClick={()=> this.props.updateMyProfile(this.state)}>
                     Submit
                 </Button>
             </div>
@@ -108,7 +108,7 @@ const mapStateToProps = (state) => ({
   })
   
   const mapDispatchToProps = (dispatch) => bindActionCreators({
-      updateProfile,
+      updateMyProfile,
   }, dispatch);
   
   export default connect(mapStateToProps, mapDispatchToProps)(Profile);

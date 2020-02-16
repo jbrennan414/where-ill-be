@@ -17,66 +17,34 @@ export function updateAuth(){
     }
 }
 
-// function createDates(date){
-//     firebase.database().ref('dates/' + date).set({
-//         skiers:"none",
-//     })
-// }
+    export function createUser(data){
 
-export function createUser(data){
-
-    const { email, password } = data; 
+    const { email, password, displayName } = data; 
+    let user = null;
 
     return async function (dispatch){
-        await firebase.auth().createUserWithEmailAndPassword(email, password).then(function(user) {
-            
-            let userData = {};
-            userData["displayName"] = data["displayName"];
-            userData["name"] = data["name"];
-            userData["photoURL"] = "";
-            userData["uid"] = user.user["uid"];
+        await firebase.auth().createUserWithEmailAndPassword(email, password).then(function () {
+            user = firebase.auth().currentUser;
+            }).then(function () {
+                user.updateProfile({
+                    displayName: displayName
+                });
 
-            updateProfile(userData);
+                firebase.database().ref('users/' + user.uid).set({
+                    name: data.name,                   
+                    displayName: data.displayName,
+                    photoURL: "",
+                });
 
-            // for(let i = 1; i < 32; i++){
-            //     let date = ("0"+i).slice(-2)
-            //     createDates(`05${date}2020`);
-            // }
+              }).catch(function(error) {
+                console.log(error.message);
+              });
 
 
-            var actionCodeSettings = {
-                url: 'https://www.whereillbe.com/finishSignUp',
-                handleCodeInApp: true,
-            };
-            firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings)
-                .then(function() {
-                // The link was successfully sent. Inform the user.
-                // Save the email locally so you don't need to ask the user for it again
-                // if they open the link on the same device.
-                window.localStorage.setItem('emailForSignIn', email);
-            })
-            .catch(function(error) {
-                console.log("YOU HAD AN ERROR", error)
-                // Some error occurred, you can inspect the code: error.code
-            });
-
-    
-            return dispatch({
+              return dispatch({
                 type: CREATE_USER,
                 data: user,
             })
-        })
-        .catch(function(error) {
-        // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          if (errorCode === 'auth/weak-password') {
-            alert('The password is too weak.');
-          } else {
-            alert(errorMessage);
-          }
-        console.log(error);
-      });
     }
 }
 
@@ -106,7 +74,7 @@ export function signIn(email, password){
     }
 }
 
-export function updateProfile(data){
+export function updateMyProfile(data){
 
     const { displayName, name, uid, photoURL } = data;
     // update users table
