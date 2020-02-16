@@ -4,6 +4,7 @@ import { addSkiDay } from '../actions/dates';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import { getUsers } from '../actions/friends';
+import { getThisMonthsSkiDays } from '../actions/dates';
 import { DatePicker } from "@material-ui/pickers";
 
 import Button from '@material-ui/core/Button';
@@ -38,18 +39,10 @@ class CalendarView extends Component {
     componentDidMount(){
 
         const today = new Date;
-        this.setState({ selectedDate:today });
-        this.props.getUsers(this.props.auth.uid);
-    }
+        const month = today.getMonth() >= 10 ? today.getMonth().toString() : "0" + today.getMonth().toString();
 
-    getDaysInMonth(month, year) {
-        var date = new Date(year, month, 1);
-        var days = [];
-        while (date.getMonth() === month) {
-          days.push(new Date(date));
-          date.setDate(date.getDate() + 1);
-        }
-        return days;
+        this.setState({ selectedDate:today, currentMonth: month });
+        this.props.getUsers(this.props.auth.uid);
     }
 
     handleChange = event => {
@@ -60,7 +53,14 @@ class CalendarView extends Component {
         const { selectedDate, selectedResort } = this.state
         const uid = this.props.auth.uid;
 
-        this.props.addSkiDay(uid, selectedDate, selectedResort);
+        const month = selectedDate.getMonth() >= 10 ? selectedDate.getMonth().toString() : "0" + selectedDate.getMonth().toString();
+        const day = selectedDate.getDate() >= 10 ? selectedDate.getDate().toString() : "0" + selectedDate.getDate().toString();
+        const fullYear = selectedDate.getFullYear();
+
+        //parsed date will look like 01052020 (February 5, 2020)
+        const parsedDate = `${month}${day}${fullYear}`;
+
+        this.props.addSkiDay(uid, parsedDate, selectedResort);
         this.setState({ isShowingAddDayModal: false });
     }
     
@@ -69,7 +69,6 @@ class CalendarView extends Component {
 
         const { isShowingAddDayModal, selectedDate } = this.state;
         const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
         const parsedDate = this.state.selectedDate ? months[this.state.selectedDate.getMonth()] + " " + this.state.selectedDate.getDate() : "";
 
         return (
@@ -79,6 +78,7 @@ class CalendarView extends Component {
                     variant="static"
                     openTo="date"
                     value={selectedDate}
+                    onMonthChange={(val) => this.setState({ currentMonth: val._d.getMonth()})}
                     onChange={(val) => this.setState({ selectedDate: val._d, isShowingAddDayModal: !isShowingAddDayModal })}
                 />
 
@@ -113,12 +113,13 @@ class CalendarView extends Component {
 
 const mapStateToProps = (state) => ({
     auth: state.auth,
-    thisMonth: state.dates.thisMonth,
-    myFriends: state.friends.myFriends
+    myFriends: state.friends.myFriends,
+    thisMonthsSkiDays: state.dates.thisMonthsSkiDays,
 })
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     addSkiDay,
+    getThisMonthsSkiDays, 
     getUsers,
 }, dispatch);
 
