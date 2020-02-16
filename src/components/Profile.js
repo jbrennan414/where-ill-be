@@ -47,7 +47,7 @@ class Profile extends Component {
     }
 
     componentDidMount(){
-        this.setState({ photoURL: this.props.auth.photoURL });
+        this.setState({ displayName: this.props.auth.displayName, photoURL: this.props.auth.photoURL });
     }
 
     uploadPhoto(){
@@ -67,10 +67,18 @@ class Profile extends Component {
       
     render() {
 
-        let { displayName, email, photoURL } = this.props.auth;
+        let { email, photoURL, uid } = this.props.auth;
+
+        let { displayName } = this.state;
+
+        if (!displayName){
+            firebase.database().ref('users/'+ uid).on("value", function(snapshot){
+                displayName = snapshot.val()["displayName"];
+            })
+        }
 
         // TODO on first load, we have a bug that name, nor displayName get set right away.
-        //  We'll need to fix that sooner or later
+        // We'll need to fix that sooner or later
 
         return (
             <div>
@@ -90,7 +98,7 @@ class Profile extends Component {
                     </Button>
                 </label> 
                 <form noValidate autoComplete="off">
-                    <TextField required id="standard-required" defaultValue={`${displayName}`} placeholder="username" onChange={val => this.setState({ displayName: val.target.value })} />
+                    <TextField required id="standard-required" value={`${displayName}`} placeholder="username" onChange={val => this.setState({ displayName: val.target.value })} />
                     <FormHelperText style={style.helperText} id="component-helper-text">Make this cool. This is how your friends will find you!</FormHelperText>
                     <TextField id="standard-required" defaultValue={`${email}`} placeholder="email" onChange={val => this.setState({ email: val.target.value })} />
                     <FormHelperText style={style.helperText} id="component-helper-text">This isn't always cool, we get it.</FormHelperText>

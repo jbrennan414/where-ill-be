@@ -37,7 +37,6 @@ class CalendarView extends Component {
     }
 
     componentDidMount(){
-        console.log("how often do we hit this?")
 
         const today = new Date;
         const month = today.getMonth() >= 10 ? today.getMonth().toString() : "0" + today.getMonth().toString();

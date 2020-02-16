@@ -24,17 +24,20 @@ export function createUser(data){
     return async function (dispatch){
         await firebase.auth().createUserWithEmailAndPassword(email, password)
         .then(function(result) {
-            console.log("this is our daaaata", data)
-            console.log("this is our results", result)
-
             let newUser = {};
             newUser["email"] = data.email;
-            newUser["displayName"] = "swag";
             newUser["uid"] = result.user.uid;
+            newUser["displayName"] = data.displayName;
 
             result.user.updateProfile({
                 displayName: data.displayName
             })
+
+            firebase.database().ref('users/' + result.user.uid).set({
+                name:data["name"],
+                displayName: data["displayName"],
+                photoURL: ""
+            });
 
             return dispatch({
                 type: CREATE_USER,
