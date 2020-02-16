@@ -17,25 +17,26 @@ export function updateAuth(){
     }
 }
 
-//add the user to our users table
-function writeUserData(userId, email) {
-    firebase.database().ref('users/' + userId).set({
-      email: email,
-      displayName: email,
-    });
-}
-
 // function createDates(date){
 //     firebase.database().ref('dates/' + date).set({
 //         skiers:"none",
 //     })
 // }
 
-export function createUser(email, password){
+export function createUser(data){
+
+    const { email, password } = data; 
+
     return async function (dispatch){
         await firebase.auth().createUserWithEmailAndPassword(email, password).then(function(user) {
+            
+            let userData = {};
+            userData["displayName"] = data["displayName"];
+            userData["name"] = data["name"];
+            userData["photoURL"] = "";
+            userData["uid"] = user.user["uid"];
 
-            writeUserData(user.user.uid, user.user.email)
+            updateProfile(userData);
 
             // for(let i = 1; i < 32; i++){
             //     let date = ("0"+i).slice(-2)
@@ -43,22 +44,21 @@ export function createUser(email, password){
             // }
 
 
-            var actionCodeSettings = {
-                url: 'https://www.whereillbe.com/finishSignUp',
-                handleCodeInApp: true,
-            };
-            firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings)
-                .then(function() {
-                    console.log("YOU FUCKING DID IT!")
-                // The link was successfully sent. Inform the user.
-                // Save the email locally so you don't need to ask the user for it again
-                // if they open the link on the same device.
-                window.localStorage.setItem('emailForSignIn', email);
-            })
-            .catch(function(error) {
-                console.log("YOU HAD AN ERROR", error)
-                // Some error occurred, you can inspect the code: error.code
-            });
+            // var actionCodeSettings = {
+            //     url: 'https://www.whereillbe.com/finishSignUp',
+            //     handleCodeInApp: true,
+            // };
+            // firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings)
+            //     .then(function() {
+            //     // The link was successfully sent. Inform the user.
+            //     // Save the email locally so you don't need to ask the user for it again
+            //     // if they open the link on the same device.
+            //     window.localStorage.setItem('emailForSignIn', email);
+            // })
+            // .catch(function(error) {
+            //     console.log("YOU HAD AN ERROR", error)
+            //     // Some error occurred, you can inspect the code: error.code
+            // });
 
     
             return dispatch({
@@ -108,10 +108,10 @@ export function signIn(email, password){
 
 export function updateProfile(data){
 
-    const { displayName, email, phoneNumber, uid, photoURL } = data;
+    const { displayName, name, uid, photoURL } = data;
     // update users table
     firebase.database().ref('users/' + uid).set({
-        email: email,
+        name:name,
         displayName: displayName,
         photoURL: photoURL
     });
@@ -120,8 +120,6 @@ export function updateProfile(data){
     return async function (dispatch){
         await firebase.auth().currentUser.updateProfile({
             displayName: displayName,
-            email: email,
-            phoneNumber: phoneNumber,
             photoURL: photoURL
         }).then(function() {
             return dispatch({

@@ -5,7 +5,6 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
-import blackLogo from '../assets/logo/v2/jb-v2-black.png';
 
 import { updateAuth, signOut, signIn, createUser } from '../actions/auth';
 import { getUsers } from '../actions/friends';
@@ -83,8 +82,6 @@ class Header extends Component {
     this.state = { 
       isShowingLoginModal: false,
       isShowingSignUpModal: false,
-      password:'',
-      confirmPass:'',
       isShowingLeftDrawer: false,
       isShowingForgotPasswordModal: false,
     };
@@ -117,17 +114,14 @@ class Header extends Component {
 
 
   addNewUser(){
-    const { confirmPass, password, email} = this.state;
 
-    if (confirmPass === '' || password === '' || email === ''){
-      return console.log("Uh oh, looks like you missed a required field");
+    const { email, name, displayName, password } = this.state;
+
+    if (email && name && displayName && password) {
+      this.props.createUser({...this.state});
+    } else {
+      alert("Please complete all required fields");
     }
-
-    if (confirmPass !== password){
-      return console.log("Uh oh, looks like your passwords don't match. ");
-    }
-
-    this.props.createUser(email, password);
 
   }
 
@@ -181,42 +175,50 @@ class Header extends Component {
             <TextField
               style={style.textBox}
               margin="dense"
-              id="name"
+              id="email"
               label="email"
               type="email"
               fullWidth
               onChange={val => this.setState({ email: val.target.value })}
             />
-          <TextField
-            style={style.textBox}
-            margin="dense"
-            id="name"
-            label="password"
-            type="password"
-            fullWidth
-            onChange={val => this.setState({ password: val.target.value })}
-          />
-          <TextField
-            style={style.textBox}
-            margin="dense"
-            id="name"
-            label="confirm password"
-            type="password"
-            fullWidth
-            onChange={val => this.setState({ confirmPass: val.target.value })}
-          />
-              <DialogActions style={style.actionButtons}>
+            <TextField
+              style={style.textBox}
+              margin="dense"
+              id="fullname"
+              label="full name"
+              type="name"
+              fullWidth
+              onChange={val => this.setState({ name: val.target.value })}
+            />
+            <TextField
+              style={style.textBox}
+              margin="dense"
+              id="displayName"
+              label="username"
+              type="name"
+              fullWidth
+              onChange={val => this.setState({ displayName: val.target.value })}
+            />
+            <TextField
+              style={style.textBox}
+              margin="dense"
+              id="pw"
+              label="password"
+              type="password"
+              fullWidth
+              onChange={val => this.setState({ password: val.target.value })}
+            />
+            <DialogActions style={style.actionButtons}>
             <Button style={style.cancelButton} onClick={() => this.setState({ isShowingSignUpModal: !isShowingSignUpModal })} color="primary">
-                Cancel
-              </Button>
-              <Button 
+              Cancel
+            </Button>
+            <Button 
               onClick={() =>this.setState({ isShowingSignUpModal: !isShowingSignUpModal }, () => this.addNewUser())}
               color="primary" 
-                disabled= {confirmPass !== password || password === '' || confirmPass === '' ? true : false}
-                style={style.button}
-              >
-                Sign Up
-              </Button>
+              style={style.button}
+            >
+              Sign Up
+            </Button>
             </DialogActions>
             <h1></h1>
           </div>
