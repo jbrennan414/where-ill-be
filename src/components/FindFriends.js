@@ -45,7 +45,7 @@ class FindFriends extends Component {
 
         const allUsers = this.props.friends.allUsers.sort();
         const myFriends = this.props.friends.myFriends.sort();
-        const myUser = this.props.auth.email;
+        const myUser = this.props.auth.displayName;
         let sortedUsers = [];
         let checkArray = [];
 

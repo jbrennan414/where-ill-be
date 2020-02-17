@@ -17,6 +17,20 @@ const style = {
     requested_you:{
         color:'white',
         backgroundColor: '#015249'
+    }, 
+    name: {
+        display:"flex",
+        flexDirection:"column"
+    },
+    displayNameStyle: {
+        margin: "0px",
+        fontWeight:"bold",
+        marginTop: "5px"
+    },
+    nameStyle: {
+        margin: "0px",
+        color: "gray",
+        marginBottom: "5px"
     }
 }
 
@@ -58,8 +72,10 @@ class FriendItem extends Component {
             return (
                 <SingleRow>
                     <Avatar src={avatar} alt="user avatar" />
-                    <p>{name}</p>
-                    <p>{`@${friend}`}</p>
+                    <div style={{"display":"flex", "flexDirection":"column"}}>
+                        <p style={style.displayNameStyle}>{`@${friend}`}</p>
+                        <p style={style.nameStyle}>{name}</p>
+                    </div>
                     <AddButton onClick={() => this.props.requestFriend(this.props.auth.uid, friend, name)} id={friend}>ADD</AddButton>
                 </SingleRow>
             );
@@ -73,8 +89,10 @@ class FriendItem extends Component {
                     return (
                         <SingleRow style={style.pending}>
                             <Avatar src={avatar} alt="user avatar" />
-                            <p>{name}</p>
-                            <p>{`@${friend}`}</p>
+                            <div style={{"display":"flex", "flexDirection":"column"}}>
+                                <p style={style.displayNameStyle}>{`@${friend}`}</p>
+                                <p style={style.nameStyle}>{name}</p>
+                            </div>
                             <p>requested</p>
                         </SingleRow>
                     );
@@ -83,10 +101,14 @@ class FriendItem extends Component {
                     return (
                         <SingleRow style={style.requested_you}>
                             <Avatar src={avatar} alt="user avatar" />
-                            <p>{name}</p>
-                            <p>{`@${friend}`}</p>
-                            <DenyButton onClick={() => this.props.denyFriend(this.props.auth.uid, friend)} id={friend}>DENY</DenyButton>
-                            <AddButton onClick={() => this.props.approveFriend(this.props.auth.uid, friend)} id={friend}>APPROVE</AddButton>
+                            <div style={{"display":"flex", "flexDirection":"column"}}>
+                                <p style={style.displayNameStyle}>{`@${friend}`}</p>
+                                <p style={style.nameStyle}>{name}</p>
+                            </div>
+                            <div>
+                                <DenyButton onClick={() => this.props.denyFriend(this.props.auth.uid, friend)} id={friend}>DENY</DenyButton>
+                                <AddButton onClick={() => this.props.approveFriend(this.props.auth.uid, friend)} id={friend}>APPROVE</AddButton>
+                            </div>
                         </SingleRow>
                     );
 
@@ -94,8 +116,10 @@ class FriendItem extends Component {
                     return (
                         <SingleRow style={style.friends}>
                             <Avatar src={avatar} alt="user avatar" />
-                            <p>{name}</p>
-                            <p>{`@${friend}`}</p>
+                            <div style={{"display":"flex", "flexDirection":"column"}}>
+                                <p style={style.displayNameStyle}>{`@${friend}`}</p>
+                                <p style={style.nameStyle}>{name}</p>
+                            </div>
                             <p>friends!</p>
                         </SingleRow>
                     );
@@ -107,8 +131,10 @@ class FriendItem extends Component {
                 return (
                     <SingleRow>
                         <Avatar src={avatar} alt="user avatar" />
-                        <p>{name}</p>
-                        <p>{`@${friend}`}</p>
+                        <div style={{"display":"flex", "flexDirection":"column"}}>
+                            <p style={style.displayNameStyle}>{`@${friend}`}</p>
+                            <p style={style.nameStyle}>{name}</p>
+                        </div>
                         <p>FRIENDS!</p>
                     </SingleRow>
                 );            }
