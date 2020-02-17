@@ -6,13 +6,15 @@ import { bindActionCreators } from 'redux'
 import { getUsers } from '../actions/friends';
 import { getThisMonthsSkiDays } from '../actions/dates';
 import { DatePicker } from "@material-ui/pickers";
+import { ThemeProvider } from "@material-ui/styles";
 
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
+import { DialogActions, Badge } from '@material-ui/core';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import { resortList } from '../assets/resortList';
+import { createMuiTheme } from "@material-ui/core";
 
 const ModalHeader = styled("div")({
     fontFamily: "\"Do Hyeon\", sans-serif",
@@ -23,6 +25,29 @@ const ModalHeader = styled("div")({
     color: '#015249',
     justifyContent:'center',
 });
+
+const customTheme = createMuiTheme({
+    overrides: {
+      MuiPickersDay: {
+        day: {
+            color: "light-gray",
+            fontFamily: "\"Do Hyeon\", sans-serif",
+            backgroundColor: "white"
+
+        },
+        daySelected: {
+          backgroundColor: "black",
+        },
+        dayDisabled: {
+          color: "black",
+        },
+        current: {
+          color: "black",
+        },
+      },
+    },
+  });
+  
 
 class CalendarView extends Component {
 
@@ -80,17 +105,33 @@ class CalendarView extends Component {
 
         return (
             <div>
-                <DatePicker
-                    autoOk
-                    variant="static"
-                    openTo="date"
-                    value={selectedDate}
-                    onMonthChange={(val) => {
-                        const month = val._d.getMonth() >= 10 ? val._d.getMonth().toString() : "0" + val._d.getMonth().toString();
-                        this.setState({ currentMonth: month })}
-                    }
-                    onChange={(val) => this.setState({ selectedDate: val._d, isShowingAddDayModal: !isShowingAddDayModal })}
-                />
+                <ThemeProvider theme={customTheme}>
+                    <DatePicker
+                        autoOk
+                        disableToolbar={true}
+                        variant="static"
+                        openTo="date"
+                        renderDay={(day, selectedDate, isInCurrentMonth, dayComponent) => {
+                            const month = day._d.getMonth() >= 10 ? day._d.getMonth().toString() : "0" + day._d.getMonth().toString();
+                            const date = day._d.getDate() >= 10 ? day._d.getDate().toString() : "0" + day._d.getDate().toString();
+                            const fullYear = day._d.getFullYear();
+                    
+                            //parsed date will look like 01052020 (February 5, 2020)
+                            const parsedDate = `${month}${date}${fullYear}`;
+                            //show my ski days
+                            const isOneOfMySkiDays = this.props.thisMonthsSkiDays[parsedDate] && Object.keys(this.props.thisMonthsSkiDays[parsedDate]).includes(this.props.auth.uid);
+                            const isSelected =  isInCurrentMonth && isOneOfMySkiDays;
+                            // You can also use our internal <Day /> component
+                            return <Badge badgeContent={isSelected ? "⛷" : undefined}>{dayComponent}</Badge>;
+                        }}
+                        value={selectedDate}
+                        onMonthChange={(val) => {
+                            const month = val._d.getMonth() >= 10 ? val._d.getMonth().toString() : "0" + val._d.getMonth().toString();
+                            this.setState({ currentMonth: month })}
+                        }
+                        onChange={(val) => this.setState({ selectedDate: val._d, isShowingAddDayModal: !isShowingAddDayModal })}
+                    />
+                </ThemeProvider>
 
                 {/* Add Ski Day Modal */}
                 <Dialog
