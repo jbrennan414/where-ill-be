@@ -8,7 +8,7 @@ export function getUsers(myUID){
     return async function(dispatch){
 
         await firebase.database().ref('users').orderByChild("email").on("value", function(snapshot){
-            const userEmails = Object.values(snapshot.val());
+            const snapshotValues = Object.values(snapshot.val());
             //get my users' index
             const dbKeys = Object.keys(snapshot.val());
 
@@ -22,8 +22,6 @@ export function getUsers(myUID){
                 const myFriends = [];
                 myFriendsUIDs.forEach((uid, i) => {
                     const userDisplayName = getUserDisplayName(myUID, uid, snapshot.val());
-                    userDisplayName["avatar"] =`https://firebasestorage.googleapis.com/v0/b/where-ill-be.appspot.com/o/headshots%2F${uid}_headshot?alt=media&token=5d2fe37f-6af6-4f37-8d3b-65acfba1e1bb`;
-                    userDisplayName["uid"] = uid;
                     myFriends.push(userDisplayName);
                 })
 
@@ -35,7 +33,7 @@ export function getUsers(myUID){
             }
     
             const allUsers = [];
-            userEmails.forEach(user => {
+            snapshotValues.forEach(user => {
                 user["name"] = user.name
                 user["avatar"] = user.photoURL;
                 user["uid"] = getUserID(user.email);
@@ -118,7 +116,8 @@ function getUserDisplayName(myUID, uid, snapshot){
         displayName: displayName,
         name: name,
         status: userStatus,
-        avatar: {photoURL}
+        avatar: photoURL,
+        uid: uid,
     }
 
     return user;
