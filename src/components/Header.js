@@ -148,7 +148,7 @@ class Header extends Component {
         <MyTouchbar position="static">
           {auth.uid != null ? (
             <div style={{"display":"flex", "width":"100%", "justifyContent":"space-between", "alignItems":"center"}}>
-              <Avatar style={{"marginLeft":"20px"}} onClick={() => this.setState({ isShowingLeftDrawer: !isShowingLeftDrawer })} alt="user avatar" src={auth.photoURL} />
+              <Avatar style={{"marginLeft":"20px", "boxShadow": "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"}} onClick={() => this.setState({ isShowingLeftDrawer: !isShowingLeftDrawer })} alt="user avatar" src={auth.photoURL} />
               {peopleWhoHaveRequestedMe.length > 0 && <div style={style.notification}></div>}
               <img alt="" style={style.logo} src={logo} />
               <div></div>

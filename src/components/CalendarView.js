@@ -50,10 +50,18 @@ const customTheme = createMuiTheme({
   });
   
   const style = {
-      avatar: {
-        height: "15px",
-        width: "15px"
-      }
+        avatar: {
+            height: "15px",
+            width: "15px"
+        },
+        submitButton: {
+            color: "white",
+            backgroundColor: "#015249"
+        },
+        cancelButton: {
+            color:"#015249",
+            border: "1px solid #015249"
+        }
   }
 
 class CalendarView extends Component {
@@ -73,7 +81,7 @@ class CalendarView extends Component {
         const today = new Date;
         const month = today.getMonth() >= 10 ? today.getMonth().toString() : "0" + today.getMonth().toString();
 
-        this.setState({ selectedDate:today, currentMonth: month });
+        this.setState({ currentMonth: month });
         this.props.getUsers(this.props.auth.uid);
     }
     
@@ -93,19 +101,12 @@ class CalendarView extends Component {
         const { selectedDate, selectedResort } = this.state
         const uid = this.props.auth.uid;
 
-        const month = selectedDate.getMonth() >= 10 ? selectedDate.getMonth().toString() : "0" + selectedDate.getMonth().toString();
-        const day = selectedDate.getDate() >= 10 ? selectedDate.getDate().toString() : "0" + selectedDate.getDate().toString();
-        const fullYear = selectedDate.getFullYear();
-
-        //parsed date will look like 01052020 (February 5, 2020)
-        const parsedDate = `${month}${day}${fullYear}`;
-
         if (!selectedResort){
             this.setState({ isShowingAddDayModal: false });
             return;
         }
 
-        this.props.addSkiDay(uid, parsedDate, selectedResort);
+        this.props.addSkiDay(uid, selectedDate, selectedResort);
         this.setState({ isShowingAddDayModal: false });
     }
 
@@ -113,7 +114,13 @@ class CalendarView extends Component {
 
         const { isShowingAddDayModal, selectedDate } = this.state;
         const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-        const parsedDate = this.state.selectedDate ? months[this.state.selectedDate.getMonth()] + " " + this.state.selectedDate.getDate() : "";
+        let selectedMonth;
+        let selectedDay;
+        if (selectedDate){
+            selectedDay = selectedDate.substring(2,4);
+            selectedMonth = months[parseInt(selectedDate.substring(0,2))];
+        }
+
 
         const myFriends = {};
         this.props.myFriends.forEach(item => {
@@ -134,12 +141,12 @@ class CalendarView extends Component {
                         variant="static"
                         openTo="date"
                         renderDay={(day, selectedDate, isInCurrentMonth, dayComponent) => {
-                            const month = day._d.getMonth() >= 10 ? day._d.getMonth().toString() : "0" + day._d.getMonth().toString();
-                            const date = day._d.getDate() >= 10 ? day._d.getDate().toString() : "0" + day._d.getDate().toString();
-                            const fullYear = day._d.getFullYear();
-                            let badges = [];
-                            //parsed date will look like 01052020 (February 5, 2020)
-                            const parsedDate = `${month}${date}${fullYear}`;
+                                const month = day._d.getMonth() >= 10 ? day._d.getMonth().toString() : "0" + day._d.getMonth().toString();
+                                const date = day._d.getDate() >= 10 ? day._d.getDate().toString() : "0" + day._d.getDate().toString();
+                                const fullYear = day._d.getFullYear();
+                                let badges = [];
+                                //parsed date will look like 01052020 (February 5, 2020)
+                                const parsedDate = `${month}${date}${fullYear}`;
                             //show my ski days
                             if (this.props.thisMonthsSkiDays[parsedDate]){
                                 const todaysSkiiers = Object.keys(this.props.thisMonthsSkiDays[parsedDate]);
@@ -165,7 +172,13 @@ class CalendarView extends Component {
                             const month = val._d.getMonth() >= 10 ? val._d.getMonth().toString() : "0" + val._d.getMonth().toString();
                             this.setState({ currentMonth: month })}
                         }
-                        onChange={(val) => this.setState({ selectedDate: val._d, isShowingAddDayModal: !isShowingAddDayModal })}
+                        onChange={(val) => {
+                            const month = val._d.getMonth() >= 10 ? val._d.getMonth().toString() : "0" + val._d.getMonth().toString();
+                            const date = val._d.getDate() >= 10 ? val._d.getDate().toString() : "0" + val._d.getDate().toString();
+                            const fullYear = val._d.getFullYear();
+                            const parsedDate = `${month}${date}${fullYear}`;
+
+                            this.setState({ selectedDate:parsedDate, isShowingAddDayModal: !isShowingAddDayModal })}}
                     />
                 </ThemeProvider>
 
@@ -175,7 +188,7 @@ class CalendarView extends Component {
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
                 >
-                    <ModalHeader id="alert-dialog-title">{parsedDate}</ModalHeader>
+                    <ModalHeader id="alert-dialog-title">{`${selectedMonth} ${selectedDay}`}</ModalHeader>
                     <Select
                         id= "ski-resort-dropdown"
                         onChange={this.handleChange}
@@ -185,10 +198,10 @@ class CalendarView extends Component {
                         })}
                     </Select>
                     <DialogActions>
-                        <Button onClick={() => this.setState({ isShowingAddDayModal: false })} color="primary">
+                        <Button style={style.cancelButton} onClick={() => this.setState({ isShowingAddDayModal: false })} color="primary">
                             Cancel
                         </Button>
-                        <Button onClick={() => this.submitSkiDay()} color="primary">
+                        <Button style={style.submitButton} onClick={() => this.submitSkiDay()} color="primary">
                             Submit
                         </Button>
                     </DialogActions>
