@@ -103,6 +103,13 @@ class CalendarView extends Component {
         const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         const parsedDate = this.state.selectedDate ? months[this.state.selectedDate.getMonth()] + " " + this.state.selectedDate.getDate() : "";
 
+        const myFriends = [];
+        this.props.myFriends.forEach(item => {
+            if (item.status === 'true') {
+                myFriends.push(item.uid)
+            }
+        });
+
         return (
             <div>
                 <ThemeProvider theme={customTheme}>
@@ -120,9 +127,30 @@ class CalendarView extends Component {
                             const parsedDate = `${month}${date}${fullYear}`;
                             //show my ski days
                             const isOneOfMySkiDays = this.props.thisMonthsSkiDays[parsedDate] && Object.keys(this.props.thisMonthsSkiDays[parsedDate]).includes(this.props.auth.uid);
-                            const isSelected =  isInCurrentMonth && isOneOfMySkiDays;
+                            const isMySkiDay =  isInCurrentMonth && isOneOfMySkiDays;
+                            let friendsAreSkiing = [];
+
+                            // only show our friends skiing
+                            if (this.props.thisMonthsSkiDays[parsedDate]){
+                                const everyoneSkiing = Object.keys(this.props.thisMonthsSkiDays[parsedDate]);
+                                friendsAreSkiing = everyoneSkiing.filter(skierUID => {
+                                    return myFriends.includes(skierUID)
+                                  })
+                            }
+
+                            const isMyFriendsSkiDay = isInCurrentMonth && friendsAreSkiing.length > 0; 
+                            const badges = [];
                             // You can also use our internal <Day /> component
-                            return <Badge badgeContent={isSelected ? "⛷" : undefined}>{dayComponent}</Badge>;
+                            if (isMySkiDay){
+                                badges.push(<Badge badgeContent={"⛷"}>{dayComponent}</Badge>);
+                            } else if (isMyFriendsSkiDay){
+                                badges.push(<Badge badgeContent={"👤"}>{dayComponent}</Badge>);
+                            } else {
+                                badges.push(<Badge badgeContent={undefined}>{dayComponent}</Badge>);
+                            }
+
+                            return <div>{badges}</div>
+
                         }}
                         value={selectedDate}
                         onMonthChange={(val) => {
