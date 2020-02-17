@@ -72,7 +72,7 @@ class FriendItem extends Component {
                     buttonType = "pending";
                     return (
                         <SingleRow style={style.pending}>
-                            <Avatar alt="user avatar" />
+                            <Avatar src={avatar} alt="user avatar" />
                             <p>{name}</p>
                             <p>{`@${friend}`}</p>
                             <p>requested</p>
@@ -82,7 +82,7 @@ class FriendItem extends Component {
                     buttonType = "requested_you";
                     return (
                         <SingleRow style={style.requested_you}>
-                            <Avatar alt="user avatar" />
+                            <Avatar src={avatar} alt="user avatar" />
                             <p>{name}</p>
                             <p>{`@${friend}`}</p>
                             <DenyButton onClick={() => this.props.denyFriend(this.props.auth.uid, friend)} id={friend}>DENY</DenyButton>
@@ -93,7 +93,7 @@ class FriendItem extends Component {
                 case "true":
                     return (
                         <SingleRow style={style.friends}>
-                            <Avatar alt="user avatar" />
+                            <Avatar src={avatar} alt="user avatar" />
                             <p>{name}</p>
                             <p>{`@${friend}`}</p>
                             <p>friends!</p>

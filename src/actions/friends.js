@@ -63,9 +63,6 @@ export function requestFriend(requester, requestee){
             requesteeUID = allUserKeys[requesteeKey];
         })
 
-
-        console.log("AAAAAA requester: ", requester)
-        console.log("BBBBBB requestee: ", requesteeUID)
         //add a row on requester's friends object
         firebase.database().ref('users/' + requester + "/friends/" + requesteeUID).set("pending_approval");
 
@@ -110,6 +107,7 @@ function getUserDisplayName(myUID, uid, snapshot){
     const snapshotValues = Object.values(snapshot);
     const userIndex = snapshotKeys.findIndex(key => key === uid);
     const displayName = snapshotValues[userIndex].displayName;
+    const name = snapshotValues[userIndex].name;
     const photoURL = snapshotValues[userIndex].photoURL
 
     //Get our status for this user
@@ -118,6 +116,7 @@ function getUserDisplayName(myUID, uid, snapshot){
 
     const user = {
         displayName: displayName,
+        name: name,
         status: userStatus,
         avatar: {photoURL}
     }
@@ -126,15 +125,15 @@ function getUserDisplayName(myUID, uid, snapshot){
 
 }
 
-function getUserID(email){
+function getUserID(displayName){
     let uid;
 
-    firebase.database().ref('users').orderByChild("email").on("value", function(snapshot){
+    firebase.database().ref('users').orderByChild("displayName").on("value", function(snapshot){
         const snapshotCopy = snapshot.val();
         const snapshotKeys = Object.keys(snapshotCopy);
         const snapshotValues = Object.values(snapshotCopy);
-        const emailIndex = snapshotValues.findIndex(value => value.email === email)
-        uid = snapshotKeys[emailIndex];
+        const displayNameIndex = snapshotValues.findIndex(value => value.displayName === displayName)
+        uid = snapshotKeys[displayNameIndex];
     })        
 
     return uid;
