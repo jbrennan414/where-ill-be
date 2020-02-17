@@ -82,7 +82,7 @@ export function updateMyProfile(data){
 
     const { displayName, uid, photoURL } = data;
     // update users table
-    firebase.database().ref('users/' + uid).set({
+    firebase.database().ref('users/' + uid).update({
         displayName: displayName,
         photoURL: photoURL
     });

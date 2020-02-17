@@ -79,7 +79,7 @@ class Profile extends Component {
 
         if (!displayName){
             firebase.database().ref('users/'+ uid).on("value", function(snapshot){
-                displayName = snapshot.val()["displayName"];
+                displayName = snapshot.val()["displayName"] ? snapshot.val()["displayName"] : "";
             })
         }
 

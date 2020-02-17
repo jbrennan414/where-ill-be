@@ -47,7 +47,7 @@ const DenyButton = styled("button")({
 
 class FriendItem extends Component {
 
-    buttonTypeHelper(friend){
+    buttonTypeHelper(friend, name){
         let buttonType;
         const allFriendDisplayNames = this.props.myFriends.map(friend => friend.displayName);
         const friendIndex = allFriendDisplayNames.findIndex(displayName => displayName === friend);
@@ -58,8 +58,9 @@ class FriendItem extends Component {
             return (
                 <SingleRow>
                     <Avatar src={avatar} alt="user avatar" />
+                    <p>{name}</p>
                     <p>{`@${friend}`}</p>
-                    <AddButton onClick={() => this.props.requestFriend(this.props.auth.uid, friend)} id={friend}>ADD</AddButton>
+                    <AddButton onClick={() => this.props.requestFriend(this.props.auth.uid, friend, name)} id={friend}>ADD</AddButton>
                 </SingleRow>
             );
             
@@ -72,6 +73,7 @@ class FriendItem extends Component {
                     return (
                         <SingleRow style={style.pending}>
                             <Avatar alt="user avatar" />
+                            <p>{name}</p>
                             <p>{`@${friend}`}</p>
                             <p>requested</p>
                         </SingleRow>
@@ -81,6 +83,7 @@ class FriendItem extends Component {
                     return (
                         <SingleRow style={style.requested_you}>
                             <Avatar alt="user avatar" />
+                            <p>{name}</p>
                             <p>{`@${friend}`}</p>
                             <DenyButton onClick={() => this.props.denyFriend(this.props.auth.uid, friend)} id={friend}>DENY</DenyButton>
                             <AddButton onClick={() => this.props.approveFriend(this.props.auth.uid, friend)} id={friend}>APPROVE</AddButton>
@@ -91,6 +94,7 @@ class FriendItem extends Component {
                     return (
                         <SingleRow style={style.friends}>
                             <Avatar alt="user avatar" />
+                            <p>{name}</p>
                             <p>{`@${friend}`}</p>
                             <p>friends!</p>
                         </SingleRow>
@@ -103,6 +107,7 @@ class FriendItem extends Component {
                 return (
                     <SingleRow>
                         <Avatar src={avatar} alt="user avatar" />
+                        <p>{name}</p>
                         <p>{`@${friend}`}</p>
                         <p>FRIENDS!</p>
                     </SingleRow>
@@ -116,10 +121,10 @@ class FriendItem extends Component {
 
 
     render() {
-        const { friend } = this.props;
+        const { friend, name } = this.props;
 
         return (
-            this.buttonTypeHelper(friend)
+            this.buttonTypeHelper(friend, name)
         )
     }
 }

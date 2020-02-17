@@ -36,7 +36,8 @@ export function getUsers(myUID){
     
             const allUsers = [];
             userEmails.forEach(user => {
-                user["avatar"] =`https://firebasestorage.googleapis.com/v0/b/where-ill-be.appspot.com/o/headshots%2F${getUserID(user.email)}_headshot?alt=media&token=5d2fe37f-6af6-4f37-8d3b-65acfba1e1bb`;
+                user["name"] = user.name
+                user["avatar"] = user.photoURL;
                 user["uid"] = getUserID(user.email);
                 allUsers.push(user);
             })
@@ -62,6 +63,9 @@ export function requestFriend(requester, requestee){
             requesteeUID = allUserKeys[requesteeKey];
         })
 
+
+        console.log("AAAAAA requester: ", requester)
+        console.log("BBBBBB requestee: ", requesteeUID)
         //add a row on requester's friends object
         firebase.database().ref('users/' + requester + "/friends/" + requesteeUID).set("pending_approval");
 
