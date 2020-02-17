@@ -31,6 +31,11 @@ const style = {
         margin: "0px",
         color: "gray",
         marginBottom: "5px"
+    },
+    requestedStyle: {
+        margin: "0px",
+        color: "lightgray",
+        marginBottom: "5px"
     }
 }
 
@@ -91,7 +96,7 @@ class FriendItem extends Component {
                             <Avatar src={avatar} alt="user avatar" />
                             <div style={{"display":"flex", "flexDirection":"column"}}>
                                 <p style={style.displayNameStyle}>{`@${friend}`}</p>
-                                <p style={style.nameStyle}>{name}</p>
+                                <p style={style.requestedStyle}>{name}</p>
                             </div>
                             <p>requested</p>
                         </SingleRow>
@@ -118,7 +123,7 @@ class FriendItem extends Component {
                             <Avatar src={avatar} alt="user avatar" />
                             <div style={{"display":"flex", "flexDirection":"column"}}>
                                 <p style={style.displayNameStyle}>{`@${friend}`}</p>
-                                <p style={style.nameStyle}>{name}</p>
+                                <p style={style.requestedStyle}>{name}</p>
                             </div>
                             <p>friends!</p>
                         </SingleRow>

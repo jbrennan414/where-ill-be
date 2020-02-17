@@ -7,6 +7,7 @@ import { getUsers } from '../actions/friends';
 import { getThisMonthsSkiDays } from '../actions/dates';
 import { DatePicker } from "@material-ui/pickers";
 import { ThemeProvider } from "@material-ui/styles";
+import Avatar from '@material-ui/core/Avatar';
 
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -48,6 +49,12 @@ const customTheme = createMuiTheme({
     },
   });
   
+  const style = {
+      avatar: {
+        height: "15px",
+        width: "15px"
+      }
+  }
 
 class CalendarView extends Component {
 
@@ -93,6 +100,11 @@ class CalendarView extends Component {
         //parsed date will look like 01052020 (February 5, 2020)
         const parsedDate = `${month}${day}${fullYear}`;
 
+        if (!selectedResort){
+            this.setState({ isShowingAddDayModal: false });
+            return;
+        }
+
         this.props.addSkiDay(uid, parsedDate, selectedResort);
         this.setState({ isShowingAddDayModal: false });
     }
@@ -103,12 +115,15 @@ class CalendarView extends Component {
         const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
         const parsedDate = this.state.selectedDate ? months[this.state.selectedDate.getMonth()] + " " + this.state.selectedDate.getDate() : "";
 
-        const myFriends = [];
+        const myFriends = {};
         this.props.myFriends.forEach(item => {
             if (item.status === 'true') {
-                myFriends.push(item.uid)
+                myFriends[item["uid"]] = item["avatar"];
             }
         });
+
+        //Uh, add me to my own friends 😑
+        myFriends[this.props.auth.uid] = this.props.auth.photoURL;
 
         return (
             <div>
@@ -122,34 +137,27 @@ class CalendarView extends Component {
                             const month = day._d.getMonth() >= 10 ? day._d.getMonth().toString() : "0" + day._d.getMonth().toString();
                             const date = day._d.getDate() >= 10 ? day._d.getDate().toString() : "0" + day._d.getDate().toString();
                             const fullYear = day._d.getFullYear();
-                    
+                            let badges = [];
                             //parsed date will look like 01052020 (February 5, 2020)
                             const parsedDate = `${month}${date}${fullYear}`;
                             //show my ski days
-                            const isOneOfMySkiDays = this.props.thisMonthsSkiDays[parsedDate] && Object.keys(this.props.thisMonthsSkiDays[parsedDate]).includes(this.props.auth.uid);
-                            const isMySkiDay =  isInCurrentMonth && isOneOfMySkiDays;
-                            let friendsAreSkiing = [];
-
-                            // only show our friends skiing
                             if (this.props.thisMonthsSkiDays[parsedDate]){
-                                const everyoneSkiing = Object.keys(this.props.thisMonthsSkiDays[parsedDate]);
-                                friendsAreSkiing = everyoneSkiing.filter(skierUID => {
-                                    return myFriends.includes(skierUID)
-                                  })
-                            }
+                                const todaysSkiiers = Object.keys(this.props.thisMonthsSkiDays[parsedDate]);
+                                let avatars= [];
 
-                            const isMyFriendsSkiDay = isInCurrentMonth && friendsAreSkiing.length > 0; 
-                            const badges = [];
-                            // You can also use our internal <Day /> component
-                            if (isMySkiDay){
-                                badges.push(<Badge badgeContent={"⛷"}>{dayComponent}</Badge>);
-                            } else if (isMyFriendsSkiDay){
-                                badges.push(<Badge badgeContent={"👤"}>{dayComponent}</Badge>);
+                                todaysSkiiers.forEach(skiier => {
+                                    if (myFriends[skiier]){
+                                        avatars.push(<Avatar style={style.avatar} src={myFriends[skiier]} />);
+                                    }
+                                })
+
+                                badges.push(<Badge badgeContent={avatars}>{dayComponent}</Badge>);
+
                             } else {
                                 badges.push(<Badge badgeContent={undefined}>{dayComponent}</Badge>);
                             }
 
-                            return <div>{badges}</div>
+                            return badges;
 
                         }}
                         value={selectedDate}
