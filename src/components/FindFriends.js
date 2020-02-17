@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import { styled } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
 import FriendItem from './FriendItem';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import { getUsers } from '../actions/friends';
-import { findAllByAltText } from '@testing-library/react';
 
 const HeaderText = styled("p")({
     fontSize: '36px',
@@ -15,16 +13,6 @@ const HeaderText = styled("p")({
     fontFamily: "\"Do Hyeon\", sans-serif",
     justifyContent:'center'
 });
-
-const style = {
-    searchBox: {
-        backgroundColor: 'white',
-        fontSize: '14px',
-        borderRadius:'30px',
-        height: '4em',
-        marginBottom: '10px',
-    }
-}
 
 class FindFriends extends Component {
 

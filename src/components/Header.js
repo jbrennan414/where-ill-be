@@ -137,11 +137,9 @@ class Header extends Component {
       isShowingLoginModal, 
       isShowingSignUpModal, 
       isShowingLeftDrawer, 
-      password, 
-      confirmPass,
       isShowingForgotPasswordModal,
     } = this.state;
-    const { auth, myFriends, photoURL } = this.props;
+    const { auth, myFriends } = this.props;
 
     const peopleWhoHaveRequestedMe = myFriends.filter(friend => friend.status === "requested_you");
 
@@ -152,7 +150,7 @@ class Header extends Component {
             <div style={{"display":"flex", "width":"100%", "justifyContent":"space-between", "alignItems":"center"}}>
               <Avatar style={{"marginLeft":"20px"}} onClick={() => this.setState({ isShowingLeftDrawer: !isShowingLeftDrawer })} alt="user avatar" src={auth.photoURL} />
               {peopleWhoHaveRequestedMe.length > 0 && <div style={style.notification}></div>}
-              <img style={style.logo} src={logo} />
+              <img alt="" style={style.logo} src={logo} />
               <div></div>
             </div>
           ) : (

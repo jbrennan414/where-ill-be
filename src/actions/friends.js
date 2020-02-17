@@ -34,7 +34,6 @@ export function getUsers(myUID){
     
             const allUsers = [];
             snapshotValues.forEach(user => {
-                user["name"] = user.name
                 user["avatar"] = user.photoURL;
                 user["uid"] = getUserID(user.email);
                 allUsers.push(user);

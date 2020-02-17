@@ -67,7 +67,6 @@ const DenyButton = styled("button")({
 class FriendItem extends Component {
 
     buttonTypeHelper(friend, name){
-        let buttonType;
         const allFriendDisplayNames = this.props.myFriends.map(friend => friend.displayName);
         const friendIndex = allFriendDisplayNames.findIndex(displayName => displayName === friend);
 
@@ -90,7 +89,6 @@ class FriendItem extends Component {
 
             switch (status) {
                 case "pending_approval":
-                    buttonType = "pending";
                     return (
                         <SingleRow style={style.pending}>
                             <Avatar src={avatar} alt="user avatar" />
@@ -102,7 +100,6 @@ class FriendItem extends Component {
                         </SingleRow>
                     );
                 case "requested_you":
-                    buttonType = "requested_you";
                     return (
                         <SingleRow style={style.requested_you}>
                             <Avatar src={avatar} alt="user avatar" />
@@ -145,8 +142,6 @@ class FriendItem extends Component {
                 );            }
 
         }
-
-        return buttonType;
 
     }
 
