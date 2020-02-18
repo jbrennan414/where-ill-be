@@ -27,6 +27,18 @@ const ModalHeader = styled("div")({
     justifyContent:'center',
 });
 
+const SingleRow = styled("div")({
+    display:'flex',
+    border: '1px solid gray',
+    color:'#015249',
+    backgroundColor:'white',
+    fontFamily: "\"Do Hyeon\", sans-serif",
+    justifyContent:'space-between',
+    padding: '0px 20px',
+    alignItems:'center',
+    margin: '0',
+});
+
 const customTheme = createMuiTheme({
     overrides: {
       MuiPickersDay: {
@@ -97,6 +109,23 @@ class CalendarView extends Component {
         this.setState({ selectedResort: event.target.value});
     };
 
+    renderSkiierRows(skiiers){
+        let rows = [];
+        skiiers.forEach(item =>
+            rows.push(
+                <SingleRow>
+                    <Avatar src={""} alt="user avatar" />
+                    <div style={{"display":"flex", "flexDirection":"column"}}>
+                        <p style={style.displayNameStyle}>{`@test`}</p>
+                        <p style={style.nameStyle}>{"foobar"}</p>
+                    </div>
+                </SingleRow>
+            )
+        );
+        
+        return rows;
+    }
+
     submitSkiDay(){
         const { selectedDate, selectedResort } = this.state
         const uid = this.props.auth.uid;
@@ -121,16 +150,34 @@ class CalendarView extends Component {
             selectedMonth = months[parseInt(selectedDate.substring(0,2))];
         }
 
-
-        const myFriends = {};
+        let myFriends = {};
         this.props.myFriends.forEach(item => {
             if (item.status === 'true') {
-                myFriends[item["uid"]] = item["avatar"];
+                let singleLine = {};
+                singleLine["avatar"] = item["avatar"];
+                singleLine["name"] = item["name"];
+                myFriends[item["uid"]]= singleLine;
             }
         });
 
         //Uh, add me to my own friends 😑
-        myFriends[this.props.auth.uid] = this.props.auth.photoURL;
+        let myLine = {};
+        myLine["avatar"] = this.props.auth.photoURL;
+        myFriends[this.props.auth.uid] = myLine;
+
+
+        // mehhhhhhh
+        let myFriendsSkiingToday = []
+        if (this.props.thisMonthsSkiDays[this.state.selectedDate]){
+            const allTodaysSkiiers = this.props.thisMonthsSkiDays[this.state.selectedDate];
+            this.props.myFriends.forEach(friend => {
+                if (Object.keys(allTodaysSkiiers).includes(friend.uid)){
+                    let singleSkiier = {};
+                    singleSkiier[friend.uid] = allTodaysSkiiers[friend.uid];
+                    myFriendsSkiingToday.push(singleSkiier);
+                }
+            })
+        }
 
         return (
             <div>
@@ -154,7 +201,7 @@ class CalendarView extends Component {
 
                                 todaysSkiiers.forEach(skiier => {
                                     if (myFriends[skiier]){
-                                        avatars.push(<Avatar style={style.avatar} src={myFriends[skiier]} />);
+                                        avatars.push(<Avatar style={style.avatar} src={myFriends[skiier]["avatar"]} />);
                                     }
                                 })
 
@@ -189,6 +236,7 @@ class CalendarView extends Component {
                     aria-describedby="alert-dialog-description"
                 >
                     <ModalHeader id="alert-dialog-title">{`${selectedMonth} ${selectedDay}`}</ModalHeader>
+                    {this.renderSkiierRows(myFriendsSkiingToday)}
                     <Select
                         id= "ski-resort-dropdown"
                         onChange={this.handleChange}
