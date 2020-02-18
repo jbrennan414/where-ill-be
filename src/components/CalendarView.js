@@ -205,10 +205,10 @@ class CalendarView extends Component {
                                     }
                                 })
 
-                                badges.push(<Badge badgeContent={avatars}>{dayComponent}</Badge>);
+                                badges.push(<Badge key={day} badgeContent={avatars}>{dayComponent}</Badge>);
 
                             } else {
-                                badges.push(<Badge badgeContent={undefined}>{dayComponent}</Badge>);
+                                badges.push(<Badge key={day} badgeContent={undefined}>{dayComponent}</Badge>);
                             }
 
                             return badges;
