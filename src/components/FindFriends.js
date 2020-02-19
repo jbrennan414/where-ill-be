@@ -28,6 +28,16 @@ class FindFriends extends Component {
     componentDidMount(){
         this.props.getUsers(this.props.auth.uid);
     }
+
+    renderFriends(){
+        let friends = [];
+        Object.values(this.props.friends).forEach((item, i) => {
+            friends.push(<FriendItem key={i} name={item.name} friend={item.displayName} avatar={item.avatar} />)
+        })
+
+        return friends;
+
+    }
     
     render() {
 
@@ -62,6 +72,7 @@ class FindFriends extends Component {
         return (
             <div>
                 <HeaderText>FIND FRIENDS</HeaderText>
+                {this.renderFriends()}
                 {/* <TextField
                     style={style.searchBox}
                     id="search"
@@ -79,7 +90,8 @@ class FindFriends extends Component {
 
 const mapStateToProps = (state) => ({
     auth: state.auth,
-    friends: state.friends,
+    friends: state.friends.users.friends,
+    strangers: state.friends.users.strangers
 })
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
