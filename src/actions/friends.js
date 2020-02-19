@@ -2,47 +2,38 @@ import * as firebase from 'firebase'
 
 export const GET_ALL_USERS = "GET_ALL_USERS";
 export const REQUEST_FRIEND = "REQUEST_FRIEND";
-export const GET_MY_FRIENDS = "GET_MY_FRIENDS";
 
 export function getUsers(myUID){
     return async function(dispatch){
 
-        await firebase.database().ref('users').orderByChild("email").on("value", function(snapshot){
-            const snapshotValues = Object.values(snapshot.val());
-            //get my users' index
-            const dbKeys = Object.keys(snapshot.val());
+        await firebase.database().ref('users').on("value", function(snapshot){
+            if (snapshot.val()[myUID]){
+                const myData = snapshot.val()[myUID];
+                const myFriends = myData.friends;
 
-            // We need a bit of work here to show my friends, etc
-            const myUsersDBIndex = dbKeys.findIndex(key => key === myUID);
-            const myUsersData = Object.values(snapshot.val())[myUsersDBIndex];
-           
-            //If we have friends, let's do it
-            if (myUsersData && myUsersData["friends"]){
-                const myFriendsUIDs = Object.keys(myUsersData["friends"]);
-                const myFriends = [];
-                myFriendsUIDs.forEach((uid, i) => {
-                    const userDisplayName = getUserDisplayName(myUID, uid, snapshot.val());
-                    myFriends.push(userDisplayName);
+                // Add to the friends object
+                const myFriendsUIDs = Object.keys(myFriends);
+                const allUserKeys = Object.keys(snapshot.val())
+
+                let users = {};
+                users["friends"] = {};
+                users["strangers"] = {};
+
+                allUserKeys.forEach(uid => {
+                    if (myFriendsUIDs.includes(uid)){
+                        const user = getUserDisplayName(myUID, uid, snapshot.val());
+                        users["friends"][uid] = user;
+                    } else {
+                        const user = getUserDisplayName(myUID, uid, snapshot.val());
+                        users["strangers"][uid] = user;
+                    }
                 })
-
-                dispatch({
-                    type: GET_MY_FRIENDS,
-                    data: myFriends,
-                })
-
-            }
-    
-            const allUsers = [];
-            snapshotValues.forEach(user => {
-                user["avatar"] = user.photoURL;
-                user["uid"] = getUserID(user.email);
-                allUsers.push(user);
-            })
 
                 return dispatch({
                     type: GET_ALL_USERS,
-                    data: allUsers
+                    data: users
                 })
+            }
         })
     }
 }
@@ -116,7 +107,6 @@ function getUserDisplayName(myUID, uid, snapshot){
         name: name,
         status: userStatus,
         avatar: photoURL,
-        uid: uid,
     }
 
     return user;

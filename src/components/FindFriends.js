@@ -31,33 +31,33 @@ class FindFriends extends Component {
     
     render() {
 
-        const allUsers = this.props.friends.allUsers.sort();
-        const myFriends = this.props.friends.myFriends.sort();
-        const myUser = this.props.auth.displayName;
-        let sortedUsers = [];
-        let checkArray = [];
+        // const allUsers = this.props.friends.allUsers.sort();
+        // const myFriends = this.props.friends.myFriends.sort();
+        // const myUser = this.props.auth.displayName;
+        // let sortedUsers = [];
+        // let checkArray = [];
 
-        const requestedMe = myFriends.filter(friends => friends.status === "requested_you");
-        const myRequests = myFriends.filter(friends => friends.status === "pending_approval");
-        const myRealFriends = myFriends.filter(friends => friends.status === "true");
+        // const requestedMe = myFriends.filter(friends => friends.status === "requested_you");
+        // const myRequests = myFriends.filter(friends => friends.status === "pending_approval");
+        // const myRealFriends = myFriends.filter(friends => friends.status === "true");
 
-        let newSortedUsers = sortedUsers.concat(requestedMe, myRequests, myRealFriends);
-        newSortedUsers.forEach(user => {
-            checkArray.push(user.displayName);
-        });
+        // let newSortedUsers = sortedUsers.concat(requestedMe, myRequests, myRealFriends);
+        // newSortedUsers.forEach(user => {
+        //     checkArray.push(user.displayName);
+        // });
 
-        // if I friended myself somehow, remove it
-        const myUsersIndex = checkArray.findIndex(item => item === myUser);
-        if (myUsersIndex !== -1){
-            newSortedUsers.splice(myUsersIndex, 1);
-        }
+        // // if I friended myself somehow, remove it
+        // const myUsersIndex = checkArray.findIndex(item => item === myUser);
+        // if (myUsersIndex !== -1){
+        //     newSortedUsers.splice(myUsersIndex, 1);
+        // }
 
-        //add all others, that are not blocked
-        allUsers.forEach(user => {
-            if (!checkArray.includes(user.displayName) && user.displayName !== myUser){
-                newSortedUsers.push(user);
-            }
-        })
+        // //add all others, that are not blocked
+        // allUsers.forEach(user => {
+        //     if (!checkArray.includes(user.displayName) && user.displayName !== myUser){
+        //         newSortedUsers.push(user);
+        //     }
+        // })
 
         return (
             <div>
@@ -69,9 +69,9 @@ class FindFriends extends Component {
                     type="text"
                     onChange={val => this.setState({ searchedText: val.target.value })}
                 /> */}
-                {newSortedUsers.map((friend, i) => {
+                {/* {newSortedUsers.map((friend, i) => {
                     return <FriendItem key={i} name={friend.name} friend={friend.displayName} avatar={friend.avatar} />
-                })}
+                })} */}
             </div>
         )
     }

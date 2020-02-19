@@ -1,11 +1,9 @@
 import { 
     GET_ALL_USERS, 
-    GET_MY_FRIENDS 
 } from '../actions/friends';
 
 const initialState = {
     allUsers: [],
-    myFriends: [],
 }
 
 export default function(state = initialState, action){
@@ -18,12 +16,6 @@ export default function(state = initialState, action){
                 allUsers: data ? data : null,
             }
 
-        case GET_MY_FRIENDS:
-            return {
-                ...state,
-                myFriends: data ? data: null,
-            }
-        
         default: 
             return state;
     }
