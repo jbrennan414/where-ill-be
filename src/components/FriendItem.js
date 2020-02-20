@@ -3,7 +3,7 @@ import Avatar from '@material-ui/core/Avatar';
 import { styled } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
-import { requestFriend, approveFriend, denyFriend } from '../actions/friends';
+import { requestFriend, approveFriend, denyFriend, getUserID } from '../actions/friends';
 
 const style = {
     friends: {
@@ -67,69 +67,51 @@ const DenyButton = styled("button")({
 class FriendItem extends Component {
 
     buttonTypeHelper(friend, name){
-        const allFriendDisplayNames = this.props.myFriends.map(friend => friend.displayName);
-        const friendIndex = allFriendDisplayNames.findIndex(displayName => displayName === friend);
 
-        const { avatar } = this.props;
+        const { status, avatar, displayName } = this.props
 
-        if (friendIndex === -1){
-            return (
-                <SingleRow>
-                    <Avatar src={avatar} alt="user avatar" />
-                    <div style={{"display":"flex", "flexDirection":"column"}}>
-                        <p style={style.displayNameStyle}>{`@${friend}`}</p>
-                        <p style={style.nameStyle}>{name}</p>
-                    </div>
-                    <AddButton onClick={() => this.props.requestFriend(this.props.auth.uid, friend, name)} id={friend}>ADD</AddButton>
-                </SingleRow>
-            );
-            
-        } else {
-            const status = this.props.myFriends[friendIndex].status;
-
-            switch (status) {
-                case "pending_approval":
-                    return (
-                        <SingleRow style={style.pending}>
-                            <Avatar src={avatar} alt="user avatar" />
-                            <div style={{"display":"flex", "flexDirection":"column"}}>
-                                <p style={style.displayNameStyle}>{`@${friend}`}</p>
-                                <p style={style.requestedStyle}>{name}</p>
-                            </div>
-                            <p>requested</p>
-                        </SingleRow>
-                    );
-                case "requested_you":
-                    return (
-                        <SingleRow style={style.requested_you}>
-                            <Avatar src={avatar} alt="user avatar" />
-                            <div style={{"display":"flex", "flexDirection":"column"}}>
-                                <p style={style.displayNameStyle}>{`@${friend}`}</p>
-                                <p style={style.nameStyle}>{name}</p>
-                            </div>
-                            <div>
-                                <DenyButton onClick={() => this.props.denyFriend(this.props.auth.uid, friend)} id={friend}>DENY</DenyButton>
-                                <AddButton onClick={() => this.props.approveFriend(this.props.auth.uid, friend)} id={friend}>APPROVE</AddButton>
-                            </div>
-                        </SingleRow>
-                    );
-
-                case "true":
-                    return (
-                        <SingleRow style={style.friends}>
-                            <Avatar src={avatar} alt="user avatar" />
-                            <div style={{"display":"flex", "flexDirection":"column"}}>
-                                <p style={style.displayNameStyle}>{`@${friend}`}</p>
-                                <p style={style.requestedStyle}>{name}</p>
-                            </div>
-                            <p>friends!</p>
-                        </SingleRow>
-                    );
-                case "false":
-                    //in this case, they're blocked, let's not render
-                    // the name on either
-                    return(<div></div>)
-                default: 
+        switch (status) {
+            case "pending_approval":
+                return (
+                    <SingleRow style={style.pending}>
+                        <Avatar src={avatar} alt="user avatar" />
+                        <div style={{"display":"flex", "flexDirection":"column"}}>
+                            <p style={style.displayNameStyle}>{`@${friend}`}</p>
+                            <p style={style.requestedStyle}>{name}</p>
+                        </div>
+                        <p>requested</p>
+                    </SingleRow>
+                );
+            case "requested_you":
+                return (
+                    <SingleRow style={style.requested_you}>
+                        <Avatar src={avatar} alt="user avatar" />
+                        <div style={{"display":"flex", "flexDirection":"column"}}>
+                            <p style={style.displayNameStyle}>{`@${friend}`}</p>
+                            <p style={style.nameStyle}>{name}</p>
+                        </div>
+                        <div>
+                            <DenyButton onClick={() => this.props.denyFriend(this.props.auth.uid, friend)} id={friend}>DENY</DenyButton>
+                            <AddButton onClick={() => this.props.approveFriend(this.props.auth.uid, friend)} id={friend}>APPROVE</AddButton>
+                        </div>
+                    </SingleRow>
+                );
+            case "true":
+                return (
+                    <SingleRow style={style.friends}>
+                        <Avatar src={avatar} alt="user avatar" />
+                        <div style={{"display":"flex", "flexDirection":"column"}}>
+                            <p style={style.displayNameStyle}>{`@${friend}`}</p>
+                            <p style={style.requestedStyle}>{name}</p>
+                        </div>
+                        <p>friends!</p>
+                    </SingleRow>
+                );
+            case "false":
+                //in this case, they're blocked, let's not render
+                // the name on either
+                return(<div></div>)
+            default: 
                 return (
                     <SingleRow>
                         <Avatar src={avatar} alt="user avatar" />
@@ -137,13 +119,11 @@ class FriendItem extends Component {
                             <p style={style.displayNameStyle}>{`@${friend}`}</p>
                             <p style={style.nameStyle}>{name}</p>
                         </div>
-                        <p>FRIENDS!</p>
+                        <AddButton onClick={() => this.props.requestFriend(this.props.auth.uid, friend)} id={friend}>ADD</AddButton>
                     </SingleRow>
-                );            }
-
+                );
+            }
         }
-
-    }
 
 
     render() {
@@ -159,13 +139,13 @@ class FriendItem extends Component {
 
 const mapStateToProps = (state) => ({
     auth: state.auth,
-    myFriends: state.friends.myFriends
 })
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     requestFriend,
     approveFriend,
     denyFriend,
+    getUserID
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(FriendItem);

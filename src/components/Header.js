@@ -94,7 +94,7 @@ class Header extends Component {
 
   componentDidUpdate(){
     //we need a better way to solve this problem. we have a bug on first sign in
-    if (this.props && this.props.auth && this.props.auth.uid && this.props.myFriends.length === 0){
+    if (this.props && this.props.auth && this.props.auth.uid && this.props.friends.length === 0){
       this.props.getUsers(this.props.auth.uid);
     }
   }
@@ -139,9 +139,8 @@ class Header extends Component {
       isShowingLeftDrawer, 
       isShowingForgotPasswordModal,
     } = this.state;
-    const { auth, myFriends } = this.props;
 
-    const peopleWhoHaveRequestedMe = myFriends.filter(friend => friend.status === "requested_you");
+    const { auth, friends } = this.props;
 
     return (
       <div>
@@ -149,7 +148,7 @@ class Header extends Component {
           {auth.uid != null ? (
             <div style={{"display":"flex", "width":"100%", "justifyContent":"space-between", "alignItems":"center"}}>
               <Avatar style={{"marginLeft":"20px", "boxShadow": "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"}} onClick={() => this.setState({ isShowingLeftDrawer: !isShowingLeftDrawer })} alt="user avatar" src={auth.photoURL} />
-              {peopleWhoHaveRequestedMe.length > 0 && <div style={style.notification}></div>}
+              {/* {peopleWhoHaveRequestedMe.length > 0 && <div style={style.notification}></div>} */}
               <img alt="" style={style.logo} src={logo} />
               <div></div>
             </div>
@@ -223,7 +222,7 @@ class Header extends Component {
         </Dialog>
         <TemporaryDrawer
           show={isShowingLeftDrawer}
-          requestedFriends={peopleWhoHaveRequestedMe.length}
+          // requestedFriends={peopleWhoHaveRequestedMe.length}
           closeDrawer={() => this.setState({ isShowingLeftDrawer: !isShowingLeftDrawer })}
         />
 
@@ -308,7 +307,7 @@ class Header extends Component {
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  myFriends: state.friends.myFriends,
+  friends: state.friends,
 })
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({

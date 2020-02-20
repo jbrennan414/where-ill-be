@@ -13,7 +13,7 @@ export default function(state = initialState, action){
         case GET_ALL_USERS:
             return {
                 ...state,
-                allUsers: data ? data : null,
+                allUsers: data ? data : [],
             }
 
         default: 

@@ -32,47 +32,32 @@ class FindFriends extends Component {
     renderFriends(){
         let friends = [];
         Object.values(this.props.friends).forEach((item, i) => {
-            friends.push(<FriendItem key={i} name={item.name} friend={item.displayName} avatar={item.avatar} />)
+            friends.push(<FriendItem key={i} status={item.status} name={item.name} friend={item.displayName} avatar={item.avatar} />)
         })
 
         return friends;
 
     }
+
+    renderStrangers(){
+        let strangers = [];
+        Object.values(this.props.strangers).forEach((item, i) => {
+            strangers.push(<FriendItem key={i} status={item.status} name={item.name} friend={item.displayName} avatar={item.avatar} />)
+        });
+
+        return strangers;
+
+    }
     
     render() {
 
-        // const allUsers = this.props.friends.allUsers.sort();
-        // const myFriends = this.props.friends.myFriends.sort();
-        // const myUser = this.props.auth.displayName;
-        // let sortedUsers = [];
-        // let checkArray = [];
-
-        // const requestedMe = myFriends.filter(friends => friends.status === "requested_you");
-        // const myRequests = myFriends.filter(friends => friends.status === "pending_approval");
-        // const myRealFriends = myFriends.filter(friends => friends.status === "true");
-
-        // let newSortedUsers = sortedUsers.concat(requestedMe, myRequests, myRealFriends);
-        // newSortedUsers.forEach(user => {
-        //     checkArray.push(user.displayName);
-        // });
-
-        // // if I friended myself somehow, remove it
-        // const myUsersIndex = checkArray.findIndex(item => item === myUser);
-        // if (myUsersIndex !== -1){
-        //     newSortedUsers.splice(myUsersIndex, 1);
-        // }
-
-        // //add all others, that are not blocked
-        // allUsers.forEach(user => {
-        //     if (!checkArray.includes(user.displayName) && user.displayName !== myUser){
-        //         newSortedUsers.push(user);
-        //     }
-        // })
+        console.log("UUUUUUUUUUUU", this.props)
 
         return (
             <div>
                 <HeaderText>FIND FRIENDS</HeaderText>
                 {this.renderFriends()}
+                {this.renderStrangers()}
                 {/* <TextField
                     style={style.searchBox}
                     id="search"
@@ -90,8 +75,8 @@ class FindFriends extends Component {
 
 const mapStateToProps = (state) => ({
     auth: state.auth,
-    friends: state.friends.users.friends,
-    strangers: state.friends.users.strangers
+    friends: state.friends,
+    strangers: state.friends,
 })
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
