@@ -114,17 +114,15 @@ function getUserDisplayName(myUID, uid, snapshot){
 }
 
 export function getUserID(displayName){
-    return async function(){
-        let uid;
+    let uid;
 
-        firebase.database().ref('users').orderByChild("displayName").on("value", function(snapshot){
-            const snapshotCopy = snapshot.val();
-            const snapshotKeys = Object.keys(snapshotCopy);
-            const snapshotValues = Object.values(snapshotCopy);
-            const displayNameIndex = snapshotValues.findIndex(value => value.displayName === displayName)
-            uid = snapshotKeys[displayNameIndex];
-        })    
+    firebase.database().ref('users').orderByChild("displayName").on("value", function(snapshot){
+        const snapshotCopy = snapshot.val();
+        const snapshotKeys = Object.keys(snapshotCopy);
+        const snapshotValues = Object.values(snapshotCopy);
+        const displayNameIndex = snapshotValues.findIndex(value => value.displayName === displayName)
+        uid = snapshotKeys[displayNameIndex];
+    })    
 
-        return uid;
-    }
+    return uid;
 }

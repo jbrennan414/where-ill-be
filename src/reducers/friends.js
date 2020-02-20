@@ -3,7 +3,8 @@ import {
 } from '../actions/friends';
 
 const initialState = {
-    allUsers: [],
+    friends: [],
+    strangers: [],
 }
 
 export default function(state = initialState, action){
@@ -13,7 +14,8 @@ export default function(state = initialState, action){
         case GET_ALL_USERS:
             return {
                 ...state,
-                allUsers: data ? data : [],
+                friends: data ? data.friends : [],
+                strangers: data ? data.strangers : []
             }
 
         default: 

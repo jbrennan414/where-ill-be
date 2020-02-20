@@ -4,6 +4,7 @@ import FriendItem from './FriendItem';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import { getUsers } from '../actions/friends';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const HeaderText = styled("p")({
     fontSize: '36px',
@@ -51,7 +52,9 @@ class FindFriends extends Component {
     
     render() {
 
-        console.log("UUUUUUUUUUUU", this.props)
+        if (!this.props.friends || !this.props.strangers){
+            return <CircularProgress />;
+        }
 
         return (
             <div>
@@ -75,8 +78,8 @@ class FindFriends extends Component {
 
 const mapStateToProps = (state) => ({
     auth: state.auth,
-    friends: state.friends,
-    strangers: state.friends,
+    friends: state.friends.friends,
+    strangers: state.friends.strangers,
 })
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
