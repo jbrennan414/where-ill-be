@@ -151,12 +151,12 @@ class CalendarView extends Component {
         }
 
         let myFriends = {};
-        this.props.myFriends.forEach(item => {
+        Object.values(this.props.friends).forEach((item, i) => {
             if (item.status === 'true') {
                 let singleLine = {};
                 singleLine["avatar"] = item["avatar"];
                 singleLine["name"] = item["name"];
-                myFriends[item["uid"]]= singleLine;
+                myFriends[Object.keys(this.props.friends)[i]]= singleLine;
             }
         });
 
@@ -170,7 +170,7 @@ class CalendarView extends Component {
         let myFriendsSkiingToday = []
         if (this.props.thisMonthsSkiDays[this.state.selectedDate]){
             const allTodaysSkiiers = this.props.thisMonthsSkiDays[this.state.selectedDate];
-            this.props.myFriends.forEach(friend => {
+            Object.values(this.props.friends).forEach(friend => {
                 if (Object.keys(allTodaysSkiiers).includes(friend.uid)){
                     let singleSkiier = {};
                     singleSkiier[friend.uid] = allTodaysSkiiers[friend.uid];
@@ -188,12 +188,12 @@ class CalendarView extends Component {
                         variant="static"
                         openTo="date"
                         renderDay={(day, selectedDate, isInCurrentMonth, dayComponent) => {
-                                const month = day._d.getMonth() >= 10 ? day._d.getMonth().toString() : "0" + day._d.getMonth().toString();
-                                const date = day._d.getDate() >= 10 ? day._d.getDate().toString() : "0" + day._d.getDate().toString();
-                                const fullYear = day._d.getFullYear();
-                                let badges = [];
-                                //parsed date will look like 01052020 (February 5, 2020)
-                                const parsedDate = `${month}${date}${fullYear}`;
+                            const month = day._d.getMonth() >= 10 ? day._d.getMonth().toString() : "0" + day._d.getMonth().toString();
+                            const date = day._d.getDate() >= 10 ? day._d.getDate().toString() : "0" + day._d.getDate().toString();
+                            const fullYear = day._d.getFullYear();
+                            let badges = [];
+                            //parsed date will look like 01052020 (February 5, 2020)
+                            const parsedDate = `${month}${date}${fullYear}`;
                             //show my ski days
                             if (this.props.thisMonthsSkiDays[parsedDate]){
                                 const todaysSkiiers = Object.keys(this.props.thisMonthsSkiDays[parsedDate]);
@@ -261,7 +261,7 @@ class CalendarView extends Component {
 
 const mapStateToProps = (state) => ({
     auth: state.auth,
-    myFriends: state.friends.myFriends,
+    friends: state.friends.friends,
     thisMonthsSkiDays: state.dates.thisMonthsSkiDays,
 })
 

@@ -68,9 +68,6 @@ class FindFriends extends Component {
                     type="text"
                     onChange={val => this.setState({ searchedText: val.target.value })}
                 /> */}
-                {/* {newSortedUsers.map((friend, i) => {
-                    return <FriendItem key={i} name={friend.name} friend={friend.displayName} avatar={friend.avatar} />
-                })} */}
             </div>
         )
     }
