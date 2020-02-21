@@ -8,6 +8,7 @@ import { getThisMonthsSkiDays } from '../actions/dates';
 import { DatePicker } from "@material-ui/pickers";
 import { ThemeProvider } from "@material-ui/styles";
 import Avatar from '@material-ui/core/Avatar';
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -242,17 +243,22 @@ class CalendarView extends Component {
                     open={isShowingAddDayModal}
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description"
+                    fullWidth={true}
+                    maxWidth={'xl'}
                 >
                     <ModalHeader id="alert-dialog-title">{`${selectedMonth} ${selectedDay}`}</ModalHeader>
                     {this.renderSkiierRows(myFriendsSkiingToday)}
                     <Select
                         id= "ski-resort-dropdown"
                         onChange={this.handleChange}
+                        placeholder={"ski?"}
                     >
                         {resortList.map(resort => {
                             return <MenuItem key={resort} value={resort} id={resort}>{resort}</MenuItem>
                         })}
                     </Select>
+                    <FormHelperText>Where I'll Ski</FormHelperText>
+
                     <DialogActions>
                         <Button style={style.cancelButton} onClick={() => this.setState({ isShowingAddDayModal: false })} color="primary">
                             Cancel
