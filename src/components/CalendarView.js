@@ -114,10 +114,11 @@ class CalendarView extends Component {
         skiiers.forEach(item =>
             rows.push(
                 <SingleRow>
-                    <Avatar src={""} alt="user avatar" />
+                    <Avatar src={`${item.avatar}`} alt="user avatar" />
                     <div style={{"display":"flex", "flexDirection":"column"}}>
-                        <p style={style.displayNameStyle}>{`@test`}</p>
-                        <p style={style.nameStyle}>{"foobar"}</p>
+                        <p style={style.displayNameStyle}>{`@${item.displayName}`}</p>
+                        <p style={style.nameStyle}>{`${item.name}`}</p>
+                        <p>{`${item.resort}`}</p>
                     </div>
                 </SingleRow>
             )
@@ -151,33 +152,40 @@ class CalendarView extends Component {
         }
 
         let myFriends = {};
-        Object.values(this.props.friends).forEach((item, i) => {
-            if (item.status === 'true') {
-                let singleLine = {};
-                singleLine["avatar"] = item["avatar"];
-                singleLine["name"] = item["name"];
-                myFriends[Object.keys(this.props.friends)[i]]= singleLine;
-            }
-        });
-
-        //Uh, add me to my own friends 😑
-        let myLine = {};
-        myLine["avatar"] = this.props.auth.photoURL;
-        myFriends[this.props.auth.uid] = myLine;
-
-
-        // mehhhhhhh
         let myFriendsSkiingToday = []
-        if (this.props.thisMonthsSkiDays[this.state.selectedDate]){
-            const allTodaysSkiiers = this.props.thisMonthsSkiDays[this.state.selectedDate];
-            Object.values(this.props.friends).forEach(friend => {
-                if (Object.keys(allTodaysSkiiers).includes(friend.uid)){
-                    let singleSkiier = {};
-                    singleSkiier[friend.uid] = allTodaysSkiiers[friend.uid];
-                    myFriendsSkiingToday.push(singleSkiier);
+
+        if (this.props.friends){
+
+            Object.values(this.props.friends).forEach((item, i) => {
+                if (item.status === 'true') {
+                    let singleLine = {};
+                    singleLine["avatar"] = item["avatar"];
+                    singleLine["name"] = item["name"];
+                    myFriends[Object.keys(this.props.friends)[i]]= singleLine;
                 }
-            })
+            });
+
+            //Uh, add me to my own friends 😑
+            let myLine = {};
+            myLine["avatar"] = this.props.auth.photoURL;
+            myFriends[this.props.auth.uid] = myLine;
+
         }
+
+            // mehhhhhhh
+            if (this.props.thisMonthsSkiDays[this.state.selectedDate]){
+                const allTodaysSkiiers = this.props.thisMonthsSkiDays[this.state.selectedDate];
+                Object.keys(this.props.friends).forEach(friend => {
+                    if (Object.keys(allTodaysSkiiers).includes(friend)){
+                        let singleSkiier = {};
+                        singleSkiier["displayName"] = this.props.friends[friend].displayName;
+                        singleSkiier["avatar"] = this.props.friends[friend].avatar;
+                        singleSkiier["name"] = this.props.friends[friend].name;
+                        singleSkiier["resort"] = this.props.thisMonthsSkiDays[this.state.selectedDate][friend]
+                        myFriendsSkiingToday.push(singleSkiier);
+                    }
+                })
+            }
 
         return (
             <div>
