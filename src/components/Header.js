@@ -45,7 +45,9 @@ const style = {
   logo: {
     height: '1em',
     width: '1em',
-    justifyContent:'center'
+    justifyContent:'center',
+    position:'absolute',
+    right: '44%'
   },
   textBox:{
     border: '1px solid lightgray',
