@@ -63,8 +63,6 @@ class Profile extends Component {
         stateCopy["photoURL"] = `https://firebasestorage.googleapis.com/v0/b/where-ill-be.appspot.com/o/headshots%2F${this.props.auth.uid}_headshot_${d}?alt=media&token=AEu4IL3pYYyMNCXTq3C5IC_H6uHOoQ86dqDn4uSyDBLaYYL9D6Rt_O70qmHOVal`;
         stateCopy["displayName"] = displayName;
 
-        console.log("this is OUR RRRRRR STATE", stateCopy)
-
         storageRef.put(file_data).then(response => {
             this.props.updateMyProfile(stateCopy)
         })

@@ -68,7 +68,7 @@ class FriendItem extends Component {
 
     buttonTypeHelper(friend, name){
 
-        const { status, avatar, displayName } = this.props
+        const { status, avatar } = this.props
 
         switch (status) {
             case "pending_approval":

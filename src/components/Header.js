@@ -140,7 +140,7 @@ class Header extends Component {
       isShowingForgotPasswordModal,
     } = this.state;
 
-    const { auth, friends } = this.props;
+    const { auth } = this.props;
 
     return (
       <div>
@@ -217,7 +217,7 @@ class Header extends Component {
               Sign Up
             </Button>
             </DialogActions>
-            <h1></h1>
+            <p></p>
           </div>
         </Dialog>
         <TemporaryDrawer

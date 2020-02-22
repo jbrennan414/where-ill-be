@@ -10,9 +10,13 @@ export function getUsers(myUID){
             if (snapshot.val()[myUID]){
                 const myData = snapshot.val()[myUID];
                 const myFriends = myData.friends;
+                let myFriendsUIDs = [];
 
-                // Add to the friends object
-                const myFriendsUIDs = Object.keys(myFriends);
+                if (myFriends){
+                    // Add to the friends object
+                    myFriendsUIDs = Object.keys(myFriends);
+                }
+
                 const allUserKeys = Object.keys(snapshot.val())
 
                 let users = {};
@@ -20,7 +24,7 @@ export function getUsers(myUID){
                 users["strangers"] = {};
 
                 allUserKeys.forEach(uid => {
-                    if (myFriendsUIDs.includes(uid)){
+                    if (myFriendsUIDs.length > 1 && myFriendsUIDs.includes(uid)){
                         const user = getUserDisplayName(myUID, uid, snapshot.val());
                         users["friends"][uid] = user;
                     } else {
@@ -100,7 +104,11 @@ function getUserDisplayName(myUID, uid, snapshot){
 
     //Get our status for this user
     const myFriends = snapshot[myUID].friends;
-    const userStatus = myFriends[uid];
+    let userStatus = "unknown"
+
+    if (myFriends){
+        userStatus = myFriends[uid];
+    }
 
     const user = {
         displayName: displayName,
