@@ -57,6 +57,7 @@ const App = () => (
               <Route path="/calendar" component={CalendarView} />
               <Route path="/profile" component={Profile} />
               <Route path="/friends" component={FindFriends} />
+              <Route path="/finishsignup" component={LandingPage} />
             </Switch>
           </div>
         </Router>

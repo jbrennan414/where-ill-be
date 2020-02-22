@@ -39,6 +39,14 @@ export function createUser(data){
                 photoURL: ""
             });
 
+            // Email verification
+            const user = firebase.auth().currentUser;
+            user.sendEmailVerification().then(function() {
+            // Email sent.
+            }).catch(function(error) {
+            // An error happened.
+            });
+
             return dispatch({
                 type: CREATE_USER,
                 data: newUser,
