@@ -6,7 +6,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 
-import { updateAuth, signOut, signIn, createUser } from '../actions/auth';
+import { updateAuth, signOut, createUser } from '../actions/auth';
 import { getUsers } from '../actions/friends';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'

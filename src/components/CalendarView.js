@@ -8,7 +8,6 @@ import { getThisMonthsSkiDays } from '../actions/dates';
 import { DatePicker } from "@material-ui/pickers";
 import { ThemeProvider } from "@material-ui/styles";
 import Avatar from '@material-ui/core/Avatar';
-import FormHelperText from '@material-ui/core/FormHelperText';
 
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -35,7 +34,7 @@ const SingleRow = styled("div")({
     backgroundColor:'white',
     fontFamily: "\"Do Hyeon\", sans-serif",
     justifyContent:'space-between',
-    padding: '0px 20px',
+    padding: '0px 10px',
     alignItems:'center',
     margin: '0',
 });
@@ -74,8 +73,22 @@ const customTheme = createMuiTheme({
         cancelButton: {
             color:"#015249",
             border: "1px solid #015249"
+        },
+        displayNameStyle: {
+            margin: "0px"
+        },
+        nameStyle: {
+            margin:"0px"
+        },
+        selectDropdown: {
+            backgroundColor: "#57BC90",
+            marginTop: "40px",
+            color: 'white',
+            borderRadius: "50px",
+            height: "73px"
         }
-  }
+
+    }
 
 class CalendarView extends Component {
 
@@ -115,12 +128,12 @@ class CalendarView extends Component {
         skiiers.forEach(item =>
             rows.push(
                 <SingleRow>
-                    <Avatar src={`${item.avatar}`} alt="user avatar" />
+                    <Avatar src={item.avatar ? `${item.avatar}` : ""} alt="user avatar" />
                     <div style={{"display":"flex", "flexDirection":"column"}}>
                         <p style={style.displayNameStyle}>{`@${item.displayName}`}</p>
                         <p style={style.nameStyle}>{`${item.name}`}</p>
-                        <p>{`${item.resort}`}</p>
                     </div>
+                    <p>{`${item.resort}`}</p>
                 </SingleRow>
             )
         );
@@ -248,17 +261,18 @@ class CalendarView extends Component {
                 >
                     <ModalHeader id="alert-dialog-title">{`${selectedMonth} ${selectedDay}`}</ModalHeader>
                     {this.renderSkiierRows(myFriendsSkiingToday)}
-                    <Select
-                        id= "ski-resort-dropdown"
-                        onChange={this.handleChange}
-                        placeholder={"ski?"}
-                    >
-                        {resortList.map(resort => {
-                            return <MenuItem key={resort} value={resort} id={resort}>{resort}</MenuItem>
-                        })}
-                    </Select>
-                    <FormHelperText>Where I'll Ski</FormHelperText>
-
+                    <div style={{"display":"flex", "flexDirection":"column", "marginLeft":"20px", "marginRight":"20px"}}>
+                        <Select
+                            id= "ski-resort-dropdown"
+                            onChange={this.handleChange}
+                            placeholder={"ski?"}
+                            style={style.selectDropdown}
+                        >
+                            {resortList.map(resort => {
+                                return <MenuItem key={resort} value={resort} id={resort}>{resort}</MenuItem>
+                            })}
+                        </Select>
+                    </div>
                     <DialogActions>
                         <Button style={style.cancelButton} onClick={() => this.setState({ isShowingAddDayModal: false })} color="primary">
                             Cancel
