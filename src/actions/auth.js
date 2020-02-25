@@ -74,18 +74,6 @@ export function signOut(){
     }
 }
 
-export function signIn(email, password){
-    return async function (){
-       await firebase.auth().signInWithEmailAndPassword(email, password).then(function(error) {
-        // Handle Errors here.
-        var errorMessage = error.message;
-
-        console.log(errorMessage)
-        // ...
-      });
-    }
-}
-
 export function updateMyProfile(data){
 
     const { displayName, uid, photoURL } = data;

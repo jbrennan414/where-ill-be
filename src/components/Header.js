@@ -127,9 +127,15 @@ class Header extends Component {
 
   }
 
-  logUserIn(){
+  async logUserIn(){
     const { email, password } = this.state;
-    this.props.signIn(email, password);
+
+      await firebase.auth().signInWithEmailAndPassword(email, password).then(function(error) {
+        console.log("Logged in successfully.")
+      }).catch(function(error){
+
+        alert(error.message)
+    })
 
   }
 
@@ -315,7 +321,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => bindActionCreators({
   updateAuth,
   signOut,
-  signIn,
   createUser,
   getUsers,
 }, dispatch);
