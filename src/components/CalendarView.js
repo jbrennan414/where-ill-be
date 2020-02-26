@@ -41,26 +41,26 @@ const SingleRow = styled("div")({
 
 const customTheme = createMuiTheme({
     overrides: {
-      MuiPickersDay: {
-        day: {
-            color: "light-gray",
-            fontFamily: "\"Do Hyeon\", sans-serif",
-            backgroundColor: "white",
-            borderRadius:"0px",
+        MuiPickersDay: {
+            day: {
+                color: "light-gray",
+                fontFamily: "\"Do Hyeon\", sans-serif",
+                backgroundColor: "white",
+                borderRadius:"0px",
+            },
+            daySelected: {
+                backgroundColor: "",
+                color:"light-gray"
+            },
+            dayDisabled: {
+                color: "black",
+            },
+            current: {
+                color: "",
+            },
         },
-        daySelected: {
-          backgroundColor: "",
-          color:"light-gray"
-        },
-        dayDisabled: {
-          color: "black",
-        },
-        current: {
-          color: "",
-        },
-      },
     },
-  });
+});
   
   const style = {
         avatar: {
@@ -150,7 +150,7 @@ class CalendarView extends Component {
                             <p style={style.displayNameStyle}>{`@${item.displayName}`}</p>
                             <p style={style.nameStyle}>{`${item.name}`}</p>
                         </div>
-                        <p>{`${item.resort}`}</p>
+                        <p style={{"color":"#A5A5AF"}}>{`${item.resort}`}</p>
                     </SingleRow>
                 )
             }
