@@ -45,17 +45,18 @@ const customTheme = createMuiTheme({
         day: {
             color: "light-gray",
             fontFamily: "\"Do Hyeon\", sans-serif",
-            backgroundColor: "white"
-
+            backgroundColor: "white",
+            borderRadius:"0px",
         },
         daySelected: {
-          backgroundColor: "black",
+          backgroundColor: "",
+          color:"light-gray"
         },
         dayDisabled: {
           color: "black",
         },
         current: {
-          color: "black",
+          color: "",
         },
       },
     },
@@ -86,6 +87,9 @@ const customTheme = createMuiTheme({
             color: 'white',
             borderRadius: "50px",
             height: "73px"
+        },
+        calendar: {
+            border: "1px solid black"
         }
 
     }
@@ -125,18 +129,32 @@ class CalendarView extends Component {
 
     renderSkiierRows(skiiers){
         let rows = [];
-        skiiers.forEach(item =>
-            rows.push(
-                <SingleRow>
-                    <Avatar src={item.avatar ? `${item.avatar}` : ""} alt="user avatar" />
-                    <div style={{"display":"flex", "flexDirection":"column"}}>
-                        <p style={style.displayNameStyle}>{`@${item.displayName}`}</p>
-                        <p style={style.nameStyle}>{`${item.name}`}</p>
-                    </div>
-                    <p>{`${item.resort}`}</p>
-                </SingleRow>
-            )
-        );
+        skiiers.forEach(item => {
+            //this is our row on the modal
+            if (item.displayName === this.props.auth.displayName){
+                rows.push(
+                    <SingleRow style={{"backgroundColor":"#57BC90", "color":"white"}}>
+                        <Avatar src={item.avatar ? `${item.avatar}` : ""} alt="user avatar" />
+                        <div style={{"display":"flex", "flexDirection":"column"}}>
+                            <p style={style.displayNameStyle}>{`@${item.displayName}`}</p>
+                        </div>
+                        <p>{`${item.resort}`}</p>
+                    </SingleRow>
+                )
+
+            } else {
+                rows.push(
+                    <SingleRow>
+                        <Avatar src={item.avatar ? `${item.avatar}` : ""} alt="user avatar" />
+                        <div style={{"display":"flex", "flexDirection":"column"}}>
+                            <p style={style.displayNameStyle}>{`@${item.displayName}`}</p>
+                            <p style={style.nameStyle}>{`${item.name}`}</p>
+                        </div>
+                        <p>{`${item.resort}`}</p>
+                    </SingleRow>
+                )
+            }
+        });
         
         return rows;
     }
@@ -199,10 +217,18 @@ class CalendarView extends Component {
                         myFriendsSkiingToday.push(singleSkiier);
                     }
                 })
+
+                if (Object.keys(allTodaysSkiiers).includes(this.props.auth.uid)){
+                    let singleSkiier = {};
+                    singleSkiier["displayName"] = this.props.auth.displayName;
+                    singleSkiier["avatar"] = this.props.auth.photoURL;
+                    singleSkiier["resort"] = this.props.thisMonthsSkiDays[this.state.selectedDate][this.props.auth.uid];
+                    myFriendsSkiingToday.unshift(singleSkiier);
+                }
             }
 
         return (
-            <div>
+            <div style={{"display":"flex", "justifyContent":"center"}}>
                 <ThemeProvider theme={customTheme}>
                     <DatePicker
                         autoOk
