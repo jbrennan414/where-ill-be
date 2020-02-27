@@ -41,12 +41,21 @@ const SingleRow = styled("div")({
 
 const customTheme = createMuiTheme({
     overrides: {
+        MuiPickersBasePicker:{
+            pickerView:{
+                backgroundColor:"#77C9D4",
+                height: "400px"
+            }
+        },
         MuiPickersDay: {
             day: {
                 color: "light-gray",
                 fontFamily: "\"Do Hyeon\", sans-serif",
                 backgroundColor: "white",
                 borderRadius:"0px",
+            },
+            container:{
+                backgroundColor:"black"
             },
             daySelected: {
                 backgroundColor: "",
