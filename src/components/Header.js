@@ -115,16 +115,34 @@ class Header extends Component {
   }
 
 
-  addNewUser(){
+  async addNewUser(){
 
     const { email, name, displayName, password } = this.state;
 
     if (email && name && displayName && password) {
-      this.props.createUser({...this.state});
-    } else {
-      alert("Please complete all required fields");
-    }
+      let newUser = {};
 
+      await firebase.auth().createUserWithEmailAndPassword(email, password).then(function(result) {
+          newUser["email"] = result.user.email;
+          newUser["uid"] = result.user.uid;
+          newUser["displayName"] = displayName;
+
+          result.user.updateProfile({
+              displayName: displayName
+          })
+
+          firebase.database().ref('users/' + result.user.uid).set({
+              name:name,
+              displayName: displayName,
+              photoURL: ""
+          });
+
+        }).catch(function(error){
+          alert(error.message)
+        })
+
+        this.props.createUser(newUser)
+    }
   }
 
   async logUserIn(){

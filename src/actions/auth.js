@@ -17,46 +17,13 @@ export function updateAuth(){
     }
 }
 
-export function createUser(data){
-
-    let { email, password } = data; 
+export function createUser(newUser){
 
     return async function (dispatch){
-        await firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then(function(result) {
-            let newUser = {};
-            newUser["email"] = data.email;
-            newUser["uid"] = result.user.uid;
-            newUser["displayName"] = data.displayName;
-
-            result.user.updateProfile({
-                displayName: data.displayName
-            })
-
-            firebase.database().ref('users/' + result.user.uid).set({
-                name:data["name"],
-                displayName: data["displayName"],
-                photoURL: ""
-            });
-
-            // Email verification
-            // const user = firebase.auth().currentUser;
-            // user.sendEmailVerification().then(function() {
-            // // Email sent.
-            // }).catch(function(error) {
-            // // An error happened.
-            // });
-
-            return dispatch({
-                type: CREATE_USER,
-                data: newUser,
-            })
-
-            
-        }).catch(function(error) {
-          console.log(error);
-        });
-
+        return dispatch({
+            type: CREATE_USER,
+            data: newUser,
+        })
     }
 }
 
