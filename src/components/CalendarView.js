@@ -52,11 +52,17 @@ const customTheme = createMuiTheme({
                 marginBottom:"5px"
             }
         },
-        MuiPickersCalendarHeader:{
-            transitionContainer:{
-                fontFamily: "\"Do Hyeon\", sans-serif",
+        MuiPickersCalendarHeader: {
+            iconButton:{
+                backgroundColor:""
+            }
+        },
+        MuiTypography:{
+            body1:{
                 color:"#015249",
-
+                textTransform: 'uppercase',
+                fontFamily: "\"Do Hyeon\", sans-serif",
+                fontSize:'22px'
             }
         },
         MuiPickersDay: {
@@ -110,7 +116,8 @@ const customTheme = createMuiTheme({
             marginTop: "40px",
             color: 'white',
             borderRadius: "50px",
-            height: "73px"
+            height: "50px",
+            padding:"30px"
         },
         calendar: {
             border: "1px solid black"
