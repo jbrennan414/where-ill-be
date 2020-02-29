@@ -131,6 +131,14 @@ class Header extends Component {
               displayName: displayName
           })
 
+          var emailUser = firebase.auth().currentUser;
+          emailUser.sendEmailVerification().then(function() {
+            // Email sent.
+            alert("Great! Check your email!")
+          }).catch(function(error) {
+            alert(error.message)
+          });
+
           firebase.database().ref('users/' + result.user.uid).set({
               name:name,
               displayName: displayName,
