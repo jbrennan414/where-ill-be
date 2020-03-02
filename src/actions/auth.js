@@ -9,6 +9,12 @@ export function updateAuth(){
     return async function(dispatch){
 
         await firebase.auth().onAuthStateChanged(function(user) {
+            if (user.emailVerified){
+                console.log("AAAAAA email is verified")
+            } else {
+                console.log("BBBBBB email is not verified")
+            }
+
             return dispatch({
                 type: UPDATE_AUTH,
                 data: user
