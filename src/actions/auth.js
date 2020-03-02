@@ -8,9 +8,11 @@ export const CREATE_USER = "CREATE_USER";
 export function updateAuth(){
     return async function(dispatch){
 
-        firebase.User.reload();
 
-        await firebase.auth().onAuthStateChanged(function(user) {
+        await firebase.auth().onIdTokenChanged(function(user) {
+
+            user.reload()
+            
             return dispatch({
                 type: UPDATE_AUTH,
                 data: user
