@@ -12,7 +12,13 @@ export function updateAuth(){
         await firebase.auth().onIdTokenChanged(function(user) {
 
             user.reload()
-            
+
+            if (user.emailVerified){
+                console.log("AAAAAAAAA EMAIL IS VERIFIED")
+            } else {
+                console.log("BBbBBBBB email not verified")
+            }
+
             return dispatch({
                 type: UPDATE_AUTH,
                 data: user
