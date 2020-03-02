@@ -8,6 +8,7 @@ import * as firebase from 'firebase/app'
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import FormHelperText from '@material-ui/core/FormHelperText';
+import SnackBar from './Snackbar';
 
 const TitleText = styled("div")({
     fontSize: '24px',
@@ -107,6 +108,7 @@ class Profile extends Component {
                     <TextField id="standard-required" defaultValue={`${email}`} placeholder="email" onChange={val => this.setState({ email: val.target.value })} />
                     <FormHelperText style={style.helperText} id="component-helper-text">This isn't always cool, we get it.</FormHelperText>
                 </form>
+                <SnackBar display={true} severity={"success"} message={this.props.auth.notifications.message} />
                 <Button onClick={()=> this.props.updateMyProfile(this.state)}>
                     Submit
                 </Button>

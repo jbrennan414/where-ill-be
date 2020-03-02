@@ -29,6 +29,7 @@ export default function(state = initialState, action){
                 displayName: data ? data.displayName : null,
                 email: data ? data.email : null,
                 photoURL: data ? data.photoURL : null,
+                notifications: data ? data.notification : null, 
             }
         case CREATE_USER:
             return {

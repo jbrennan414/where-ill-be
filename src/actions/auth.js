@@ -1,3 +1,6 @@
+import SnackBar from '../components/Snackbar';
+import React from 'react'
+
 import * as firebase from 'firebase'
 
 export const UPDATE_AUTH = "UPDATE_AUTH";
@@ -66,6 +69,12 @@ export function updateMyProfile(data){
             displayName: displayName,
             photoURL: photoURL
         }).then(function() {
+
+            data.notification = {
+                severity:"success",
+                message:"Profile updated!"
+            }
+
             return dispatch({
                 type: UPDATE_PROFILE,
                 data:data,
