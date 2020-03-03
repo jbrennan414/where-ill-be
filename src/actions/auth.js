@@ -1,6 +1,3 @@
-import SnackBar from '../components/Snackbar';
-import React from 'react'
-
 import * as firebase from 'firebase'
 
 export const UPDATE_AUTH = "UPDATE_AUTH";

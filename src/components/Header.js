@@ -5,6 +5,8 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
 import { updateAuth, signOut, createUser } from '../actions/auth';
 import { getUsers } from '../actions/friends';
@@ -86,6 +88,9 @@ class Header extends Component {
       isShowingSignUpModal: false,
       isShowingLeftDrawer: false,
       isShowingForgotPasswordModal: false,
+      isShowingSnackbar: false,
+      snackbarMessage: "",
+      snackbarType:"",
     };
   }
 
@@ -153,14 +158,25 @@ class Header extends Component {
     }
   }
 
+  handleClose(){
+    this.setState({ isShowingSnackbar: false });
+  }
+
   async logUserIn(){
     const { email, password } = this.state;
-
+    var self = this;
       await firebase.auth().signInWithEmailAndPassword(email, password).then(function(error) {
         console.log("Logged in successfully.")
+        self.setState({ 
+          isShowingSnackbar:true,
+          snackbarMessage: "Welcome!",
+          snackbarType: "success",
+        })
       }).catch(function(error){
-
-        alert(error.message)
+        self.setState({
+          isShowingSnackbar:true,
+          snackbarMessage: error.message
+        })
     })
 
   }
@@ -193,6 +209,11 @@ class Header extends Component {
             </div>
           )}
         </MyTouchbar>
+        <Snackbar open={this.state.isShowingSnackbar} autoHideDuration={4000} onClose={()=> this.handleClose()}>
+          <MuiAlert onClose={()=> this.handleClose()} severity={this.state.snackbarType}>
+            {this.state.snackbarMessage}
+          </MuiAlert>
+        </Snackbar>
 
           {/* Sign Up Modal */}
           <Dialog

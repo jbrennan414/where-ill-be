@@ -8,7 +8,8 @@ import * as firebase from 'firebase/app'
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import SnackBar from './Snackbar';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
 const TitleText = styled("div")({
     fontSize: '24px',
@@ -44,6 +45,7 @@ class Profile extends Component {
         this.state = { 
             email: this.props.auth.email || "None",
             uid: this.props.auth.uid || "None",
+            isShowingSnackbar: false
         };
     }
 
@@ -69,7 +71,10 @@ class Profile extends Component {
         })
     }
 
-      
+    handleClose(){
+        this.setState({ isShowingSnackbar: false})
+    }
+
     render() {
 
         let { email, photoURL, uid } = this.props.auth;
@@ -108,10 +113,15 @@ class Profile extends Component {
                     <TextField id="standard-required" defaultValue={`${email}`} placeholder="email" onChange={val => this.setState({ email: val.target.value })} />
                     <FormHelperText style={style.helperText} id="component-helper-text">This isn't always cool, we get it.</FormHelperText>
                 </form>
-                <SnackBar display={true} severity={"success"} message={this.props.auth.notifications.message} />
-                <Button onClick={()=> this.props.updateMyProfile(this.state)}>
+                {/* TODO Ok, yes, it should probably be setting our snackbar after we have a response from redux */}
+                <Button onClick={()=> {this.setState({ isShowingSnackbar:true}); this.props.updateMyProfile(this.state)}}>
                     Submit
                 </Button>
+                <Snackbar open={this.state.isShowingSnackbar} autoHideDuration={4000} onClose={()=> this.handleClose()}>
+                    <MuiAlert onClose={()=> this.handleClose()} severity={"success"}>
+                        {"Updated!"}
+                    </MuiAlert>
+                </Snackbar>
             </div>
         )
     }
