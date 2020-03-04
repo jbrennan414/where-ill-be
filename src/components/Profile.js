@@ -68,6 +68,9 @@ class Profile extends Component {
 
         storageRef.put(file_data).then(response => {
             this.props.updateMyProfile(stateCopy)
+            this.setState({
+                snackbarType:"success", snackbarMessage:"Uploaded!"
+            })
         })
     }
 
@@ -91,7 +94,7 @@ class Profile extends Component {
         // We'll need to fix that sooner or later
 
         return (
-            <div>
+            <div style={{"padding":"30px"}}>
                 <TitleText><p style={{"fontSize":"36px"}}>MY PROFILE</p></TitleText>
                 <input
                     accept="image/*"
@@ -100,7 +103,7 @@ class Profile extends Component {
                     id="raised-button-file"
                     multiple
                     type="file"
-                    onChange={()=>this.uploadPhoto(displayName)}
+                    onChange={()=>{this.setState({ isShowingSnackbar:true, snackbarType:"info", snackbarMessage:"photo uploading!"}); this.uploadPhoto(displayName)}}
                 />
                 <label htmlFor="raised-button-file">
                     <Button component="span">
@@ -114,12 +117,12 @@ class Profile extends Component {
                     <FormHelperText style={style.helperText} id="component-helper-text">This isn't always cool, we get it.</FormHelperText>
                 </form>
                 {/* TODO Ok, yes, it should probably be setting our snackbar after we have a response from redux */}
-                <Button onClick={()=> {this.setState({ isShowingSnackbar:true}); this.props.updateMyProfile(this.state)}}>
+                <Button onClick={()=> {this.setState({ isShowingSnackbar:true, severity:"success", snackbarMessage:"Updated!"}); this.props.updateMyProfile(this.state)}}>
                     Submit
                 </Button>
                 <Snackbar open={this.state.isShowingSnackbar} autoHideDuration={4000} onClose={()=> this.handleClose()}>
-                    <MuiAlert onClose={()=> this.handleClose()} severity={"success"}>
-                        {"Updated!"}
+                    <MuiAlert onClose={()=> this.handleClose()} severity={this.state.snackbarType}>
+                        {this.state.snackbarMessage}
                     </MuiAlert>
                 </Snackbar>
             </div>
