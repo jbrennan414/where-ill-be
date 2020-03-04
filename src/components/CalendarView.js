@@ -79,8 +79,8 @@ const customTheme = createMuiTheme({
                 backgroundColor:"black"
             },
             daySelected: {
-                backgroundColor: "",
-                color:"light-gray"
+                backgroundColor: "#57BC90",
+                color:"white"
             },
             dayDisabled: {
                 color: "black",

@@ -110,7 +110,7 @@ class Profile extends Component {
                 <form noValidate autoComplete="off">
                     <TextField required id="standard-required" value={`${displayName}`} placeholder="username" onChange={val => this.setState({ displayName: val.target.value })} />
                     <FormHelperText style={style.helperText} id="component-helper-text">Make this cool. This is how your friends will find you!</FormHelperText>
-                    <TextField id="standard-required" defaultValue={`${email}`} placeholder="email" onChange={val => this.setState({ email: val.target.value })} />
+                    <TextField disabled id="standard-required" defaultValue={`${email}`} placeholder="email" onChange={val => this.setState({ email: val.target.value })} />
                     <FormHelperText style={style.helperText} id="component-helper-text">This isn't always cool, we get it.</FormHelperText>
                 </form>
                 {/* TODO Ok, yes, it should probably be setting our snackbar after we have a response from redux */}
