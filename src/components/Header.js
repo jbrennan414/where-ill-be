@@ -135,13 +135,22 @@ class Header extends Component {
           result.user.updateProfile({
               displayName: displayName
           })
-
+          var self = this;
           var emailUser = firebase.auth().currentUser;
           emailUser.sendEmailVerification().then(function() {
             // Email sent.
-            alert("Great! Check your email!")
+            self.setState({
+              isShowingSnackbar:true,
+              snackbarMessage: "Great! Check your email!",
+              snackbarType: "success"
+            })
           }).catch(function(error) {
-            alert(error.message)
+            self.setState({
+              isShowingSnackbar:true,
+              snackbarMessage: error.message,
+              snackbarType: "error",
+            })
+
           });
 
           firebase.database().ref('users/' + result.user.uid).set({
@@ -151,6 +160,7 @@ class Header extends Component {
           });
 
         }).catch(function(error){
+          //can we fix this?
           alert(error.message)
         })
 
@@ -173,10 +183,7 @@ class Header extends Component {
           snackbarType: "success",
         })
       }).catch(function(error){
-        self.setState({
-          isShowingSnackbar:true,
-          snackbarMessage: error.message
-        })
+        alert(error.message)
     })
 
   }
@@ -190,7 +197,9 @@ class Header extends Component {
       isShowingForgotPasswordModal,
     } = this.state;
 
-    const { auth } = this.props;
+    const { auth, friends } = this.props;
+
+    const peopleWhoHaveRequestedMe = Object.keys(friends.friends).filter(k=>friends.friends[k]["status"]==="requested_you");
 
     return (
       <div>
@@ -198,7 +207,7 @@ class Header extends Component {
           {auth.uid != null ? (
             <div style={{"display":"flex", "width":"100%", "justifyContent":"space-between", "alignItems":"center"}}>
               <Avatar style={{"marginLeft":"20px", "boxShadow": "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"}} onClick={() => this.setState({ isShowingLeftDrawer: !isShowingLeftDrawer })} alt="user avatar" src={auth.photoURL} />
-              {/* {peopleWhoHaveRequestedMe.length > 0 && <div style={style.notification}></div>} */}
+              {peopleWhoHaveRequestedMe.length > 0 && <div style={style.notification}></div>}
               <img alt="" style={style.logo} src={logo} />
               <div></div>
             </div>
