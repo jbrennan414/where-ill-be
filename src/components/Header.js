@@ -135,18 +135,20 @@ class Header extends Component {
           result.user.updateProfile({
               displayName: displayName
           })
-          var self = this;
-          var emailUser = firebase.auth().currentUser;
-          emailUser.sendEmailVerification().then(function() {
-            // Email sent.
-            self.setState({
-              isShowingSnackbar:true,
-              snackbarMessage: "Great! Check your email!",
-              snackbarType: "success"
-            })
-          }).catch(function(error) {
-            alert(error.message)
-          });
+
+          // V2 RELEASE
+          // var self = this;
+          // var emailUser = firebase.auth().currentUser;
+          // emailUser.sendEmailVerification().then(function() {
+          //   // Email sent.
+          //   self.setState({
+          //     isShowingSnackbar:true,
+          //     snackbarMessage: "Great! Check your email!",
+          //     snackbarType: "success"
+          //   })
+          // }).catch(function(error) {
+          //   alert(error.message)
+          // });
 
           firebase.database().ref('users/' + result.user.uid).set({
               name:name,
