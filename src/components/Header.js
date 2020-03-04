@@ -145,12 +145,7 @@ class Header extends Component {
               snackbarType: "success"
             })
           }).catch(function(error) {
-            self.setState({
-              isShowingSnackbar:true,
-              snackbarMessage: error.message,
-              snackbarType: "error",
-            })
-
+            alert(error.message)
           });
 
           firebase.database().ref('users/' + result.user.uid).set({

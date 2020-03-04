@@ -31,8 +31,35 @@ class FindFriends extends Component {
     }
 
     renderFriends(){
+        let requested_you = {};
+        let requested = {};
+        let realFriends = {};
+        Object.values(this.props.friends).forEach((friend, i) => {
+
+            switch (friend.status) {
+                case "requested_you":
+                    requested_you[Object.keys(this.props.friends)[i]] = friend;
+                    break;
+                
+                case "pending_approval":
+                    requested[Object.keys(this.props.friends)[i]] = friend;
+                    break;
+
+                case "true":
+                    realFriends[Object.keys(this.props.friends)[i]] = friend;
+                    break;
+
+                default:
+                    break;
+            }
+
+        })
+
+        let friendsObject = {...requested_you, ...requested, ...realFriends};
+
+
         let friends = [];
-        Object.values(this.props.friends).forEach((item, i) => {
+        Object.values(friendsObject).forEach((item, i) => {
             friends.push(<FriendItem key={i} status={item.status} name={item.name} friend={item.displayName} avatar={item.avatar} />)
         })
 
@@ -43,6 +70,10 @@ class FindFriends extends Component {
     renderStrangers(){
         let strangers = [];
         Object.values(this.props.strangers).forEach((item, i) => {
+            if (this.props.auth.displayName == item.displayName){
+                return;
+            }
+
             strangers.push(<FriendItem key={i} status={item.status} name={item.name} friend={item.displayName} avatar={item.avatar} />)
         });
 
