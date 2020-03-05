@@ -44,7 +44,8 @@ const customTheme = createMuiTheme({
         MuiPickersBasePicker:{
             pickerView:{
                 backgroundColor:"#77C9D4",
-                height: "400px"
+                height: "400px",
+                padding:"35px"
             }
         },
         MuiPickersCalendar:{

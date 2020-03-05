@@ -32,8 +32,11 @@ const middleware = [thunk];
 const store = createStore(
   rootReducer, 
   load(),
-  composeWithDevTools(applyMiddleware(...middleware, save()))
+  applyMiddleware(...middleware, save())
 )
+
+// if you want to see the store, use this: 
+// composeWithDevTools(applyMiddleware(...middleware, save()))
 
 const THEME = createMuiTheme({
   typography: {
