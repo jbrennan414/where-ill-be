@@ -24,7 +24,7 @@ export function getUsers(myUID){
                 users["strangers"] = {};
 
                 allUserKeys.forEach(uid => {
-                    if (myFriendsUIDs.length > 1 && myFriendsUIDs.includes(uid)){
+                    if (myFriendsUIDs.length > 0 && myFriendsUIDs.includes(uid)){
                         const user = getUserDisplayName(myUID, uid, snapshot.val());
                         users["friends"][uid] = user;
                     } else {
