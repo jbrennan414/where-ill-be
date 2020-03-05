@@ -36,6 +36,7 @@ export default function(state = initialState, action){
                 ...state,
                 uid: data ? data.uid : null,
                 email: data ? data.email : null,
+                displayName: data ? data.displayName : null,
             }
 
         default:

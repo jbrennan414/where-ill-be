@@ -166,7 +166,7 @@ class CalendarView extends Component {
             if (item.displayName === this.props.auth.displayName){
                 rows.push(
                     <SingleRow style={{"backgroundColor":"#57BC90", "color":"white"}}>
-                        <Avatar src={item.avatar ? `${item.avatar}` : ""} alt="user avatar" />
+                        <Avatar style={{"marginLeft":"20px", "boxShadow": "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"}} src={item.avatar ? `${item.avatar}` : ""} alt="user avatar" />
                         <div style={{"display":"flex", "flexDirection":"column"}}>
                             <p style={style.displayNameStyle}>{`@${item.displayName}`}</p>
                         </div>

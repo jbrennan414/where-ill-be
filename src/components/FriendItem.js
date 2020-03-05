@@ -74,7 +74,7 @@ class FriendItem extends Component {
             case "pending_approval":
                 return (
                     <SingleRow style={style.pending}>
-                        <Avatar src={avatar} alt="user avatar" />
+                        <Avatar style={{"marginLeft":"20px", "boxShadow": "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"}} src={avatar} alt="user avatar" />
                         <div style={{"display":"flex", "flexDirection":"column"}}>
                             <p style={style.displayNameStyle}>{`@${friend}`}</p>
                             <p style={style.requestedStyle}>{name}</p>
@@ -85,7 +85,7 @@ class FriendItem extends Component {
             case "requested_you":
                 return (
                     <SingleRow style={style.requested_you}>
-                        <Avatar src={avatar} alt="user avatar" />
+                        <Avatar style={{"marginLeft":"20px", "boxShadow": "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"}} src={avatar} alt="user avatar" />
                         <div style={{"display":"flex", "flexDirection":"column"}}>
                             <p style={style.displayNameStyle}>{`@${friend}`}</p>
                             <p style={style.nameStyle}>{name}</p>
@@ -99,7 +99,7 @@ class FriendItem extends Component {
             case "true":
                 return (
                     <SingleRow style={style.friends}>
-                        <Avatar src={avatar} alt="user avatar" />
+                        <Avatar style={{"marginLeft":"20px", "boxShadow": "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"}} src={avatar} alt="user avatar" />
                         <div style={{"display":"flex", "flexDirection":"column"}}>
                             <p style={style.displayNameStyle}>{`@${friend}`}</p>
                             <p style={style.requestedStyle}>{name}</p>
@@ -114,7 +114,7 @@ class FriendItem extends Component {
             default: 
                 return (
                     <SingleRow>
-                        <Avatar src={avatar} alt="user avatar" />
+                        <Avatar style={{"marginLeft":"20px", "boxShadow": "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"}} src={avatar} alt="user avatar" />
                         <div style={{"display":"flex", "flexDirection":"column"}}>
                             <p style={style.displayNameStyle}>{`@${friend}`}</p>
                             <p style={style.nameStyle}>{name}</p>

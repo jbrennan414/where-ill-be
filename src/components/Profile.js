@@ -34,6 +34,11 @@ const style = {
         fontSize: "14px",
         display: "flex",
         justifyContent:"center"
+    }, 
+    submitButton: {
+        marginTop:"40px",
+        color:'white',
+        backgroundColor:'#015249'
     }
 }
 
@@ -117,7 +122,12 @@ class Profile extends Component {
                     <FormHelperText style={style.helperText} id="component-helper-text">This isn't always cool, we get it.</FormHelperText>
                 </form>
                 {/* TODO Ok, yes, it should probably be setting our snackbar after we have a response from redux */}
-                <Button onClick={()=> {this.setState({ isShowingSnackbar:true, severity:"success", snackbarMessage:"Updated!"}); this.props.updateMyProfile(this.state)}}>
+                <Button 
+                    onClick={()=> {this.setState({ isShowingSnackbar:true, severity:"success", snackbarMessage:"Updated!"}); 
+                        this.props.updateMyProfile(this.state)}
+                    }
+                    style={style.submitButton}
+                >
                     Submit
                 </Button>
                 <Snackbar open={this.state.isShowingSnackbar} autoHideDuration={4000} onClose={()=> this.handleClose()}>
