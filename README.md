@@ -1,7 +1,7 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/4159f1b5-c8d5-4996-a07f-ced5d7ff0bee/deploy-status)](https://app.netlify.com/sites/whereillbe/deploys)
 
 # About
-Ever go skiing, and later in the day, you're watching Instagram stories, and see that some of your friends were at the same resort? Well, same. You could have carpooled, you could have gotten lunch together! Well, whereIllBe puts an end to that problem!
+Ever go skiing, and later in the day, you're watching Instagram stories, and see that some of your friends were at the same resort? Well, same. You could have carpooled, you could have gotten lunch together! Well, WhereI'llBe puts an end to that problem!
 
 
 # Design Docs: 
