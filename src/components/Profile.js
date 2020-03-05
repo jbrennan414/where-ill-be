@@ -103,7 +103,7 @@ class Profile extends Component {
                     id="raised-button-file"
                     multiple
                     type="file"
-                    onChange={()=>{this.setState({ isShowingSnackbar:true, snackbarType:"info", snackbarMessage:"photo uploading!"}); this.uploadPhoto(displayName)}}
+                    onChange={()=>{this.setState({ isShowingSnackbar:true, snackbarType:"info", snackbarMessage:"uploading, please hold..."}); this.uploadPhoto(displayName)}}
                 />
                 <label htmlFor="raised-button-file">
                     <Button component="span">
