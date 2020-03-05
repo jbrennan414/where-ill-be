@@ -11,7 +11,7 @@ import { createStore, applyMiddleware } from 'redux';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { save, load } from 'redux-localstorage-simple';
 import thunk from 'redux-thunk';
-import { composeWithDevTools } from 'redux-devtools-extension';
+import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import * as firebase from 'firebase/app';
 import { firebaseConfig } from './firebase';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
