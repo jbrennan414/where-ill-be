@@ -74,7 +74,7 @@ class Profile extends Component {
         storageRef.put(file_data).then(response => {
             this.props.updateMyProfile(stateCopy)
             this.setState({
-                snackbarType:"success", snackbarMessage:"Uploaded!"
+                snackbarType:"success", snackbarMessage:"Uploaded!", photoURL: stateCopy["photoURL"]
             })
         })
     }
