@@ -10,3 +10,8 @@ Color Scheme: https://www.canva.com/learn/website-color-schemes/ (# 20)
 
 # Setup 
 This project utilizes node and npm. In order to get started, clone, `npm install` and `npm start`. However, you won't be able to get very far without API keys. Let me know if you'd like to be a collaborator, and I can get you started!
+
+# Deployment 
+I used Netlify to deploy this site. 
+
+`npm run build` to deploy the site
