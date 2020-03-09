@@ -240,7 +240,7 @@ class CalendarView extends Component {
             if (this.props.thisMonthsSkiDays[this.state.selectedDate]){
                 const allTodaysSkiiers = this.props.thisMonthsSkiDays[this.state.selectedDate];
                 Object.keys(this.props.friends).forEach(friend => {
-                    if (Object.keys(allTodaysSkiiers).includes(friend)){
+                    if (Object.keys(allTodaysSkiiers).includes(friend) && this.props.friends[friend].status === "true"){
                         let singleSkiier = {};
                         singleSkiier["displayName"] = this.props.friends[friend].displayName;
                         singleSkiier["avatar"] = this.props.friends[friend].avatar;
