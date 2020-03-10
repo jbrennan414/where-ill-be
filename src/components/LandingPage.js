@@ -8,7 +8,8 @@ const LandingText = styled("div")({
     flexWrap:'wrap',
     color:'#015249',
     fontFamily: "\"Do Hyeon\", sans-serif",
-    justifyContent:'center'
+    justifyContent:'center',
+    flexDirection: "column"
   });
 
 export default class LandingPage extends Component {

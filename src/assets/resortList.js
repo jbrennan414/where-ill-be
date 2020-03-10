@@ -2,6 +2,7 @@ export const resortList = [
     "Alta",
     "A-Basin",
     "Aspen",
+    "Backcountry Tour (Contact Me)",
     "Beaver Creek",
     "Breckenridge",
     "Big Sky",
@@ -12,11 +13,14 @@ export const resortList = [
     "Eldora",
     "Jackson Hole",
     "Keystone",
+    "Loveland",
     "Park City",
+    "Silverton",
     "Snowbird",
     "Solitude",
     "Steamboat",
     "Taos",
     "Vail",
     "Winter Park",
+    "Wolf Creek"
 ];
