@@ -64,6 +64,10 @@ class Profile extends Component {
     uploadPhoto(displayName){
         const d =  Date.now();
         const uid = this.props.auth.uid;
+        const oldTimestamp =  this.props.auth.photoURL.split("_headshot_")[1].split("?")[0];
+        const oldStorageRef = firebase.storage().ref('headshots/'+ uid + "_headshot" + "_" + oldTimestamp)
+        oldStorageRef.delete();
+
         const storageRef = firebase.storage().ref('headshots/'+ uid + "_headshot" + "_" + d);
         const file_data = document.getElementById('raised-button-file').files[0];
         let stateCopy = {...this.state};
